@@ -2,7 +2,7 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'applicationName' => 'Work Order Website',
+    'applicationName' => 'Davids Auto and Tire',
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
 ];

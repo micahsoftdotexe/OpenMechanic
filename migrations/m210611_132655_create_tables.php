@@ -35,8 +35,6 @@ class m210611_132655_create_tables extends Migration
             // 'phone_type_id' => $this->primaryKey(),
             'customer_id' => $this->integer(11)->notNull(),
             'phone_type_id' => $this->integer(11)->notNull(),
-            'phone_type_id' => $this->primaryKey(),
-            'description' => $this->string(20),
             'phone_number' => $this->string(15),
         ]);
     }
@@ -83,8 +81,7 @@ class m210611_132655_create_tables extends Migration
             'workorder_notes' => $this->text(),
             'amount_paid' => $this->decimal(10,2),
             'paid_in_full' => $this->boolean(),
-            'description' => $this->string(20),
-            'number' => $this->string(15),
+            
         ]);
         
         
@@ -170,7 +167,7 @@ class m210611_132655_create_tables extends Migration
             'vin' => $this->string(17)->notNull(),
             'make' => $this->string(128)->notNull(),
             'model' => $this->string(128)->notNull(),
-            'year' => $this->smallInteger(),
+            'year' => $this->smallInteger()->notNull(),
         ]);
     }
 
@@ -190,7 +187,7 @@ class m210611_132655_create_tables extends Migration
             'id' => $this->primaryKey(11),
             'workorder_id' => $this->integer(11)->notNull(),
             'description' => $this->text()->notNull(),
-            'notes' => $this->text()->notNull(),
+            'notes' => $this->text(),
             'price' => $this->decimal(10,2)->notNull(),
             
         ]);
@@ -237,7 +234,7 @@ class m210611_132655_create_tables extends Migration
      */
     private function foreign_key_up(){
         $this->addForeignKey('fk_part_workorder', 'part', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_labor_workorder', 'labor', 'workorder_id', 'customer', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_labor_workorder', 'labor', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_address_customer', 'address', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
