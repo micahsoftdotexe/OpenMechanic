@@ -18,7 +18,7 @@ class WorkorderSearch extends Workorder
     {
         return [
             [['id', 'automobile_id', 'paid_in_full'], 'integer'],
-            [['date', 'workorder_notes', 'customer_id'], 'safe'],
+            [['date', 'workorder_notes', 'customer_id','make','model'], 'safe'],
             [['subtotal', 'tax', 'amount_paid'], 'number'],
         ];
     }
@@ -43,6 +43,7 @@ class WorkorderSearch extends Workorder
     {
         $query = Workorder::find();
         $query->leftJoin('customer', 'customer.id=workorder.customer_id');
+        $query->leftJoin('automobile', 'automobile.id=workorder.automobile_id');
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -70,7 +71,9 @@ class WorkorderSearch extends Workorder
         ]);
 
         $query->andFilterWhere(['like', 'workorder_notes', $this->workorder_notes])
-            ->andFilterWhere(['like', 'customer.fullName', $this->customer_id]);
+            ->andFilterWhere(['like', 'customer.fullName', $this->customer_id])
+            ->andFilterWhere(['like', 'automobile.make', $this->make])
+            ->andFilterWhere(['like', 'automobile.model', $this->model]);
         return $dataProvider;
     }
 }

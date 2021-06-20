@@ -36,7 +36,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'customer.fullName',
             // 'customer_id',
-            'automobile_id',
+            // 'automobile_id',
+            [
+                'label' => 'Make',
+                'attribute' => 'make',
+                'value' => function($model) {
+                    $automobile = app\models\Automobile::find()->where(['id' => $model->automobile_id])->one();
+                    return $automobile->make;
+                }
+            ],
+            [
+                'label' => 'Model',
+                'attribute' => 'model',
+                'value' => function($model) {
+                    $automobile = app\models\Automobile::find()->where(['id' => $model->automobile_id])->one();
+                    return $automobile->model;
+                }
+            ],
             'date',
             'subtotal',
             //'tax',

@@ -24,6 +24,8 @@ use Yii;
  */
 class Workorder extends \yii\db\ActiveRecord
 {
+    public $make;
+    public $model;
     /**
      * {@inheritdoc}
      */
@@ -60,6 +62,7 @@ class Workorder extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Date'),
             'subtotal' => Yii::t('app', 'Subtotal'),
             'tax' => Yii::t('app', 'Tax'),
+            'make' => Yii::t('app', 'Make'),
             'workorder_notes' => Yii::t('app', 'Workorder Notes'),
             'amount_paid' => Yii::t('app', 'Amount Paid'),
             'paid_in_full' => Yii::t('app', 'Paid In Full'),
