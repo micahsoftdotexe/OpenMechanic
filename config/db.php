@@ -4,7 +4,7 @@ $db = [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=workorder',
     'username' => 'root',
-    'password' => 'conn123',
+    'password' => '',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
