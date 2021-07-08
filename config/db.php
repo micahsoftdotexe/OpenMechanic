@@ -1,10 +1,10 @@
 <?php
-
-return [
+$db = [
+    'charset' => 'utf8',
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=127.0.0.1;dbname=workorder',
-    'username' => 'micaht',
-    'password' => 'conn123',
+    'dsn' => 'mysql:host=localhost;dbname=workorder',
+    'username' => 'root',
+    'password' => '',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
@@ -12,3 +12,9 @@ return [
     //'schemaCacheDuration' => 60,
     //'schemaCache' => 'cache',
 ];
+
+if (file_exists(__DIR__ . '/db-local.php')) {
+    $db = array_merge($db, require(__DIR__ . '/db-local.php'));
+}
+
+return $db;
