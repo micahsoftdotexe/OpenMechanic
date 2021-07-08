@@ -3,7 +3,7 @@ $db = [
     'charset' => 'utf8',
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=workorder',
-    'username' => 'micaht',
+    'username' => 'root',
     'password' => 'conn123',
     'charset' => 'utf8',
 
