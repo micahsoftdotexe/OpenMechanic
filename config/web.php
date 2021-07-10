@@ -41,6 +41,15 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                'dev'=> [   // Logs for 'dev' category only
+                    // Usage: \Yii::trace("hi there", 'dev');  // log something
+                    //        Yii::$app->log->targets['dev']->enabled = false;  // disable log target
+                    'class'      => 'yii\log\FileTarget',
+                    'levels'     => ['info', 'trace', 'error', 'warning'],
+                    'categories' => ['dev'],
+                    'logVars'    => [],
+                    'logFile'    => '@runtime/logs/dev.log',
+                ],
             ],
         ],
         'db' => $db,

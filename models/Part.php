@@ -32,7 +32,7 @@ class Part extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['workorder_id', 'price', 'margin', 'description', 'part_number'], 'required'],
+            [['price', 'margin', 'description', 'part_number'], 'required'],
             [['workorder_id'], 'integer'],
             [['price', 'margin'], 'number'],
             [['description'], 'string'],

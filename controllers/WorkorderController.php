@@ -8,6 +8,7 @@ use app\models\WorkorderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * WorkorderController implements the CRUD actions for Workorder model.
@@ -23,7 +24,21 @@ class WorkorderController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete',
+                    //'delete' => ['POST'],
+                    'get-automobiles',
+                ],
+                
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['get-batch-data'],
+                'rules' => [
+                    [
+                        'actions' => ['get-automobiles'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -123,5 +138,20 @@ class WorkorderController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public static function actionGetAutomobiles()
+    {
+        \Yii::debug("before id",
+            'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+            );
+        if ($id = Yii::$app->request->post('id')) {
+            return \app\models\Automobile::getIds($id);
+        } else {
+            return \yii\helpers\Json::encode([
+                'status' => 'error',
+                'details' => 'No customer_id',
+            ]);
+        }
     }
 }

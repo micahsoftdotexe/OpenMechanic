@@ -99,4 +99,19 @@ class Customer extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Workorder::className(), ['customer_id' => 'id']);
     }
+
+    public function getAutomobiles()
+    {
+        return $this->hasMany(Automobile::class,['id' => 'automobile_id'])
+            ->viaTable('owns',['customer_id'=>'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getIds()
+    {
+        $models = self::find()->orderBy(['id'=> SORT_ASC])->all();
+        return \yii\helpers\ArrayHelper::map($models, 'id', 'fullName');
+    }
 }

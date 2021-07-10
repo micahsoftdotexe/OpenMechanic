@@ -185,7 +185,7 @@ class m210611_132655_create_tables extends Migration
     public function labor_up(){
         $this->createTable('labor',[
             'id' => $this->primaryKey(11),
-            'workorder_id' => $this->integer(11)->notNull(),
+            'workorder_id' => $this->integer(11),
             'description' => $this->text()->notNull(),
             'notes' => $this->text(),
             'price' => $this->decimal(10,2)->notNull(),
@@ -210,7 +210,7 @@ class m210611_132655_create_tables extends Migration
     public function part_up(){
         $this->createTable('part',[
             'id' => $this->primaryKey(11),
-            'workorder_id' => $this->integer(11)->notNull(),
+            'workorder_id' => $this->integer(11),
             'price' => $this->decimal(10,2)->notNull(),
             'margin' => $this->decimal(10,2)->notNull(),
             'description' => $this->text()->notNull(),
