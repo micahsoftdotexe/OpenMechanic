@@ -1,7 +1,9 @@
 <?php
-
+// use Yii;
+use yii\helpers\Html;
 /* @var $this yii\web\View */
 $this->title = Yii::$app->params['applicationName'];
+//$url_base = yii\helpers\Url::base(true).'/workorder';
 ?>
 <div class="site-index">
 
@@ -10,7 +12,9 @@ $this->title = Yii::$app->params['applicationName'];
 
         <!-- <p class="lead">You have successfully created your Yii-powered application.</p> -->
 
-        <p><a class="btn btn-lg btn-success" href="/workorder">Work Orders</a></p>
+        <p><?=Html::a('Work Order', yii\helpers\Url::base(true).'/workorder', [
+            'class' => 'btn btn-lg btn-success'
+        ]) ?></p>
     </div>
 
     <div class="body-content">
