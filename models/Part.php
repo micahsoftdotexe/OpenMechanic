@@ -13,6 +13,8 @@ use Yii;
  * @property float $margin
  * @property string $description
  * @property string $part_number
+ * @property float $quantity
+ * @property int $quantity_type_id
  *
  * @property Workorder $workorder
  */
@@ -33,8 +35,8 @@ class Part extends \yii\db\ActiveRecord
     {
         return [
             [['price', 'margin', 'description', 'part_number'], 'required'],
-            [['workorder_id'], 'integer'],
-            [['price', 'margin'], 'number'],
+            [['workorder_id','quantity_type_id'], 'integer'],
+            [['price', 'margin', 'quantity'], 'number'],
             [['description'], 'string'],
             [['part_number'], 'string', 'max' => 100],
             [['workorder_id'], 'exist', 'skipOnError' => true, 'targetClass' => Workorder::className(), 'targetAttribute' => ['workorder_id' => 'id']],

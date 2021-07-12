@@ -113,7 +113,7 @@ yii\bootstrap\Modal::begin([
     //    'class' => 'btn btn-default btn-outline-secondary',
     //],
     'footer' => "<div id='newParts'>
-    <a id=\"newPart\" class=\"btn btn-success\" aria-hidden=\"true\" href='#' onclick =\"if (confirm('Are you really ready to create the par?')) {
+    <a id=\"newPart\" class=\"btn btn-success\" aria-hidden=\"true\" href='#' onclick =\"if (confirm('Are you really ready to create the part?')) {
         createNewPart();
     } else {
         $('#modalNewParts').modal('hide');
@@ -129,7 +129,7 @@ yii\bootstrap\Modal::begin([
     <div id="modalContent"></div>
 
     <?= Yii::$app->controller->renderPartial('/part/_form', [
-        // 'model'               => $form,
+        'model'               => new app\models\Part(),
         // 'presentation'        => $model,
         // 'dataProvider'        => $dataProvider,
         // 'next'                => true,
@@ -156,7 +156,7 @@ yii\bootstrap\Modal::begin([
     //    'class' => 'btn btn-default btn-outline-secondary',
     //],
     'footer' => "<div id='nextStageFooter'>
-    <a id=\"newPart\" class=\"btn btn-success\" aria-hidden=\"true\" href='#' onclick =\"if (confirm('Are you really ready to create the par?')) {
+    <a id=\"newPart\" class=\"btn btn-success\" aria-hidden=\"true\" href='#' onclick =\"if (confirm('Are you really ready to create the labor instance?')) {
         createNewLabor();
     } else {
         $('#modalNewLabor').modal('hide');
@@ -171,7 +171,7 @@ yii\bootstrap\Modal::begin([
     <div id="modalContent"></div>
 
     <?= Yii::$app->controller->renderPartial('/labor/_form', [
-        // 'model'               => $form,
+        'model'               => new app\models\Labor(),
         // 'presentation'        => $model,
         // 'dataProvider'        => $dataProvider,
         // 'next'                => true,
@@ -201,7 +201,7 @@ $('#customer_id').on('select2:select', function (e) {
         {
             console.log(data);
             data = JSON.parse(data);
-            console.log(data[0]);
+            //console.log(data[0]);
             data.forEach(function(item) {
                 var newOption = new Option(item.text, item.id, true, true);
                 $('#automobile_id').append(newOption);

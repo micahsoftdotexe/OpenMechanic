@@ -106,6 +106,11 @@ class Customer extends \yii\db\ActiveRecord
             ->viaTable('owns',['customer_id'=>'id']);
     }
 
+    public function getFullName()
+    {
+        return $this->firstName.' '.$this->lastName;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

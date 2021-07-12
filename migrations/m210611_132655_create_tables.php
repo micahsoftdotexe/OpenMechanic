@@ -188,7 +188,7 @@ class m210611_132655_create_tables extends Migration
             'workorder_id' => $this->integer(11),
             'description' => $this->text()->notNull(),
             'notes' => $this->text(),
-            'price' => $this->decimal(10,2)->notNull(),
+            'price' => $this->money()->notNull(),
             
         ]);
         
@@ -207,12 +207,16 @@ class m210611_132655_create_tables extends Migration
     /**
      * {@inheritdoc}
      */
-    public function part_up(){
+    public function part_up()
+    {
         $this->createTable('part',[
             'id' => $this->primaryKey(11),
             'workorder_id' => $this->integer(11),
-            'price' => $this->decimal(10,2)->notNull(),
+            //'price' => $this->decimal(10,2)->notNull(),
+            'price' => $this->money()->notNull(),
             'margin' => $this->decimal(10,2)->notNull(),
+            'quantity' => $this->decimal(10,2),
+            'quantity_type_id' => $this->integer(11),
             'description' => $this->text()->notNull(),
             'part_number' => $this->string(100)->notNull(),
         ]);
@@ -228,11 +232,35 @@ class m210611_132655_create_tables extends Migration
         
         $this->dropTable('part');   
     }
+
+    public function quantity_type_up()
+    {
+        $this->createTable('quantity_type', [
+            'id' => $this->primaryKey(11),
+            'description' => $this->text()->notNull(),
+        ]);
+
+        $this->batchInsert('quantity_type', 
+        [
+            'id','description'
+        ], 
+        [
+            [1, 'Gallon'],
+            [2, 'Each'],
+            [3, 'Quarts']
+        ]);
+    }
+
+    private function quantity_type_down()
+    {
+        $this->dropTable('quantity_type');
+    }
     
     /**
      * {@inheritdoc}
      */
-    private function foreign_key_up(){
+    private function foreign_key_up()
+    {
         $this->addForeignKey('fk_part_workorder', 'part', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_labor_workorder', 'labor', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
@@ -281,6 +309,7 @@ class m210611_132655_create_tables extends Migration
         $this->labor_up();
         $this->part_up();
         $this->foreign_key_up();
+        $this->quantity_type_up();
     }
 
     /**
@@ -302,6 +331,7 @@ class m210611_132655_create_tables extends Migration
         $this->workorder_down();
         $this->labor_down();
         $this->part_down();
+        $this->quantity_type_down();
 
     }
 
