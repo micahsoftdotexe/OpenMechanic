@@ -12,7 +12,9 @@ use yii\data\ActiveDataProvider;
 
 <div class="workorder-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'workorder-form'
+    ]); ?>
 
 
     <?= $form->field($model, 'customer_id')->label(Yii::t('app', 'Customer'))->widget(Select2::classname(), [
@@ -112,15 +114,6 @@ yii\bootstrap\Modal::begin([
     //    'label' => '<i class="fa fa-upload" aria-hidden="true"></i> ' . Yii::t('app', 'Upload'), 
     //    'class' => 'btn btn-default btn-outline-secondary',
     //],
-    'footer' => "<div id='newParts'>
-    <a id=\"newPart\" class=\"btn btn-success\" aria-hidden=\"true\" href='#' onclick =\"if (confirm('Are you really ready to create the part?')) {
-        createNewPart();
-    } else {
-        $('#modalNewParts').modal('hide');
-    }
-    \" >Send</a>
-        <a id='closePart' class='btn btn-default btn-outline-secondary' onclick='$(\"#modalNewParts\").modal(\"hide\");'$>Close</a> 
-    </div>"
 ]);
 ?>
 
@@ -187,15 +180,26 @@ yii\bootstrap\Modal::begin([
 
 
 <?php 
-$jsBlock = "
+//------------------------------------------------------------------------------
+// Variables
+//------------------------------------------------------------------------------
+$getAutomobilesUrl = \yii\helpers\Url::to(['/workorder/get-automobiles']);
+$submitPartFormUrl = \yii\helpers\Url::to(['/part/submit-part-form-url']);
+//------------------------------------------------------------------------------
+// Javascript
+//------------------------------------------------------------------------------
+$jsBlock = <<< JS
+
+
 // Populate Automobiles
 $('#customer_id').on('select2:select', function (e) {
     console.log(e.params.data.id);
     var selectValue = $('#customer_id').val(); 
     $('#automobile_id').empty();
     //getting automobiles
-    $.post({
-        url:'".Yii::$app->homeUrl."workorder/get-automobiles',
+    $.ajax({
+        type: 'POST',
+        url: '$getAutomobilesUrl',
         data: {id: selectValue},
         success: function(data)
         {
@@ -219,13 +223,33 @@ $('#customer_id').on('select2:select', function (e) {
     });
 
 });
-// function customer() 
-// {
-// console.log('here');
-// }
+// Part Form
+var partForm = $('#part-form');
+partForm.on('beforeSubmit', function() {
+    var data = partForm.serialize();
+    console.log(data);
+    $.ajax({
+        url: '$submitPartFormUrl',
+        type: 'POST',
+        data: data,
+        success: function (data) {
+            console.log(data);
+        },
+        error: function( xhr, status, errorThrown ) 
+        {
+            console.log('Error: ' + errorThrown );
+            console.log('Status: ' + status );
+            console.dir( xhr );
+        },
+    });
+    return false;
+});
+
+
+JS;
 
 
 
-";
+
 $this->registerJs($jsBlock, \yii\web\View::POS_END);
 ?>

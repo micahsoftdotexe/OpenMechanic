@@ -3,17 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Workorder;
-use app\models\WorkorderSearch;
+use app\models\Part;
+use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
- * WorkorderController implements the CRUD actions for Workorder model.
+ * PartController implements the CRUD actions for Part model.
  */
-class WorkorderController extends Controller
+class PartController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -24,18 +24,15 @@ class WorkorderController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete',
-                    //'delete' => ['POST'],
-                    'get-automobiles',
+                    'delete' => ['POST'],
                 ],
-                
             ],
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['get-batch-data'],
                 'rules' => [
                     [
-                        'actions' => ['get-automobiles'],
+                        'actions' => ['submit-part-form-url'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -45,22 +42,22 @@ class WorkorderController extends Controller
     }
 
     /**
-     * Lists all Workorder models.
+     * Lists all Part models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new WorkorderSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Part::find(),
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Workorder model.
+     * Displays a single Part model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -73,13 +70,13 @@ class WorkorderController extends Controller
     }
 
     /**
-     * Creates a new Workorder model.
+     * Creates a new Part model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Workorder();
+        $model = new Part();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -91,7 +88,7 @@ class WorkorderController extends Controller
     }
 
     /**
-     * Updates an existing Workorder model.
+     * Updates an existing Part model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -111,7 +108,7 @@ class WorkorderController extends Controller
     }
 
     /**
-     * Deletes an existing Workorder model.
+     * Deletes an existing Part model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -125,33 +122,55 @@ class WorkorderController extends Controller
     }
 
     /**
-     * Finds the Workorder model based on its primary key value.
+     * Finds the Part model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Workorder the loaded model
+     * @return Part the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Workorder::findOne($id)) !== null) {
+        if (($model = Part::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    public static function actionGetAutomobiles()
+
+    public function actionSubmitPartFormUrl()
     {
-        // \Yii::debug("before id",
-        //     'dev'  // devlog file.  See components->log->dev defined in /config/web.php
-        //     );
-        if ($id = Yii::$app->request->post('id')) {
-            return \app\models\Automobile::getIds($id);
-        } else {
+        if ($data = Yii::$app->request->post("Part")) {
+            //$data = implode('|',$data);
+            // \Yii::debug("data {$data}",
+            // 'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+            // );
+            $newPart = new Part;
+            $newPart->description = $data['description'];
+            $newPart->part_number = $data['part_number'];
+            $newPart->margin = $data['margin'];
+            $newPart->price = $data['price'];
+            if($data['quantity']!="" && $data['quantity_type_id']!="" ) {
+                $newPart->quantity;
+            }
+            if($newPart->validate()) {
+                $newPart->save();
+            }
+            else {
+                //$data = implode('|',$data);
+                \Yii::debug("not getting validated: {$newPart->errors}",
+                'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+                );
+            }
+            $data['id'] = $newPart->id;
+            return \yii\helpers\Json::encode($data);
+        }
+        else {
             return \yii\helpers\Json::encode([
                 'status' => 'error',
                 'details' => 'No customer_id',
             ]);
         }
+        
     }
 }

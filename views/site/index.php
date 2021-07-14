@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 $this->title = Yii::$app->params['applicationName'];
-//$url_base = yii\helpers\Url::base(true).'/workorder';
 ?>
 <div class="site-index">
 
