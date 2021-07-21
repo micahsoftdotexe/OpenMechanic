@@ -6,6 +6,7 @@ use Yii;
 use app\models\Workorder;
 use app\models\WorkorderSearch;
 use yii\web\Controller;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -32,10 +33,9 @@ class WorkorderController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['get-batch-data'],
                 'rules' => [
                     [
-                        'actions' => ['get-automobiles'],
+                        'actions' => ['create','get-automobiles', 'index', 'create-part1'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -77,17 +77,46 @@ class WorkorderController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id=null, $scenario = null)
     {
-        $model = new Workorder();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = null;
+        \Yii::debug($id,
+             'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+        );
+        if (!($id && $scenario)) {
+            $model = new Workorder();
+            $model->scenario = Workorder::SCENARIO_STEP1;
+        } else {
+            $model = Workorder::find()->where(['id' => $id])->one();
+            $model->scenario = $scenario;
         }
 
         return $this->render('create', [
             'model' => $model,
+            //'stage' => 1,
         ]);
+    }
+
+
+    public function actionCreatePart1()
+    {
+        $model = new Workorder();
+
+        
+
+        if($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->scenario = Workorder::SCENARIO_STEP2;
+            
+            $this->redirect(['create', 'id' => $model->id, 'scenario' => $model->scenario]);
+                
+               
+            
+
+        }  else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Workorder Save Error'));
+            return $this->redirect(Url::base(true).'/workorder');
+        }
+        
     }
 
     /**

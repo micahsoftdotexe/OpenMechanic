@@ -26,6 +26,16 @@ class Workorder extends \yii\db\ActiveRecord
 {
     public $make;
     public $model;
+    const SCENARIO_STEP1 = 'step1';
+    const SCENARIO_STEP2 = 'step2';
+    const SCENARIO_STEP3= 'step3';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_STEP1] = ['customer_id', 'automobile_id'];
+        return $scenarios;
+    }
     /**
      * {@inheritdoc}
      */
