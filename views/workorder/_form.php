@@ -12,11 +12,17 @@ use yii\data\ActiveDataProvider;
 ?>
 
 <div class="workorder-form">
-
-    <?php $form = ActiveForm::begin([
-        'id' => 'workorder-form',
-        'action' => 'create-part1'    
-    ]); ?>    
+    <?php if (!$update): ?>
+        <?php $form = ActiveForm::begin([
+            'id' => 'workorder-form',
+            'action' => 'create-template'    
+        ]); ?>   
+    <?php else: ?>
+        <?php $form = ActiveForm::begin([
+            'id' => 'workorder-form',
+            'action' => 'update-template'    
+        ]); ?>
+    <?php endif ?>
 
     <?= $form->field($model, 'customer_id')->label(Yii::t('app', 'Customer'))->widget(Select2::classname(), [
                 'data' => \app\models\Customer::getIds(),
@@ -43,7 +49,7 @@ use yii\data\ActiveDataProvider;
 
     <div class="form-group">
         <?= Html::a('Cancel', '/index', ['class' => 'btn btn-default btn-outline-secondary']) ?>
-        <?= Html::submitButton('Next', ['class' => 'btn btn-primary btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-primary btn-success']) ?>
     </div>
 
    
@@ -66,7 +72,7 @@ $jsBlock = <<< JS
 
 
 // Populate Automobiles
-$('#customer_id').on('select2:select', function (e) {
+$('#customer_id').on('select2:change', function (e) {
     console.log($('#part_id').value);
     console.log(e.params.data.id);
     var selectValue = $('#customer_id').val(); 

@@ -35,7 +35,7 @@ class WorkorderController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create','get-automobiles', 'index', 'create-part1'],
+                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -77,37 +77,44 @@ class WorkorderController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id=null, $scenario = null)
+    public function actionCreate()
     {
-        $model = null;
-        \Yii::debug($id,
-             'dev'  // devlog file.  See components->log->dev defined in /config/web.php
-        );
-        if (!($id && $scenario)) {
-            $model = new Workorder();
-            $model->scenario = Workorder::SCENARIO_STEP1;
-        } else {
-            $model = Workorder::find()->where(['id' => $id])->one();
-            $model->scenario = $scenario;
-        }
+        //$model = null;
+        // \Yii::debug($id,
+        //      'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+        // );
+        $model = new Workorder();
+        //$model->scenario = Workorder::SCENARIO_STEP1;
+    
 
         return $this->render('create', [
             'model' => $model,
+            'update' => false
             //'stage' => 1,
         ]);
     }
 
+    public function actionEdit($id)
+    {
+        //$model = $this->findModel($id);
+        $model = Workorder::find()->where(['id' => $id])->one();
+        
+        return $this->render('edit', [
+            'model' => $model,
+        ]);
+    }
 
-    public function actionCreatePart1()
+
+    public function actionCreateTemplate()
     {
         $model = new Workorder();
 
         
 
         if($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->scenario = Workorder::SCENARIO_STEP2;
+            //$model->scenario = Workorder::SCENARIO_STEP2;
             
-            $this->redirect(['create', 'id' => $model->id, 'scenario' => $model->scenario]);
+            $this->redirect(['edit', 'id' => $model->id]);
                 
                
             
