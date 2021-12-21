@@ -3,8 +3,10 @@
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
+$baseUrl = str_replace('/web', '', (new \yii\web\Request)->getBaseUrl());
 $config = [
     'id' => 'basic',
+    'homeUrl' => $baseUrl . "/",
     'name' => "David's Auto and Tire",
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -14,6 +16,7 @@ $config = [
     ],
     'components' => [
         'request' => [
+            'baseUrl' => $baseUrl,
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'hzJV8U73FbLMy1AWITd5rWYwHE1sCDRd',
         ],
@@ -53,14 +56,13 @@ $config = [
             ],
         ],
         'db' => $db,
-        
         'urlManager' => [
+            'baseUrl'         => $baseUrl,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        
     ],
     'params' => $params,
 ];
