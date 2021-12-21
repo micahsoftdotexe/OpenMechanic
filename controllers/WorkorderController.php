@@ -23,16 +23,15 @@ class WorkorderController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete',
                     //'delete' => ['POST'],
                     'get-automobiles',
                 ],
-                
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template'],
@@ -85,7 +84,6 @@ class WorkorderController extends Controller
         // );
         $model = new Workorder();
         //$model->scenario = Workorder::SCENARIO_STEP1;
-    
 
         return $this->render('create', [
             'model' => $model,
@@ -98,7 +96,6 @@ class WorkorderController extends Controller
     {
         //$model = $this->findModel($id);
         $model = Workorder::find()->where(['id' => $id])->one();
-        
         return $this->render('edit', [
             'model' => $model,
         ]);
@@ -109,21 +106,18 @@ class WorkorderController extends Controller
     {
         $model = new Workorder();
 
-        
-
-        if($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             //$model->scenario = Workorder::SCENARIO_STEP2;
-            
-            $this->redirect(['edit', 'id' => $model->id]);
-                
-               
-            
-
-        }  else {
+            $model->stage_id = \app\models\Stage::find()->where(['title' => 'Created'])->one()->id;
+            if ($model->save()) {
+                $this->redirect(['edit', 'id' => $model->id]);
+            } else {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Workorder Save Error'));
+            }
+        } else {
             Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Workorder Save Error'));
             return $this->redirect(Url::base(true).'/workorder');
         }
-        
     }
 
     /**
