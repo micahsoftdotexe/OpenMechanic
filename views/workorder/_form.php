@@ -70,7 +70,7 @@ use yii\data\ActiveDataProvider;
 //------------------------
 // Add new Customer
 //------------------------
-yii\bootstrap4\Modal::begin([
+yii\bootstrap\Modal::begin([
     'id'    => 'modalNewCustomer',
     'header' => Yii::t('app', 'Create New Customer'),
     'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
@@ -87,7 +87,7 @@ yii\bootstrap4\Modal::begin([
 
 </div>
 <?php
-    yii\bootstrap4\Modal::end();
+    yii\bootstrap\Modal::end();
 ?>
 
 
