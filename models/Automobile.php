@@ -83,7 +83,8 @@ class Automobile extends \yii\db\ActiveRecord
         // return \yii\helpers\ArrayHelper::map($models, 'id', 'make'.' '.'model'.' '.'year');
         $results = [];
         $integer = 0;
-        foreach($models as $model) {
+        //TODO: change this from using an integer key to id key
+        foreach ($models as $model) {
             $results[$integer] = [ 
                 'id' => $model->id,
                 'text' => $model->make.' '.$model->model.' '.$model->year,

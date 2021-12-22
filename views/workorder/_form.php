@@ -12,28 +12,38 @@ use yii\data\ActiveDataProvider;
 ?>
 
 <div class="workorder-form">
-    <?php if (!$update): ?>
+    <?php if (!$update) : ?>
         <?php $form = ActiveForm::begin([
             'id' => 'workorder-form',
-            'action' => 'create-template'    
+            'action' => 'create-template'
         ]); ?>   
-    <?php else: ?>
+    <?php else : ?>
         <?php $form = ActiveForm::begin([
             'id' => 'workorder-form',
-            'action' => 'update-template'    
+            'action' => 'update-template'
         ]); ?>
     <?php endif ?>
-
-    <?= $form->field($model, 'customer_id')->label(Yii::t('app', 'Customer'))->widget(Select2::classname(), [
-                'data' => \app\models\Customer::getIds(),
-                'options' => [
-                    'id'   => 'customer_id',
-                    'placeholder' => '--'.Yii::t('app', 'Select One').'--',
-                ],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]) ?>
+    <div class="input-group">
+        <div class="input-group-prepend">
+                <?= Html::button('Hello', [
+                                'class' => 'btn btn-default btn-outline-secondary',
+                                'data' => [
+                                    'toggle' => 'modal',
+                                    'target' => '#modalNewCustomer',
+                                ],]) ?>             
+        </div>
+        <?= $form->field($model, 'customer_id')->label(Yii::t('app', 'Customer'))->widget(Select2::class, [
+                    'data' => \app\models\Customer::getIds(),
+                    'options' => [
+                        'id'   => 'customer_id',
+                        'placeholder' => '--'.Yii::t('app', 'Select One').'--',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]) ?>
+        
+    </div>
 
     <?= $form->field($model, 'automobile_id')->label(Yii::t('app', 'Automobile'))->widget(Select2::classname(), [
                 'data' => [],
@@ -44,8 +54,7 @@ use yii\data\ActiveDataProvider;
                 ],
                 'pluginOptions' => [
                     'allowClear' => true
-                ],
-    ]) ?>
+                ],]) ?>
 
     <div class="form-group">
         <?= Html::a('Cancel', '/index', ['class' => 'btn btn-default btn-outline-secondary']) ?>
@@ -57,9 +66,32 @@ use yii\data\ActiveDataProvider;
     <?php ActiveForm::end(); ?>
 </div>
 
+<?php
+//------------------------
+// Add new Customer
+//------------------------
+yii\bootstrap4\Modal::begin([
+    'id'    => 'modalNewCustomer',
+    'header' => Yii::t('app', 'Create New Customer'),
+    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+]);
+?>
+
+<div class="modal-body">
+    <!-- Some modal content here -->
+    <div id="modalContent">
+        <?= Yii::$app->controller->renderPartial('/customer/_form', [
+                'model'=> new app\models\Customer(),
+            ]) ?>
+    </div>
+
+</div>
+<?php
+    yii\bootstrap4\Modal::end();
+?>
 
 
-<?php 
+<?php
 //------------------------------------------------------------------------------
 // Variables
 //------------------------------------------------------------------------------

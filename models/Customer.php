@@ -102,8 +102,8 @@ class Customer extends \yii\db\ActiveRecord
 
     public function getAutomobiles()
     {
-        return $this->hasMany(Automobile::class,['id' => 'automobile_id'])
-            ->viaTable('owns',['customer_id'=>'id']);
+        return $this->hasMany(Automobile::class, ['id' => 'automobile_id'])
+            ->viaTable('owns', ['customer_id'=>'id']);
     }
 
     public function getFullName()
