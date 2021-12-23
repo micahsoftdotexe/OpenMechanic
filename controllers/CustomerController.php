@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Customer;
+use yii\filters\AccessControl;
 use app\models\CustomerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -24,6 +25,16 @@ class CustomerController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['ajax-create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -68,15 +79,31 @@ class CustomerController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->fullName = $model->firstName.' '.$model->lastName;
-            if($model->save()) {
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-            
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionAjaxCreate()
+    {
+        if (Yii::$app->request->post('firstName') && Yii::$app->request->post('lastName') && Yii::$app->request->post('phoneNumber')) {
+            $model = new Customer();
+            $model->firstName = Yii::$app->request->post('firstName');
+            $model->lastName = Yii::$app->request->post('lastName');
+            //$model->fullName = $model->firstName.' '.$model->lastName;
+            $model->save();
+            $phoneModel = new \app\models\PhoneNumber();
+            $phoneModel->phone_number = Yii::$app->request->post('phoneNumber');
+            $phoneModel->customer_id = $model->id;
+            $phoneModel->save();
+            return 200;
+        }
+        return 300;
     }
 
     /**

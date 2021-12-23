@@ -24,14 +24,6 @@ use yii\data\ActiveDataProvider;
         ]); ?>
     <?php endif ?>
     <div class="input-group">
-        <div class="input-group-prepend">
-                <?= Html::button('Hello', [
-                                'class' => 'btn btn-default btn-outline-secondary',
-                                'data' => [
-                                    'toggle' => 'modal',
-                                    'target' => '#modalNewCustomer',
-                                ],]) ?>             
-        </div>
         <?= $form->field($model, 'customer_id')->label(Yii::t('app', 'Customer'))->widget(Select2::class, [
                     'data' => \app\models\Customer::getIds(),
                     'options' => [
@@ -42,6 +34,14 @@ use yii\data\ActiveDataProvider;
                         'allowClear' => true
                     ],
                 ]) ?>
+        <div class="input-group-append">
+                <?= Html::button('Hello', [
+                                'class' => 'btn btn-default btn-outline-secondary',
+                                'data' => [
+                                    'toggle' => 'modal',
+                                    'target' => '#modalNewCustomer',
+                                ],]) ?>             
+        </div>
         
     </div>
 

@@ -34,8 +34,8 @@ class m210611_132655_create_tables extends Migration
             // 'customer_id' => $this->primaryKey(11),
             // 'phone_type_id' => $this->primaryKey(),
             'customer_id' => $this->integer(11)->notNull(),
-            'phone_type_id' => $this->integer(11)->notNull(),
-            'phone_number' => $this->string(15),
+            'phone_type_id' => $this->integer(11),
+            'phone_number' => $this->string(15)->notNull(),
         ]);
     }
      /**

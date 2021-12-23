@@ -31,7 +31,7 @@ class PhoneNumber extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'phone_type_id'], 'required'],
+            [['customer_id', 'phone_number'], 'required'],
             [['customer_id', 'phone_type_id'], 'integer'],
             [['phone_number'], 'string', 'max' => 15],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
