@@ -81,7 +81,7 @@ yii\bootstrap\Modal::begin([
     <!-- Some modal content here -->
     <div id="modalContent">
         <?= Yii::$app->controller->renderPartial('/customer/_form', [
-                'model'=> new app\models\Customer(),
+                'model'=> new app\models\CustomerForm(),
             ]) ?>
     </div>
 

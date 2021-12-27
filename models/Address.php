@@ -34,13 +34,13 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'address_type_id', 'street_address_1', 'street_address_2', 'city', 'zip', 'state'], 'required'],
-            [['customer_id', 'address_type_id'], 'integer'],
+            [['customer_id', 'street_address_1', 'city', 'zip', 'state'], 'required'],
+            [['customer_id'], 'integer'],
             [['street_address_1', 'street_address_2'], 'string', 'max' => 250],
             [['city'], 'string', 'max' => 100],
             [['zip'], 'string', 'max' => 10],
             [['state'], 'string', 'max' => 2],
-            [['address_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AddressType::className(), 'targetAttribute' => ['address_type_id' => 'id']],
+            //[['address_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AddressType::className(), 'targetAttribute' => ['address_type_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
         ];
     }
@@ -52,7 +52,7 @@ class Address extends \yii\db\ActiveRecord
     {
         return [
             'customer_id' => Yii::t('app', 'Customer ID'),
-            'address_type_id' => Yii::t('app', 'Address Type ID'),
+            //'address_type_id' => Yii::t('app', 'Address Type ID'),
             'street_address_1' => Yii::t('app', 'Street Address 1'),
             'street_address_2' => Yii::t('app', 'Street Address 2'),
             'city' => Yii::t('app', 'City'),
@@ -61,15 +61,15 @@ class Address extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[AddressType]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAddressType()
-    {
-        return $this->hasOne(AddressType::className(), ['id' => 'address_type_id']);
-    }
+    // /**
+    //  * Gets query for [[AddressType]].
+    //  *
+    //  * @return \yii\db\ActiveQuery
+    //  */
+    // public function getAddressType()
+    // {
+    //     return $this->hasOne(AddressType::className(), ['id' => 'address_type_id']);
+    // }
 
     /**
      * Gets query for [[Customer]].

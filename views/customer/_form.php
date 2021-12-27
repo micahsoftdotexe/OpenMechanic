@@ -10,32 +10,28 @@ use borales\extensions\phoneInput\PhoneInput;
 ?>
 
 <div class="customer-form">
-
+    <?php $customerForm = ActiveForm::begin([
+        'id' => 'initial-customer-form',
+        'action' => \yii\helpers\Url::to(['/customer/ajax-create']),
+    ]) ?>
+    <?= $customerForm->field($model, 'firstName')->label(Yii::t('app', 'First Name'))->textInput()?>
+    <?= $customerForm->field($model, 'lastName')->label(Yii::t('app', 'Last Name'))->textInput()?>
+    <?= $customerForm->field($model, 'phoneNumber')->label(Yii::t('app', 'Phone Number'))->widget(PhoneInput::class, [
+            'id' => 'customerPhonenumber',
+            'name' => 'Customer[phone_number]',
+            'jsOptions' => [
+                'allowExtensions' => true,
+            ]
+        ])?>
+    <?= $customerForm->field($model, 'streetAddress')->label(Yii::t('app', 'Street Police'))->textInput()?>
+    <?= $customerForm->field($model, 'city')->label(Yii::t('app', 'City'))->textInput()?>
+    <?= $customerForm->field($model, 'state')->label(Yii::t('app', 'State'))->textInput()?>
+    <?= $customerForm->field($model, 'zip')->label(Yii::t('app', 'Zip'))->textInput()?>
+    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Upload'), [
+        'class'             => 'btn btn-success',
+    ])?>
+    <?php $partForm = ActiveForm::end() ?>
     
-    <form id="customerForm">
-        <div class="form-group">
-            <label for="customerFirstName">First Name</label>
-            <?= Html::input('text', 'Customer[firstname]', null, ['class' => 'form-control', 'id' => 'customerFirstName', 'required' => true]) ?>
-        </div>
-        <div class="form-group">
-            <label for="customerLastName">Last Name</label>
-            <?= Html::input('text', 'Customer[lastname]', null, ['class' => 'form-control', 'id' => 'customerLastName', 'required' => true]) ?>
-        </div>
-        <div class="form-group">
-            <label for="customerPhonenumber">Phone Number</label>
-            <?= PhoneInput::widget([
-                'id' => 'customerPhonenumber',
-                'name' => 'Customer[phone_number]',
-                'jsOptions' => [
-                    'allowExtensions' => true,
-                ]
-            ]); ?>
-        </div>
-
-        <div class="form-group">
-            <input class = "btn btn-success" id="customerFormSend" type="submit" name="Send" value="Send"></input>
-        </div>
-    </form>
 
     
 

@@ -34,6 +34,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             [['firstName', 'lastName', 'fullName'], 'string', 'max' => 50],
+            [['firstName', 'lastName'], 'required']
         ];
     }
 
