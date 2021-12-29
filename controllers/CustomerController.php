@@ -31,7 +31,7 @@ class CustomerController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['ajax-create'],
+                        'actions' => ['initial-create'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -89,7 +89,7 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function actionAjaxCreate()
+    public function actionInitialCreate()
     {
         $model = new \app\models\CustomerForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -109,16 +109,18 @@ class CustomerController extends Controller
                 $addressModel->customer_id = $customerModel->id;
 
                 if (!$phoneModel->save()) {
+                    Yii::$app->session->setFlash('error', 'Phone Number Error');
                     $customerModel->delete();
                 }
                 if (!$addressModel->save()) {
+                    Yii::$app->session->setFlash('error', 'Address Error');
                     $customerModel->delete();
                     $phoneModel->delete();
                 }
-                return Yii::$app->runAction('workorder/create');
+            } else {
+                Yii::$app->session->setFlash('error', 'Customer Error');
             }
-
-
+            $this->redirect(\yii\helpers\Url::to(['/workorder/create']));
         }
         // if (Yii::$app->request->post('firstName') && Yii::$app->request->post('lastName') && Yii::$app->request->post('phoneNumber')) {
         //     $model = new Customer();

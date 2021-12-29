@@ -35,7 +35,7 @@ use yii\data\ActiveDataProvider;
                     ],
                 ]) ?>
         <div class="input-group-append">
-                <?= Html::button('Hello', [
+                <?= Html::button('Add Customer', [
                                 'class' => 'btn btn-default btn-outline-secondary',
                                 'data' => [
                                     'toggle' => 'modal',
@@ -44,23 +44,33 @@ use yii\data\ActiveDataProvider;
         </div>
         
     </div>
-
-    <?= $form->field($model, 'automobile_id')->label(Yii::t('app', 'Automobile'))->widget(Select2::classname(), [
-                'data' => [],
-                'options' => [
-                    'id'   => 'automobile_id',
-                    'placeholder' => '--'.Yii::t('app', 'Select One').'--',
-                    'disabled' => true,
-                ],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],]) ?>
-
+    <div class="input-group">                               
+        <?= $form->field($model, 'automobile_id')->label(Yii::t('app', 'Automobile'))->widget(Select2::classname(), [
+                    'data' => [],
+                    'options' => [
+                        'id'   => 'automobile_id',
+                        'placeholder' => '--'.Yii::t('app', 'Select One').'--',
+                        'disabled' => true,
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],]) ?>
+        <div class="input-group-append">
+                <?= Html::button('Add Automobile', [
+                                'id' => 'new_automobile_button',
+                                'disabled' => true,
+                                'class' => 'btn btn-default btn-outline-secondary',
+                                'data' => [
+                                    'toggle' => 'modal',
+                                    'target' => '#modalNewAutomobile',
+                                ],]) ?>             
+        </div>
+    </div>  
     <div class="form-group">
         <?= Html::a('Cancel', '/index', ['class' => 'btn btn-default btn-outline-secondary']) ?>
         <?= Html::submitButton('Save', ['class' => 'btn btn-primary btn-success']) ?>
     </div>
-
+                 
    
 
     <?php ActiveForm::end(); ?>
@@ -90,6 +100,31 @@ yii\bootstrap\Modal::begin([
     yii\bootstrap\Modal::end();
 ?>
 
+<?php
+//------------------------
+// Add new Customer
+//------------------------
+yii\bootstrap\Modal::begin([
+    'id'    => 'modalNewAutomobile',
+    'header' => Yii::t('app', 'Create New Automobile'),
+    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+]);
+?>
+
+<div class="modal-body">
+    <!-- Some modal content here -->
+    <div id="modalContent">
+        <?= Yii::$app->controller->renderPartial('/automobile/_form', [
+                'model'=> new app\models\AutomobileForm(),
+            ]) ?>
+    </div>
+
+</div>
+<?php
+    yii\bootstrap\Modal::end();
+?>
+
+
 
 <?php
 //------------------------------------------------------------------------------
@@ -104,7 +139,8 @@ $jsBlock = <<< JS
 
 
 // Populate Automobiles
-$('#customer_id').on('select2:change', function (e) {
+$('#customer_id').on('select2:select', function (e) {
+    //console.log('here');
     console.log($('#part_id').value);
     console.log(e.params.data.id);
     var selectValue = $('#customer_id').val(); 
@@ -119,11 +155,16 @@ $('#customer_id').on('select2:change', function (e) {
             console.log(data);
             data = JSON.parse(data);
             //console.log(data[0]);
-            data.forEach(function(item) {
-                var newOption = new Option(item.text, item.id, true, true);
+            // data.forEach(function(item, key) {
+            //     var newOption = new Option(item, item.id, true, true);
+            //     $('#automobile_id').append(newOption);
+            // });
+            for(let key in data) {
+                var newOption = new Option(data[key], key);
                 $('#automobile_id').append(newOption);
-            });
+            }
             $('#automobile_id').attr('disabled',false);
+            $('#new_automobile_button').attr('disabled',false);
 
         },
         

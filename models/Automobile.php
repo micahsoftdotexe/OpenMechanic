@@ -82,19 +82,15 @@ class Automobile extends \yii\db\ActiveRecord
         //$models = hasMany(Owns::className(), ['automobile_id' => 'id']);
         // return \yii\helpers\ArrayHelper::map($models, 'id', 'make'.' '.'model'.' '.'year');
         $results = [];
-        $integer = 0;
+        //$integer = 0;
         //TODO: change this from using an integer key to id key
         foreach ($models as $model) {
-            $results[$integer] = [ 
-                'id' => $model->id,
-                'text' => $model->make.' '.$model->model.' '.$model->year,
-            ];
-            $integer++;
+            $results[$model->id] = $model->make.' '.$model->model.' '.$model->year;
+            //$integer++;
         }
         // \Yii::debug("after array",
         //     'dev'  // devlog file.  See components->log->dev defined in /config/web.php
         //     );
-        
         return json_encode($results);
     }
 }

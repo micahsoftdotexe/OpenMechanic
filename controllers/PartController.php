@@ -171,6 +171,5 @@ class PartController extends Controller
                 'details' => 'No customer_id',
             ]);
         }
-        
     }
 }
