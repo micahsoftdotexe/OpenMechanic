@@ -51,10 +51,10 @@ class Workorder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'automobile_id'], 'required'],
+            [['customer_id', 'automobile_id', 'odometer_reading'], 'required'],
             [['customer_id', 'automobile_id', 'paid_in_full'], 'integer'],
             [['date'], 'safe'],
-            [['subtotal', 'tax', 'amount_paid'], 'number'],
+            [['subtotal', 'tax', 'amount_paid', 'odometer_reading'], 'number'],
             [['workorder_notes'], 'string'],
             [['automobile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Automobile::class, 'targetAttribute' => ['automobile_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['customer_id' => 'id']],

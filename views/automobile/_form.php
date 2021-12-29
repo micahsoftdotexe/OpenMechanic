@@ -17,6 +17,7 @@ use borales\extensions\phoneInput\PhoneInput;
     <?= $automobileForm->field($model, 'make')->label(Yii::t('app', 'Make'))->textInput()?>
     <?= $automobileForm->field($model, 'model')->label(Yii::t('app', 'Model'))->textInput()?>
     <?= $automobileForm->field($model, 'year')->label(Yii::t('app', 'Year'))->textInput()?>
+    <?= $automobileForm->field($model, 'motor_number')->label(Yii::t('app', 'Motor Number'))->textInput()?>
     <?= $automobileForm->field($model, 'vin')->label(Yii::t('app', 'VIN'))->textInput()?>
     <?= $automobileForm->field($model, 'customer_id')->hiddenInput(['id' => 'customer_id_field'])->label(false)?>
     <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Upload'), [

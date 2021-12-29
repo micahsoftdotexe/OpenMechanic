@@ -102,6 +102,7 @@ class m210611_132655_create_tables extends Migration
             'id' => $this->primaryKey(11),
             'customer_id' => $this->integer(11)->notNull(),
             'automobile_id' => $this->integer(11)->notNull(),
+            'odometer_reading' => $this->integer(25)->notNull(),
             'stage_id' => $this->integer(11)->notNull(),
             'date' => $this->datetime(),
             'subtotal' => $this->decimal(10, 2),
@@ -187,6 +188,7 @@ class m210611_132655_create_tables extends Migration
             'make' => $this->string(128)->notNull(),
             'model' => $this->string(128)->notNull(),
             'year' => $this->smallInteger()->notNull(),
+            'motor_number' => $this->decimal(10, 2)->notNull()
         ]);
     }
 

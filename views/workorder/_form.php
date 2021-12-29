@@ -65,6 +65,9 @@ use yii\data\ActiveDataProvider;
                                     'target' => '#modalNewAutomobile',
                                 ],]) ?>             
         </div>
+    </div>
+    <div class="input-group">
+        <?= $form->field($model, 'odometer_reading')->label(Yii::t('app', 'Odometer Reading'))->textInput(['id' => 'odometer_reading_input','disabled' => true])?>
     </div>  
     <div class="form-group">
         <?= Html::a('Cancel', '/index', ['class' => 'btn btn-default btn-outline-secondary']) ?>
@@ -165,6 +168,7 @@ $('#customer_id').on('select2:select', function (e) {
             }
             $('#automobile_id').attr('disabled',false);
             $('#new_automobile_button').attr('disabled',false);
+            $('#odometer_reading_input').attr('disabled',false);
 
         },
         
