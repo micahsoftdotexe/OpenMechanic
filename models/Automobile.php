@@ -32,7 +32,7 @@ class Automobile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['vin', 'make', 'model', 'year'], 'required'],
+            [['vin', 'make', 'model', 'year', 'motor_number'], 'required'],
             [['year'], 'integer'],
             [['vin'], 'string', 'max' => 17],
             [['make', 'model'], 'string', 'max' => 128],
@@ -50,6 +50,7 @@ class Automobile extends \yii\db\ActiveRecord
             'make' => Yii::t('app', 'Make'),
             'model' => Yii::t('app', 'Model'),
             'year' => Yii::t('app', 'Year'),
+            'motor_number' => Yii::t('app', 'Motor Number'),
         ];
     }
 

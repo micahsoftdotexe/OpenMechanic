@@ -53,6 +53,7 @@ class AutomobileController extends Controller
             $autoModel->make = $model->make;
             $autoModel->model = $model->model;
             $autoModel->year = $model->year;
+            $autoModel->motor_number = $model->motor_number;
             if ($autoModel->save()) {
                 $ownModel->customer_id = $model->customer_id;
                 $ownModel->automobile_id = $autoModel->id;

@@ -11,11 +11,12 @@ class AutomobileForm extends yii\base\Model
     public $model;
     public $year;
     public $customer_id;
+    public $motor_number;
 
     public function rules()
     {
         return [
-            [['vin', 'make', 'model', 'year', 'customer_id'], 'required'],
+            [['vin', 'make', 'model', 'year', 'motor_number', 'customer_id'], 'required'],
         ];
     }
 }
