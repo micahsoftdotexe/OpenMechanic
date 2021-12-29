@@ -6,8 +6,10 @@ use Yii;
 use app\models\Workorder;
 use app\models\WorkorderSearch;
 use yii\web\Controller;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * WorkorderController implements the CRUD actions for Workorder model.
@@ -21,9 +23,21 @@ class WorkorderController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete',
+                    //'delete' => ['POST'],
+                    'get-automobiles',
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -64,15 +78,46 @@ class WorkorderController extends Controller
      */
     public function actionCreate()
     {
+        //$model = null;
+        // \Yii::debug($id,
+        //      'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+        // );
         $model = new Workorder();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        //$model->scenario = Workorder::SCENARIO_STEP1;
 
         return $this->render('create', [
             'model' => $model,
+            'update' => false
+            //'stage' => 1,
         ]);
+    }
+
+    public function actionEdit($id)
+    {
+        //$model = $this->findModel($id);
+        $model = Workorder::find()->where(['id' => $id])->one();
+        return $this->render('edit', [
+            'model' => $model,
+        ]);
+    }
+
+
+    public function actionCreateTemplate()
+    {
+        $model = new Workorder();
+
+        if ($model->load(Yii::$app->request->post())) {
+            //$model->scenario = Workorder::SCENARIO_STEP2;
+            $model->stage_id = \app\models\Stage::find()->where(['title' => 'Created'])->one()->id;
+            if ($model->save()) {
+                $this->redirect(['edit', 'id' => $model->id]);
+            } else {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Workorder Save Error'));
+            }
+        } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Workorder Save Error'));
+            return $this->redirect(Url::base(true).'/workorder');
+        }
     }
 
     /**
@@ -123,5 +168,20 @@ class WorkorderController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public static function actionGetAutomobiles()
+    {
+        // \Yii::debug("before id",
+        //     'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+        //     );
+        if ($id = Yii::$app->request->post('id')) {
+            return \app\models\Automobile::getIds($id);
+        } else {
+            return \yii\helpers\Json::encode([
+                'status' => 'error',
+                'details' => 'No customer_id',
+            ]);
+        }
     }
 }

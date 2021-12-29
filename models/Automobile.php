@@ -72,4 +72,25 @@ class Automobile extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Workorder::className(), ['automobile_id' => 'id']);
     }
+    public static function getIds($id)
+    {
+        $customer = Customer::find()->where(['id' => $id])->one();
+        // \Yii::debug("after customer",
+        //     'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+        //     );
+        $models = $customer->automobiles;
+        //$models = hasMany(Owns::className(), ['automobile_id' => 'id']);
+        // return \yii\helpers\ArrayHelper::map($models, 'id', 'make'.' '.'model'.' '.'year');
+        $results = [];
+        //$integer = 0;
+        //TODO: change this from using an integer key to id key
+        foreach ($models as $model) {
+            $results[$model->id] = $model->make.' '.$model->model.' '.$model->year;
+            //$integer++;
+        }
+        // \Yii::debug("after array",
+        //     'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+        //     );
+        return json_encode($results);
+    }
 }

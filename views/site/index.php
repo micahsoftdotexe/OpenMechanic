@@ -1,5 +1,6 @@
 <?php
-
+// use Yii;
+use yii\helpers\Html;
 /* @var $this yii\web\View */
 $this->title = Yii::$app->params['applicationName'];
 ?>
@@ -9,8 +10,11 @@ $this->title = Yii::$app->params['applicationName'];
         <h1>Welcome to the Workorder System</h1>
 
         <!-- <p class="lead">You have successfully created your Yii-powered application.</p> -->
-
-        <p><a class="btn btn-lg btn-success" href="/workorder">Work Orders</a></p>
+        <!-- yii\helpers\Url::base(true).'/web/workorder' -->
+        <!-- yii\helpers\Url::base(true).'/workorder' -->
+        <p><?=Html::a('Work Order', ['workorder/index'], [
+            'class' => 'btn btn-lg btn-success'
+        ]) ?></p>
     </div>
 
     <div class="body-content">

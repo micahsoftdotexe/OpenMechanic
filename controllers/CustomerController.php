@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Customer;
+use yii\filters\AccessControl;
 use app\models\CustomerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -24,6 +25,16 @@ class CustomerController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['initial-create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -68,15 +79,62 @@ class CustomerController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->fullName = $model->firstName.' '.$model->lastName;
-            if($model->save()) {
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-            
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionInitialCreate()
+    {
+        $model = new \app\models\CustomerForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $customerModel = new Customer();
+            $addressModel = new \app\models\Address();
+            $phoneModel = new \app\models\PhoneNumber();
+            $customerModel->firstName = $model->firstName;
+            $customerModel->lastName = $model->lastName;
+            if ($customerModel->save()) {
+                $phoneModel->phone_number = $model->phoneNumber;
+                $phoneModel->customer_id = $customerModel->id;
+
+                $addressModel->street_address_1 = $model->streetAddress;
+                $addressModel->city = $model->city;
+                $addressModel->zip = $model->zip;
+                $addressModel->state = $model->state;
+                $addressModel->customer_id = $customerModel->id;
+
+                if (!$phoneModel->save()) {
+                    Yii::$app->session->setFlash('error', 'Phone Number Error');
+                    $customerModel->delete();
+                }
+                if (!$addressModel->save()) {
+                    Yii::$app->session->setFlash('error', 'Address Error');
+                    $customerModel->delete();
+                    $phoneModel->delete();
+                }
+            } else {
+                Yii::$app->session->setFlash('error', 'Customer Error');
+            }
+            $this->redirect(\yii\helpers\Url::to(['/workorder/create']));
+        }
+        // if (Yii::$app->request->post('firstName') && Yii::$app->request->post('lastName') && Yii::$app->request->post('phoneNumber')) {
+        //     $model = new Customer();
+        //     $model->firstName = Yii::$app->request->post('firstName');
+        //     $model->lastName = Yii::$app->request->post('lastName');
+        //     //$model->fullName = $model->firstName.' '.$model->lastName;
+        //     $model->save();
+        //     $phoneModel = new \app\models\PhoneNumber();
+        //     $phoneModel->phone_number = Yii::$app->request->post('phoneNumber');
+        //     $phoneModel->customer_id = $model->id;
+        //     $phoneModel->save();
+        //     return 200;
+        // }
+        // return 300;
     }
 
     /**

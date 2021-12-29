@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int $customer_id
  * @property int $automobile_id
+ * @property int $stage_id
  * @property string|null $date
  * @property float|null $subtotal
  * @property float|null $tax
@@ -26,6 +27,16 @@ class Workorder extends \yii\db\ActiveRecord
 {
     public $make;
     public $model;
+    const SCENARIO_STEP1 = 'step1';
+    const SCENARIO_STEP2 = 'step2';
+    const SCENARIO_STEP3= 'step3';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_STEP1] = ['customer_id', 'automobile_id'];
+        return $scenarios;
+    }
     /**
      * {@inheritdoc}
      */
@@ -45,8 +56,8 @@ class Workorder extends \yii\db\ActiveRecord
             [['date'], 'safe'],
             [['subtotal', 'tax', 'amount_paid'], 'number'],
             [['workorder_notes'], 'string'],
-            [['automobile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Automobile::className(), 'targetAttribute' => ['automobile_id' => 'id']],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
+            [['automobile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Automobile::class, 'targetAttribute' => ['automobile_id' => 'id']],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['customer_id' => 'id']],
         ];
     }
 
@@ -76,7 +87,7 @@ class Workorder extends \yii\db\ActiveRecord
      */
     public function getLabors()
     {
-        return $this->hasMany(Labor::className(), ['workorder_id' => 'id']);
+        return $this->hasMany(Labor::class, ['workorder_id' => 'id']);
     }
 
     /**
@@ -86,7 +97,7 @@ class Workorder extends \yii\db\ActiveRecord
      */
     public function getParts()
     {
-        return $this->hasMany(Part::className(), ['workorder_id' => 'id']);
+        return $this->hasMany(Part::class, ['workorder_id' => 'id']);
     }
 
     /**
@@ -96,7 +107,7 @@ class Workorder extends \yii\db\ActiveRecord
      */
     public function getAutomobile()
     {
-        return $this->hasOne(Automobile::className(), ['id' => 'automobile_id']);
+        return $this->hasOne(Automobile::class, ['id' => 'automobile_id']);
     }
 
     /**
@@ -106,6 +117,16 @@ class Workorder extends \yii\db\ActiveRecord
      */
     public function getCustomer()
     {
-        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+        return $this->hasOne(Customer::class, ['id' => 'customer_id']);
+    }
+
+    /**
+     * Gets query for [[Stage]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStage()
+    {
+        return $this->hasOne(Customer::class, ['id' => 'stage_id']);
     }
 }
