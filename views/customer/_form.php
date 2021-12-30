@@ -34,28 +34,44 @@ use borales\extensions\phoneInput\PhoneInput;
 </div>
 
 <?php
-$newCustomerUrl = \yii\helpers\Url::to(['/customer/ajax-create']);
-$jsBlock = <<< JS
-    // $('#customerForm').submit(function(e){
-    //     e.preventDefault();
-    //     console.log(e.target.querySelector('#customerFirstName').value);
-    //     console.log(e.target.querySelector('#customerLastName').value);
-    //     console.log( e.target.querySelector('#customerPhonenumber').value);
-    //     $.ajax({
-    //         url: '$newCustomerUrl',
-    //         method: 'POST',
-    //         data: {
-    //             firstName: e.target.querySelector('#customerFirstName').value,
-    //             lastName: e.target.querySelector('#customerLastName').value,
-    //             phoneNumber: e.target.querySelector('#customerPhonenumber').value
-    //         },
-    //         error: function( xhr, status, errorThrown)
-    //         {
-    //             console.dir( xhr );
-    //         }
+if ($change_form) {
+    $ajaxSubmitUrl = \yii\helpers\Url::to(['/customer/ajax-initial-create']);
+    $jsBlock2 = '
+        $("#initial-customer-form").on("beforeSubmit", function(){
+            let data = $("#initial-customer-form").serialize();
+            console.log(data);
+            $.ajax({
+                url:"'.$ajaxSubmitUrl.'",
+                type: "POST",
+                data: data,
+                success: function (returnData) {
+                    console.log(returnData);
+                    if(returnData != 400) {
+                        returnData = JSON.parse(returnData);
+                        let newOption = new Option(returnData.text, returnData.id, false, false);
+                        //change the forms
+                        $("#customer_id").append(newOption).trigger("change");
+                        $("#customer_id").val(returnData.id).trigger("change");
+                        //clear form
+                        $("#initial-customer-form")[0].reset();
+                        $("#modalNewCustomer").modal("hide");
+                        updateAutomobiles();
+                        
+                    } else {
+                        console.log("Error")
+                    }
 
-    //     })
-    // })
-JS;
-$this->registerJs($jsBlock, \yii\web\View::POS_END);
+                }, error: function( xhr, status, errorThrown ) {
+                    console.log("Error: " + errorThrown );
+                    console.log("Status: " + status );
+                    console.dir( xhr );
+                },
+            })
+        }).on("submit", function(e){
+            e.preventDefault();
+        });
+
+    ';
+    $this->registerJs($jsBlock2, \yii\web\View::POS_END);
+}
 ?>

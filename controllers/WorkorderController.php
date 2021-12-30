@@ -176,7 +176,7 @@ class WorkorderController extends Controller
         //     'dev'  // devlog file.  See components->log->dev defined in /config/web.php
         //     );
         if ($id = Yii::$app->request->post('id')) {
-            return \app\models\Automobile::getIds($id);
+            return json_encode(\app\models\Automobile::getIds($id));
         } else {
             return \yii\helpers\Json::encode([
                 'status' => 'error',
