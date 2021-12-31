@@ -33,4 +33,43 @@ use borales\extensions\phoneInput\PhoneInput;
     })
     JS;
     $this->registerJs($jsBlock, \yii\web\View::POS_END);
+    if ($change_form) {
+        $ajaxSubmitUrl = \yii\helpers\Url::to(['/automobile/ajax-initial-create']);
+        $jsBlock2 = '
+            $("#initial-automobile-form").on("beforeSubmit", function(){
+                let data = $("#initial-automobile-form").serialize();
+                console.log(data);
+                $.ajax({
+                    url:"'.$ajaxSubmitUrl.'",
+                    type: "POST",
+                    data: data,
+                    success: function (returnData) {
+                        //console.log(returnData);
+                        if(returnData != 400) {
+                            returnData = JSON.parse(returnData);
+                            let newOption = new Option(returnData.text, returnData.id, false, false);
+                            //change the forms
+                            $("#automobile_id").append(newOption).trigger("change");
+                            $("#automobile_id").val(returnData.id).trigger("change");
+                            //clear form
+                            $("#initial-automobile-form")[0].reset();
+                            $("#modalNewAutomobile").modal("hide");
+                        } else {
+                            console.log("error");
+                        }
+                        
+
+                    }, error: function( xhr, status, errorThrown ) {
+                        console.log("Error: " + errorThrown );
+                        console.log("Status: " + status );
+                        console.dir( xhr );
+                    },
+                })
+            }).on("submit", function(e){
+                e.preventDefault();
+            });
+
+        ';
+        $this->registerJs($jsBlock2, \yii\web\View::POS_END);
+    }
 ?>

@@ -46,11 +46,11 @@ use yii\data\ActiveDataProvider;
     </div>
     <div class="input-group">                               
         <?= $form->field($model, 'automobile_id')->label(Yii::t('app', 'Automobile'))->widget(Select2::classname(), [
-                    'data' => [],
+                    'data' => ($update) ? \app\models\Automobile::getIds($model->customer_id) : [],
                     'options' => [
                         'id'   => 'automobile_id',
                         'placeholder' => '--'.Yii::t('app', 'Select One').'--',
-                        'disabled' => true,
+                        'disabled' => !$update,
                     ],
                     'pluginOptions' => [
                         'allowClear' => true
@@ -58,7 +58,7 @@ use yii\data\ActiveDataProvider;
         <div class="input-group-append">
                 <?= Html::button('Add Automobile', [
                                 'id' => 'new_automobile_button',
-                                'disabled' => true,
+                                'disabled' => !$update,
                                 'class' => 'btn btn-default btn-outline-secondary',
                                 'data' => [
                                     'toggle' => 'modal',
@@ -67,7 +67,7 @@ use yii\data\ActiveDataProvider;
         </div>
     </div>
     <div class="input-group">
-        <?= $form->field($model, 'odometer_reading')->label(Yii::t('app', 'Odometer Reading'))->textInput(['id' => 'odometer_reading_input','disabled' => true])?>
+        <?= $form->field($model, 'odometer_reading')->label(Yii::t('app', 'Odometer Reading'))->textInput(['id' => 'odometer_reading_input','disabled' => !$update])?>
     </div>  
     <div class="form-group">
         <?= Html::a('Cancel', '/index', ['class' => 'btn btn-default btn-outline-secondary']) ?>
@@ -95,6 +95,7 @@ yii\bootstrap\Modal::begin([
     <div id="modalContent">
         <?= Yii::$app->controller->renderPartial('/customer/_form', [
                 'model'=> new app\models\CustomerForm(),
+                'change_form' => true,
             ]) ?>
     </div>
 
@@ -119,6 +120,7 @@ yii\bootstrap\Modal::begin([
     <div id="modalContent">
         <?= Yii::$app->controller->renderPartial('/automobile/_form', [
                 'model'=> new app\models\AutomobileForm(),
+                'change_form' => true,
             ]) ?>
     </div>
 
@@ -144,9 +146,16 @@ $jsBlock = <<< JS
 // Populate Automobiles
 $('#customer_id').on('select2:select', function (e) {
     //console.log('here');
-    console.log($('#part_id').value);
-    console.log(e.params.data.id);
-    var selectValue = $('#customer_id').val(); 
+    // console.log($('#part_id').value);
+    // console.log(e.params.data.id);
+    updateAutomobiles();
+    
+
+});
+
+
+function updateAutomobiles() {
+    let selectValue = $('#customer_id').val(); 
     $('#automobile_id').empty();
     //getting automobiles
     $.ajax({
@@ -155,15 +164,9 @@ $('#customer_id').on('select2:select', function (e) {
         data: {id: selectValue},
         success: function(data)
         {
-            console.log(data);
             data = JSON.parse(data);
-            //console.log(data[0]);
-            // data.forEach(function(item, key) {
-            //     var newOption = new Option(item, item.id, true, true);
-            //     $('#automobile_id').append(newOption);
-            // });
             for(let key in data) {
-                var newOption = new Option(data[key], key);
+                let newOption = new Option(data[key], key);
                 $('#automobile_id').append(newOption);
             }
             $('#automobile_id').attr('disabled',false);
@@ -180,30 +183,7 @@ $('#customer_id').on('select2:select', function (e) {
         },
     });
 
-});
-// Part Form
-// var partForm = $('#part-form');
-// partForm.on('beforeSubmit', function() {
-//     var data = partForm.serialize();
-//     console.log(data);
-//     $.ajax({
-//         url: '$submitPartFormUrl',
-//         type: 'POST',
-//         data: data,
-//         success: function (data) {
-//             console.log(data);
-//         },
-//         error: function( xhr, status, errorThrown ) 
-//         {
-//             console.log('Error: ' + errorThrown );
-//             console.log('Status: ' + status );
-//             console.dir( xhr );
-//         },
-//     });
-//     return false;
-// });
-
-
+}
 JS;
 
 

@@ -92,6 +92,6 @@ class Automobile extends \yii\db\ActiveRecord
         // \Yii::debug("after array",
         //     'dev'  // devlog file.  See components->log->dev defined in /config/web.php
         //     );
-        return json_encode($results);
+        return $results;
     }
 }
