@@ -164,13 +164,7 @@ function updateAutomobiles() {
         data: {id: selectValue},
         success: function(data)
         {
-            //console.log(data);
             data = JSON.parse(data);
-            //console.log(data[0]);
-            // data.forEach(function(item, key) {
-            //     var newOption = new Option(item, item.id, true, true);
-            //     $('#automobile_id').append(newOption);
-            // });
             for(let key in data) {
                 let newOption = new Option(data[key], key);
                 $('#automobile_id').append(newOption);
@@ -190,29 +184,6 @@ function updateAutomobiles() {
     });
 
 }
-// Part Form
-// var partForm = $('#part-form');
-// partForm.on('beforeSubmit', function() {
-//     var data = partForm.serialize();
-//     console.log(data);
-//     $.ajax({
-//         url: '$submitPartFormUrl',
-//         type: 'POST',
-//         data: data,
-//         success: function (data) {
-//             console.log(data);
-//         },
-//         error: function( xhr, status, errorThrown ) 
-//         {
-//             console.log('Error: ' + errorThrown );
-//             console.log('Status: ' + status );
-//             console.dir( xhr );
-//         },
-//     });
-//     return false;
-// });
-
-
 JS;
 
 

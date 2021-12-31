@@ -51,11 +51,11 @@ if ($change_form) {
                         let newOption = new Option(returnData.text, returnData.id, false, false);
                         //change the forms
                         $("#customer_id").append(newOption).trigger("change");
-                        $("#customer_id").val(returnData.id).trigger("change");
+                        $("#customer_id").val(returnData.id).trigger("select2:select");
                         //clear form
                         $("#initial-customer-form")[0].reset();
                         $("#modalNewCustomer").modal("hide");
-                        updateAutomobiles();
+                        //updateAutomobiles();
                         
                     } else {
                         console.log("Error")
