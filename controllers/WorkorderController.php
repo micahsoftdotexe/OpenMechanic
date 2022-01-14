@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Workorder;
 use app\models\WorkorderSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -34,7 +35,7 @@ class WorkorderController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template'],
+                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -96,8 +97,16 @@ class WorkorderController extends Controller
     {
         //$model = $this->findModel($id);
         $model = Workorder::find()->where(['id' => $id])->one();
+        $partDataprovider = new ActiveDataProvider([
+            'query' => \app\models\Part::find()->where(['workorder_id' => $model->id]),
+        ]);
+        $laborDataprovider = new ActiveDataProvider([
+            'query' => \app\models\Labor::find()->where(['workorder_id' => $model->id]),
+        ]);
         return $this->render('edit', [
             'model' => $model,
+            'partDataProvider' => $partDataprovider,
+            'laborDataProvider' => $laborDataprovider,
         ]);
     }
 

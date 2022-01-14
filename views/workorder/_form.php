@@ -70,7 +70,7 @@ use yii\data\ActiveDataProvider;
         <?= $form->field($model, 'odometer_reading')->label(Yii::t('app', 'Odometer Reading'))->textInput(['id' => 'odometer_reading_input','disabled' => !$update])?>
     </div>  
     <div class="form-group">
-        <?= Html::a('Cancel', '/index', ['class' => 'btn btn-default btn-outline-secondary']) ?>
+        <?= !$update ? Html::a('Cancel', 'index', ['class' => 'btn btn-default btn-outline-secondary']): '' ?>
         <?= Html::submitButton('Save', ['class' => 'btn btn-primary btn-success']) ?>
     </div>
                  

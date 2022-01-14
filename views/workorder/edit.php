@@ -23,6 +23,8 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
             'label' => Yii::t('app', 'Parts and Labor'),
             'content' => $this->render('_form_parts_labor', [
                 'model' => $model,
+                'partDataProvider' => $partDataProvider,
+                'laborDataProvider' => $laborDataProvider,
             ])
         ],
     ],
