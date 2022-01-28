@@ -15,14 +15,19 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
     'items' => [
         [
             'label' => Yii::t('app', 'Customer and Automobile'),
-            'content' => $this->render('update', [
+            // 'content' => $this->render('update', [
+            //     'model' => $model,
+            // ])
+            'content' => $this->render('_form', [
                 'model' => $model,
+                'update' => true
             ])
         ],
         [
             'label' => Yii::t('app', 'Parts and Labor'),
             'content' => $this->render('_form_parts_labor', [
                 'model' => $model,
+                'update' => true,
                 'partDataProvider' => $partDataProvider,
                 'laborDataProvider' => $laborDataProvider,
             ])

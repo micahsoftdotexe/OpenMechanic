@@ -8,6 +8,7 @@ use kartik\money\MaskMoney;
 
 <div class="media-file-form">
     <?php $partForm = ActiveForm::begin([
+        'action' => ['/part/ajax-create'],
         'id' => 'part-form'
     ]) ?>
     <?= $partForm->field($model,'description')->label(Yii::t('app','Part Description'))->textInput() ?>
@@ -34,7 +35,8 @@ use kartik\money\MaskMoney;
                     'allowClear' => true
                 ],
             ]) ?>
-    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Upload'), [
+    <?= $partForm->field($model, 'workorder_id')->hiddenInput(['value' => $workorder_id])->label(false) ?>
+    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Create'), [
             'class'             => 'btn btn-success',
             'id'                => "btn-upload-file",
             'data-loading-text' => Yii::t('app', "Loading..."),
