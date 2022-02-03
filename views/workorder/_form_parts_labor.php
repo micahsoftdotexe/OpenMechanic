@@ -8,8 +8,8 @@ use yii\helpers\Html;
         'id' => 'partGrid',
         'dataProvider' => $partDataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
             'part_number',
+            'description',
             'price',
             'quantity',
             [
@@ -35,7 +35,7 @@ use yii\helpers\Html;
     <?= yii\grid\GridView::widget([
         'id' => 'laborGrid',
         'dataProvider' => $laborDataProvider
-    ])?>
+        ])?>
 </div>
 
 <?php
@@ -63,24 +63,36 @@ yii\bootstrap\Modal::begin([
 <?php
     yii\bootstrap\Modal::end();
 ?>
-
 <?php
     $jsBlock = <<< JS
-        $('#modalNewPart').on("beforeSubmit",function(event){
-            event.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'post',
-                dataType: 'json',
-                data: $(this).serializeArray(),
-                success: function (returnData) {
-                    console.log(returnData);
+        console.log('test');
+        // $('#part-form').on("beforeSubmit",function(event){
+        //     console.log("beforeSubmit");
+        //     event.preventDefault();
+        //     $.ajax({
+        //         url: $(this).attr('action'),
+        //         type: 'post',
+        //         dataType: 'json',
+        //         data: $(this).serializeArray(),
+        //         success: function (returnData) {
+        //             addPartToGrid(returnData.data);
 
-                }, error: function( xhr, status, errorThrown ) {
-                    console.log("Error: " + errorThrown );
-                    console.log("Status: " + status );
-                    console.dir( xhr );
-                },
-            })
-        })
+        //         }, error: function( xhr, status, errorThrown ) {
+        //             console.log("Error: " + errorThrown );
+        //             console.log("Status: " + status );
+        //             console.dir( xhr );
+        //         },
+        //     })
+        //     return false;
+        // })
+
+        // function addPartToGrid(data)
+        // {
+        //     console.log("addPartToGrid");
+        // //     var grid = $('#partGrid').data('kendoGrid');
+        // //     grid.dataSource.add(data);
+        // //     grid.refresh();
+        // //     $('#modalNewPart').modal('hide');
+        // }
     JS;
+    $this->registerJs($jsBlock, \yii\web\View::POS_END);

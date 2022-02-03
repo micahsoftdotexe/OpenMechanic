@@ -15,6 +15,9 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
     'items' => [
         [
             'label' => Yii::t('app', 'Customer and Automobile'),
+            'options' => ['id' => 'tabCustomerAutomobile'],
+            'linkOptions' => ['id' => 'tabCustomerAutomobileLink'],
+            'active' => $tab == 'tabCustomerAutomobileLink',
             // 'content' => $this->render('update', [
             //     'model' => $model,
             // ])
@@ -25,6 +28,9 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
         ],
         [
             'label' => Yii::t('app', 'Parts and Labor'),
+            'options' => ['id' => 'tabPartsLabor'],
+            'linkOptions' => ['id' => 'tabPartsLaborLink'],
+            'active' => $tab == 'tabPartsLaborLink',
             'content' => $this->render('_form_parts_labor', [
                 'model' => $model,
                 'update' => true,
@@ -34,3 +40,12 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
         ],
     ],
 ]); ?>
+
+<?php
+    $jsBlock = <<< JS
+        $('#tabUpdate a').click(function (e) {
+            console.log(e.target.id);
+            Cookies.set('edittab', e.target.id);
+        });
+    JS;
+    $this->registerJs($jsBlock, yii\web\View::POS_END);

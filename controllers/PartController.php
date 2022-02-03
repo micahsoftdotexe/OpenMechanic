@@ -29,7 +29,7 @@ class PartController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['get-batch-data'],
+                //'only' => ['get-batch-data'],
                 'rules' => [
                     [
                         'actions' => ['submit-part-form-url', 'ajax-create'],
