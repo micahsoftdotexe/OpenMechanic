@@ -32,7 +32,7 @@ class PartController extends Controller
                 //'only' => ['get-batch-data'],
                 'rules' => [
                     [
-                        'actions' => ['submit-part-form-url', 'ajax-create'],
+                        'actions' => ['submit-part-form-url', 'create-edit'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -92,19 +92,15 @@ class PartController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionAjaxCreate()
+    public function actionCreateEdit()
     {
         $model = new Part();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return \yii\helpers\Json::encode([
-                'status' => 'success',
-                'data' => [$model->id, $model->part_number, $model->price, $model->quantity, \app\models\QuantityType::findOne(['id' => $model->quantity_type_id])->description]
-            ]);
+            return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
         }
-        return \yii\helpers\Json::encode([
-            'status' => 'error',
-        ]);
+        Yii::$app->session->setFlash('error', $model->getErrors());
+        return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
     }
 
     /**

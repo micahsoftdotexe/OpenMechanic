@@ -2,6 +2,8 @@
 
 use app\models\Workorder;
 use yii\helpers\Html;
+
+//webtoucher\cookie\AssetBundle::register($this);
 ?>
 
 <?php
@@ -44,7 +46,6 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
 <?php
     $jsBlock = <<< JS
         $('#tabUpdate a').click(function (e) {
-            console.log(e.target.id);
             Cookies.set('edittab', e.target.id);
         });
     JS;

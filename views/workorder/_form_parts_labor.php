@@ -65,7 +65,6 @@ yii\bootstrap\Modal::begin([
 ?>
 <?php
     $jsBlock = <<< JS
-        console.log('test');
         // $('#part-form').on("beforeSubmit",function(event){
         //     console.log("beforeSubmit");
         //     event.preventDefault();
