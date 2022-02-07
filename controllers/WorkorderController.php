@@ -93,9 +93,9 @@ class WorkorderController extends Controller
         ]);
     }
 
-    public function actionEdit($id)
+    public function actionEdit($id, $tab = null)
     {
-        $tab = Yii::$app->request->cookies->getValue('edittab', (isset($_COOKIE['edittab']))? $_COOKIE['edittab']:'tabCustomerAutomobileLink');
+        $tab = $tab ? $tab : Yii::$app->request->cookies->getValue('edittab', (isset($_COOKIE['edittab']))? $_COOKIE['edittab']:'tabCustomerAutomobileLink');
         $model = Workorder::find()->where(['id' => $id])->one();
         $partDataprovider = new ActiveDataProvider([
             'query' => \app\models\Part::find()->where(['workorder_id' => $model->id]),
@@ -120,7 +120,7 @@ class WorkorderController extends Controller
             //$model->scenario = Workorder::SCENARIO_STEP2;
             $model->stage_id = \app\models\Stage::find()->where(['title' => 'Created'])->one()->id;
             if ($model->save()) {
-                $this->redirect(['edit', 'id' => $model->id]);
+                $this->redirect(['edit', 'id' => $model->id, 'tab' => 'tabCustomerAutomobileLink']);
             } else {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Workorder Save Error'));
             }

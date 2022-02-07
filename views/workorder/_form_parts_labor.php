@@ -18,6 +18,31 @@ use yii\helpers\Html;
                 'value'=> function($model) {
                     return \app\models\QuantityType::findOne(['id' => $model->quantity_type_id ])->description;
                 }
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'buttons' => [
+                    'update'=> function ($url, $model, $key) {
+                        return Html::a('<i class="glyphicon glyphicon-pencil"></i>',
+                        ['/part/update', 'id' => $model->id],
+                        [
+                            'data' => [
+                            'method' => 'post',
+                            ]
+                        ]);
+                    },
+                    'delete'=> function ($url, $model, $key) {
+                        return Html::a('<i class="glyphicon glyphicon-trash"></i>',
+                        ['/part/delete-edit', 'id' => $model->id],
+                        [
+                            'data' => [
+                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                            'method' => 'post',
+                            ]
+                        ]);
+                    }
+                ]
             ]
         ]
     ])?>
@@ -54,6 +79,7 @@ yii\bootstrap\Modal::begin([
     <div id="modalContent">
         <?= Yii::$app->controller->renderPartial('/part/_form', [
                 'model'=> new app\models\Part(),
+                'edit' => false,
                 'change_form' => true,
                 'workorder_id' => $model->id,
             ]) ?>

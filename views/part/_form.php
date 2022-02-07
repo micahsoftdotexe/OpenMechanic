@@ -8,7 +8,7 @@ use kartik\money\MaskMoney;
 
 <div class="media-file-form">
     <?php $partForm = ActiveForm::begin([
-        'action' => ['/part/create-edit'],
+        'action' => $edit ? ['part/update', 'id' => $model->id]: ['/part/create-edit'],
         'id' => 'part-form'
     ]) ?>
     <?= $partForm->field($model, 'description')->label(Yii::t('app', 'Part Description'))->textInput() ?>
