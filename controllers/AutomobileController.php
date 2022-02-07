@@ -100,7 +100,6 @@ class AutomobileController extends Controller
             Yii::$app->session->setFlash('error', 'Form Error');
             return 400;
         }
-       
     }
     // public function actionGetAutomobile() {
     //     return 200;

@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Workorder;
 use app\models\WorkorderSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -34,7 +35,7 @@ class WorkorderController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template'],
+                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -92,12 +93,21 @@ class WorkorderController extends Controller
         ]);
     }
 
-    public function actionEdit($id)
+    public function actionEdit($id, $tab = null)
     {
-        //$model = $this->findModel($id);
+        $tab = $tab ? $tab : Yii::$app->request->cookies->getValue('edittab', (isset($_COOKIE['edittab']))? $_COOKIE['edittab']:'tabCustomerAutomobileLink');
         $model = Workorder::find()->where(['id' => $id])->one();
+        $partDataprovider = new ActiveDataProvider([
+            'query' => \app\models\Part::find()->where(['workorder_id' => $model->id]),
+        ]);
+        $laborDataprovider = new ActiveDataProvider([
+            'query' => \app\models\Labor::find()->where(['workorder_id' => $model->id]),
+        ]);
         return $this->render('edit', [
             'model' => $model,
+            'partDataProvider' => $partDataprovider,
+            'laborDataProvider' => $laborDataprovider,
+            'tab' => $tab,
         ]);
     }
 
@@ -110,7 +120,7 @@ class WorkorderController extends Controller
             //$model->scenario = Workorder::SCENARIO_STEP2;
             $model->stage_id = \app\models\Stage::find()->where(['title' => 'Created'])->one()->id;
             if ($model->save()) {
-                $this->redirect(['edit', 'id' => $model->id]);
+                $this->redirect(['edit', 'id' => $model->id, 'tab' => 'tabCustomerAutomobileLink']);
             } else {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Workorder Save Error'));
             }

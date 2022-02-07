@@ -29,10 +29,10 @@ class PartController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['get-batch-data'],
+                //'only' => ['get-batch-data'],
                 'rules' => [
                     [
-                        'actions' => ['submit-part-form-url'],
+                        'actions' => ['submit-part-form-url', 'create-edit', 'delete', 'delete-edit', 'update'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -87,6 +87,22 @@ class PartController extends Controller
         ]);
     }
 
+     /**
+     * Creates a new Part model.
+     * If creation is successful, the browser will be redirected back to the 'edit' page of the work order instance.
+     * @return mixed
+     */
+    public function actionCreateEdit()
+    {
+        $model = new Part();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+        }
+        Yii::$app->session->setFlash('error', $model->getErrors());
+        return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+    }
+
     /**
      * Updates an existing Part model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -99,11 +115,13 @@ class PartController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
         }
 
-        return $this->render('update', [
+        return $this->render('_form', [
+            'workorder_id' => $model->workorder_id,
             'model' => $model,
+            'edit' => true,
         ]);
     }
 
@@ -119,6 +137,21 @@ class PartController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Deletes an existing Part model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDeleteEdit($id)
+    {
+        $workorder_id = $this->findModel($id)->workorder_id;
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['/workorder/edit', 'id' => $workorder_id]);
     }
 
     /**
@@ -158,9 +191,9 @@ class PartController extends Controller
             }
             else {
                 //$data = implode('|',$data);
-                \Yii::debug("not getting validated: {$newPart->errors}",
-                'dev'  // devlog file.  See components->log->dev defined in /config/web.php
-                );
+                // \Yii::debug("not getting validated: {$newPart->errors}",
+                // 'dev'  // devlog file.  See components->log->dev defined in /config/web.php
+                // );
             }
             $data['id'] = $newPart->id;
             return \yii\helpers\Json::encode($data);

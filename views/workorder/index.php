@@ -60,7 +60,27 @@ $this->params['breadcrumbs'][] = $this->title;
             //'amount_paid',
             //'paid_in_full',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}{edit}{delete}',
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->id], [
+                                'title' => Yii::t('app', 'lead-view'),
+                        ]);
+                    },
+                    'edit' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                                    'title' => Yii::t('app', 'lead-update'),
+                        ]);
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
+                                    'title' => Yii::t('app', 'lead-delete'),
+                        ]);
+                    }
+                ],
+            ],
         ],
     ]); ?>
 

@@ -8,11 +8,12 @@ use kartik\money\MaskMoney;
 
 <div class="media-file-form">
     <?php $partForm = ActiveForm::begin([
+        'action' => $edit ? ['part/update', 'id' => $model->id]: ['/part/create-edit'],
         'id' => 'part-form'
     ]) ?>
-    <?= $partForm->field($model,'description')->label(Yii::t('app','Part Description'))->textInput() ?>
-    <?= $partForm->field($model,'part_number')->label(Yii::t('app','Part Number'))->textInput() ?>
-    <?= $partForm->field($model,'price')->label(Yii::t('app','Price'))->widget(MaskMoney::className(), [
+    <?= $partForm->field($model, 'description')->label(Yii::t('app', 'Part Description'))->textInput() ?>
+    <?= $partForm->field($model, 'part_number')->label(Yii::t('app', 'Part Number'))->textInput() ?>
+    <?= $partForm->field($model, 'price')->label(Yii::t('app', 'Price'))->widget(MaskMoney::class, [
         'pluginOptions' => [
             'prefix' => '$ ',
             'allowNegative' => false,
@@ -20,10 +21,16 @@ use kartik\money\MaskMoney;
 
         ]
     ]) ?>
-    <?= $partForm->field($model,'margin')->label(Yii::t('app','Part Price Margin'))->textInput([
+    <?= $partForm->field($model, 'margin', [
+        'template' => '{label}<div class="input-group">{input}<span class="input-group-addon">%</span></div>',
+    ])->label(Yii::t('app', 'Part Price Margin'))->textInput([
         'type'=>'number',
-        'step' =>'0.001',]) ?>
-    <?= $partForm->field($model, 'quantity')->label(Yii::t('app','Quantity')) ?>
+        ]) ?>
+    <?= $partForm->field($model, 'quantity')->textInput([
+        'type'=>'number',
+        'min'=>0,
+        'step'=>1,
+        ]) ?>
     <?= $partForm->field($model, 'quantity_type_id')->label(Yii::t('app', 'Quantity Type'))->widget(Select2::classname(), [
                 'data' => \app\models\QuantityType::getIds(),
                 'options' => [
@@ -34,13 +41,14 @@ use kartik\money\MaskMoney;
                     'allowClear' => true
                 ],
             ]) ?>
-    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Upload'), [
+    <?= $partForm->field($model, 'workorder_id')->hiddenInput(['value' => $workorder_id])->label(false) ?>
+    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Create'), [
             'class'             => 'btn btn-success',
             'id'                => "btn-upload-file",
             'data-loading-text' => Yii::t('app', "Loading..."),
         ]) ?>
     <?= Html::a('Close', '#', [
-        'onclick' => '$(\"#modalNewParts\").modal(\"hide\")',
+        'onclick' => '$("#modalNewPart").modal("hide")',
         'class' => 'btn btn-default btn-outline-secondary',
     ]); ?>
     <?php $partForm = ActiveForm::end() ?>

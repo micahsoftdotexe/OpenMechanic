@@ -209,7 +209,7 @@ class m210611_132655_create_tables extends Migration
             'workorder_id' => $this->integer(11),
             'description' => $this->text()->notNull(),
             'notes' => $this->text(),
-            'price' => $this->money()->notNull(),
+            'price' => $this->decimal(10, 2)->notNull(),
         ]);
     }
 
@@ -230,7 +230,7 @@ class m210611_132655_create_tables extends Migration
             'id' => $this->primaryKey(11),
             'workorder_id' => $this->integer(11),
             //'price' => $this->decimal(10,2)->notNull(),
-            'price' => $this->money()->notNull(),
+            'price' => $this->decimal(10, 2)->notNull(),
             'margin' => $this->decimal(10, 2)->notNull(),
             'quantity' => $this->decimal(10, 2),
             'quantity_type_id' => $this->integer(11),

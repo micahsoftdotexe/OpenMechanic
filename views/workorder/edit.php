@@ -2,6 +2,8 @@
 
 use app\models\Workorder;
 use yii\helpers\Html;
+
+//webtoucher\cookie\AssetBundle::register($this);
 ?>
 
 <?php
@@ -15,15 +17,36 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
     'items' => [
         [
             'label' => Yii::t('app', 'Customer and Automobile'),
-            'content' => $this->render('update', [
+            'options' => ['id' => 'tabCustomerAutomobile'],
+            'linkOptions' => ['id' => 'tabCustomerAutomobileLink'],
+            'active' => $tab == 'tabCustomerAutomobileLink',
+            // 'content' => $this->render('update', [
+            //     'model' => $model,
+            // ])
+            'content' => $this->render('_form', [
                 'model' => $model,
+                'update' => true
             ])
         ],
         [
             'label' => Yii::t('app', 'Parts and Labor'),
+            'options' => ['id' => 'tabPartsLabor'],
+            'linkOptions' => ['id' => 'tabPartsLaborLink'],
+            'active' => $tab == 'tabPartsLaborLink',
             'content' => $this->render('_form_parts_labor', [
                 'model' => $model,
+                'update' => true,
+                'partDataProvider' => $partDataProvider,
+                'laborDataProvider' => $laborDataProvider,
             ])
         ],
     ],
 ]); ?>
+
+<?php
+    $jsBlock = <<< JS
+        $('#tabUpdate a').click(function (e) {
+            Cookies.set('edittab', e.target.id);
+        });
+    JS;
+    $this->registerJs($jsBlock, yii\web\View::POS_END);

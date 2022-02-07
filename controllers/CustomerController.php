@@ -157,12 +157,13 @@ class CustomerController extends Controller
                 $addressModel->customer_id = $customerModel->id;
 
                 if (!$phoneModel->save()) {
-                    Yii::$app->session->setFlash('error', 'Phone Number Error');
+                    //Yii::$app->session->setFlash('error', 'Phone Number Error');
                     $customerModel->delete();
                     return 400;
                 }
                 if (!$addressModel->save()) {
-                    Yii::$app->session->setFlash('error', 'Address Error');
+                    //Yii::debug($addressModel->getErrors(), "dev");
+                    //Yii::$app->session->setFlash('error', 'Address Error');
                     $customerModel->delete();
                     $phoneModel->delete();
                     return 400;
@@ -173,7 +174,6 @@ class CustomerController extends Controller
                 return 400;
             }
             //$this->redirect(\yii\helpers\Url::to(['/workorder/create']));
-            
         }
         return 400;
         // if (Yii::$app->request->post('firstName') && Yii::$app->request->post('lastName') && Yii::$app->request->post('phoneNumber')) {
