@@ -80,6 +80,19 @@ class Workorder extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                date_default_timezone_set(!empty(Yii::$app->params['timezone']) ? Yii::$app->params['timezone'] : 'America/New_York');
+                $this->date = new \yii\db\Expression('NOW()');
+                //$this->date = date('Y-m-d H:i:s');
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Gets query for [[Labors]].
      *

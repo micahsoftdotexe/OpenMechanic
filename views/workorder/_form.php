@@ -26,7 +26,7 @@ if ($update) {
     <?php else : ?>
         <?php $form = ActiveForm::begin([
             'id' => 'workorder-form',
-            'action' => 'update-template'
+            'action' => ['update-template', 'id' => $model->id]
         ]); ?>
     <?php endif ?>
     <div class="input-group">

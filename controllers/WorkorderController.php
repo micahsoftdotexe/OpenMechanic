@@ -35,7 +35,7 @@ class WorkorderController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template', 'delete'],
+                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template', 'delete', 'update-template'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -128,6 +128,26 @@ class WorkorderController extends Controller
             Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Workorder Save Error'));
             return $this->redirect(Url::base(true).'/workorder');
         }
+    }
+
+    /**
+     * Updates an existing Workorder model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdateTemplate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['edit', 'id' => $model->id]);
+        }
+        Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Workorder Save Error'));
+        return $this->render('edit', [
+            'id' => $model->id,
+        ]);
     }
 
     /**
