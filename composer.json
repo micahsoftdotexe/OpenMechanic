@@ -18,7 +18,7 @@
         "yiisoft/yii2": "~2.0.14",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
-        "kartik-v/yii2-widget-select2": "dev-master",
+        "kartik-v/yii2-widgets": "*",
         "yiisoft/yii2-bootstrap4": "^2.0",
         "kartik-v/yii2-money": "dev-master",
         "borales/yii2-phone-input": "*",
@@ -42,7 +42,9 @@
             "enabled": false
         },
         "allow-plugins": {
-            "yiisoft/yii2-composer": true
+            "yiisoft/yii2-composer": true,
+            "composer/installers": true,
+            "oomphinc/composer-installers-extender": true
         }
     },
     "scripts": {
