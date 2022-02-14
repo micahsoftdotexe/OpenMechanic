@@ -22,16 +22,21 @@ use kartik\money\MaskMoney;
         ]
     ]) ?>
     <?= $partForm->field($model, 'margin', [
-        'template' => '{label}<div class="input-group">{input}<span class="input-group-addon">%</span></div>',
+        'template' => '{label}<div style="width:15%"class="input-group">{input}<span class="input-group-addon">%</span></div>',
     ])->label(Yii::t('app', 'Part Price Margin'))->textInput([
         'type'=>'number',
+        'step'=> 1,
+        'min'=> 0,
+        'max'=> 100,
+        //'style' => 'width:8%'
         ]) ?>
     <?= $partForm->field($model, 'quantity')->textInput([
         'type'=>'number',
         'min'=>0,
+        //'max'=> 100,
         'step'=>1,
         ]) ?>
-    <?= $partForm->field($model, 'quantity_type_id')->label(Yii::t('app', 'Quantity Type'))->widget(Select2::classname(), [
+    <?= $partForm->field($model, 'quantity_type_id')->label(Yii::t('app', 'Quantity Type'))->widget(Select2::class, [
                 'data' => \app\models\QuantityType::getIds(),
                 'options' => [
                     'id'   => 'quantity_id',

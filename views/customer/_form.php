@@ -89,8 +89,8 @@ use kartik\select2\Select2;
             'dropdownParent' => '#modalNewCustomer'
         ],
     ])?>
-    <?= $customerForm->field($model, 'zip')->label(Yii::t('app', 'Zip'))->textInput()?>
-    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Upload'), [
+    <?= $customerForm->field($model, 'zip')->label(Yii::t('app', 'Zip'))->textInput(['style' => 'width:8%'])?>
+    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Save'), [
         'class'             => 'btn btn-success',
     ])?>
     <?php $customerForm = ActiveForm::end() ?>   

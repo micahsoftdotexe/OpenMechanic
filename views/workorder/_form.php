@@ -32,22 +32,24 @@ if ($update) {
     <div class="input-group">
         <?= $form->field($model, 'customer_id')->label(Yii::t('app', 'Customer'))->widget(Select2::class, [
                     'data' => \app\models\Customer::getIds(),
+                    //'bsVersion' => '3.x',
                     'options' => [
                         'id'   => 'customer_id',
                         'placeholder' => '--'.Yii::t('app', 'Select One').'--',
+                        //'class' => 'form-control'
                     ],
                     'pluginOptions' => [
                         'allowClear' => true
                     ],
                 ]) ?>
-        <div class="input-group-append">
+        <span>
                 <?= Html::button('Add Customer', [
                                 'class' => 'btn btn-default btn-outline-secondary',
                                 'data' => [
                                     'toggle' => 'modal',
                                     'target' => '#modalNewCustomer',
                                 ],]) ?>             
-        </div>
+        </span>
         
     </div>
     <div class="input-group">                               

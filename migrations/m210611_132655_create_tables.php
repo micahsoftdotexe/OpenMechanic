@@ -129,7 +129,7 @@ class m210611_132655_create_tables extends Migration
             'street_address_1' => $this->string(250)->notNull(),
             'street_address_2' => $this->string(250),
             'city' => $this->string(100)->notNull(),
-            'zip' => $this->string(10)->notNull(),
+            'zip' => $this->string(5)->notNull(),
             'state' => $this->string(2)->notNull(),
         ]);
     }
