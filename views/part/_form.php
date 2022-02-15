@@ -6,7 +6,7 @@ use kartik\money\MaskMoney;
 
 ?>
 
-<div class="media-file-form">
+<div class="form-group">
     <?php $partForm = ActiveForm::begin([
         'action' => $edit ? ['part/update', 'id' => $model->id]: ['/part/create-edit'],
         'id' => 'part-form'
@@ -49,11 +49,11 @@ use kartik\money\MaskMoney;
     <?= $partForm->field($model, 'workorder_id')->hiddenInput(['value' => $workorder_id])->label(false) ?>
     <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Create'), [
             'class'             => 'btn btn-success',
-            'id'                => "btn-upload-file",
+            'id'                => "btn-save-part",
             'data-loading-text' => Yii::t('app', "Loading..."),
         ]) ?>
-    <?= Html::a('Close', '#', [
-        'onclick' => '$("#modalNewPart").modal("hide")',
+    <?= Html::a('Close', $edit?['/workorder/edit', 'id' => $workorder_id]:'#', [
+        'onclick' => !$edit ?'$("#modalNewPart").modal("hide")':'',
         'class' => 'btn btn-default btn-outline-secondary',
     ]); ?>
     <?php $partForm = ActiveForm::end() ?>

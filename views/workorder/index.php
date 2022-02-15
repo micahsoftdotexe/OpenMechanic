@@ -25,15 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
-            [
-                'label' => 'Full Name',
-                'attribute' => 'customer_id',
-                'value' => function($model) {
-                    $name = app\models\Customer::find()->where(['id' => $model->customer_id])->one();
-                    return $name->fullName;
-                }
-            ],
+            //'id',
+            'fullName',
+            // [
+            //     'label' => 'Full Name',
+            //     'attribute' => 'fullName',
+            //     'value' => function($model) {
+            //         // $name = app\models\Customer::find()->where(['id' => $model->customer_id])->one();
+            //         // return $name->fullName;
+            //         return $model->getFullName();
+            //     }
+            // ],
             // 'customer.fullName',
             // 'customer_id',
             // 'automobile_id',
@@ -54,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'date',
-            'subtotal',
+            //'subtotal',
             //'tax',
             //'workorder_notes:ntext',
             //'amount_paid',

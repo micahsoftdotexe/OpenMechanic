@@ -59,17 +59,55 @@ use yii\helpers\Html;
     <h2>Labor</h2>
     <?= yii\grid\GridView::widget([
         'id' => 'laborGrid',
-        'dataProvider' => $laborDataProvider
+        'dataProvider' => $laborDataProvider,
+        'columns' => [
+            'description',
+            'price',
+            'notes',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'buttons' => [
+                    'update'=> function ($url, $model, $key) {
+                        return Html::a('<i class="glyphicon glyphicon-pencil"></i>',
+                        ['/labor/update', 'id' => $model->id],
+                        [
+                            'data' => [
+                            'method' => 'post',
+                            ]
+                        ]);
+                    },
+                    'delete'=> function ($url, $model, $key) {
+                        return Html::a('<i class="glyphicon glyphicon-trash"></i>',
+                        ['/labor/delete-edit', 'id' => $model->id],
+                        [
+                            'data' => [
+                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                            'method' => 'post',
+                            ]
+                        ]);
+                    }
+                ]
+            ]
+        ]
         ])?>
+    <?= Html::button('Add Labor Instance', [
+        'id' => 'new_labor_button',
+        'disabled' => !$update,
+        'class' => 'btn btn-default btn-outline-secondary',
+        'data' => [
+            'toggle' => 'modal',
+            'target' => '#modalNewLabor',
+        ],]) ?>
 </div>
 
 <?php
 //------------------------
-// Add new Customer
+// Add new Part
 //------------------------
 yii\bootstrap\Modal::begin([
     'id'    => 'modalNewPart',
-    'header' => Yii::t('app', 'Create New Customer'),
+    'header' => Yii::t('app', 'Create New Part'),
     'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
 ]);
 ?>
@@ -80,7 +118,32 @@ yii\bootstrap\Modal::begin([
         <?= Yii::$app->controller->renderPartial('/part/_form', [
                 'model'=> new app\models\Part(),
                 'edit' => false,
-                'change_form' => true,
+                'workorder_id' => $model->id,
+            ]) ?>
+    </div>
+
+</div>
+<?php
+    yii\bootstrap\Modal::end();
+?>
+
+<?php
+//------------------------
+// Add new Labor
+//------------------------
+yii\bootstrap\Modal::begin([
+    'id'    => 'modalNewLabor',
+    'header' => Yii::t('app', 'Create New Labor Instance'),
+    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+]);
+?>
+
+<div class="modal-body">
+    <!-- Some modal content here -->
+    <div id="modalContent">
+        <?= Yii::$app->controller->renderPartial('/labor/_form', [
+                'model'=> new app\models\Labor(),
+                'edit' => false,
                 'workorder_id' => $model->id,
             ]) ?>
     </div>
