@@ -35,7 +35,7 @@ class WorkorderController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template', 'delete', 'update-template'],
+                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template', 'delete', 'update-template', 'update-notes'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -120,11 +120,11 @@ class WorkorderController extends Controller
             //$model->scenario = Workorder::SCENARIO_STEP2;
             $model->stage_id = \app\models\Stage::find()->where(['title' => 'Created'])->one()->id;
             if (intval(Yii::$app->request->post('taxable')) == 1) {
-                Yii::debug('true', 'dev');
                 $model->tax = Yii::$app->params['sales_tax'];
             } else {
                 $model->tax = 0;
             }
+            $model->notes = "Replace Text Here";
             if ($model->save()) {
                 $this->redirect(['edit', 'id' => $model->id, 'tab' => 'tabCustomerAutomobileLink']);
             } else {
@@ -148,7 +148,6 @@ class WorkorderController extends Controller
         $model = $this->findModel($id);
 
         if (intval(Yii::$app->request->post('taxable')) == 1) {
-            Yii::debug('true', 'dev');
             $model->tax = Yii::$app->params['sales_tax'];
         } else {
             $model->tax = 0;
@@ -161,6 +160,22 @@ class WorkorderController extends Controller
         return $this->render('edit', [
             'id' => $model->id,
         ]);
+    }
+
+    public function actionUpdateNotes($id)
+    {
+        $model = new \app\models\NotesForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $work_order_model = Workorder::find()->where(['id' => $model->workorder_id])->one();
+            $work_order_model->notes = $model->note;
+            if (!!!$work_order_model->save()) {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Notes Save Error'));
+            }
+            
+        } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Notes Save Error')); 
+        }
+        return $this->redirect(['edit', 'id' => $work_order_model->id]);
     }
 
     /**

@@ -6,7 +6,7 @@ use kartik\money\MaskMoney;
 
 ?>
 
-<div class="form">
+<div class="form-group">
     <?php $laborForm = ActiveForm::begin([
         'action' => $edit ? ['labor/update', 'id' => $model->id]: ['/labor/create-edit'],
         'id' => 'labor-form'

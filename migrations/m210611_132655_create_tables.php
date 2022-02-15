@@ -107,7 +107,7 @@ class m210611_132655_create_tables extends Migration
             'date' => $this->datetime(),
             //'subtotal' => $this->decimal(10, 2),
             'tax' => $this->decimal(10, 2),
-            'workorder_notes' => $this->text(),
+            'notes' => $this->text(),
             'amount_paid' => $this->decimal(10, 2),
             'paid_in_full' => $this->boolean(),
         ]);

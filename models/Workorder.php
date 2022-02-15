@@ -13,7 +13,7 @@ use Yii;
  * @property int $stage_id
  * @property string|null $date
  * @property float|null $tax
- * @property string|null $workorder_notes
+ * @property string|null $notes
  * @property float|null $amount_paid
  * @property int|null $paid_in_full
  *
@@ -45,7 +45,7 @@ class Workorder extends \yii\db\ActiveRecord
             [['customer_id', 'automobile_id', 'paid_in_full'], 'integer'],
             [['date'], 'safe'],
             [['tax', 'amount_paid', 'odometer_reading'], 'number'],
-            [['workorder_notes'], 'string'],
+            [['notes'], 'string'],
             [['automobile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Automobile::class, 'targetAttribute' => ['automobile_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['customer_id' => 'id']],
         ];
@@ -135,5 +135,13 @@ class Workorder extends \yii\db\ActiveRecord
     public function getFullName()
     {
         return $this->customer->firstName . ' ' . $this->customer->lastName;
+    }
+
+    public function getNotesForm()
+    {
+        $form = new NotesForm();
+        $form->note =  $this->notes;
+        $form->workorder_id = $this->id;
+        return $form;
     }
 }
