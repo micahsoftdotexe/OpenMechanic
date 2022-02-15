@@ -44,4 +44,42 @@ class LaborController extends Controller
         Yii::$app->session->setFlash('error', $model->getErrors());
         return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
     }
+
+    public function actionDeleteEdit($id)
+    {
+        $model = $this->findModel($id);
+        $workorder_id = $model->workorder_id;
+        $model->delete();
+        return $this->redirect(['/workorder/edit', 'id' => $workorder_id]);
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+        }
+        return $this->render('_form', [
+            'workorder_id' => $model->workorder_id,
+            'model' => $model,
+            'edit' => true,
+        ]);
+    }
+
+    /**
+     * Finds the Labor model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Labor the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Labor::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
 }

@@ -27,7 +27,7 @@ use kartik\money\MaskMoney;
             'id'                => "btn-save-labor",
             'data-loading-text' => Yii::t('app', "Loading..."),
         ]) ?>
-    <?= Html::a('Close', $edit ? ['/workorder/edit', 'id' => $model->workorder_id]:'#', [
+    <?= Html::a('Close', $edit ? ['/workorder/edit', 'id' => $workorder_id]:'#', [
         'onclick' => !$edit?'$("#modalNewPart").modal("hide")':'',
         'class' => 'btn btn-default btn-outline-secondary',
     ]); ?>

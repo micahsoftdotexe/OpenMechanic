@@ -59,7 +59,37 @@ use yii\helpers\Html;
     <h2>Labor</h2>
     <?= yii\grid\GridView::widget([
         'id' => 'laborGrid',
-        'dataProvider' => $laborDataProvider
+        'dataProvider' => $laborDataProvider,
+        'columns' => [
+            'description',
+            'price',
+            'notes',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'buttons' => [
+                    'update'=> function ($url, $model, $key) {
+                        return Html::a('<i class="glyphicon glyphicon-pencil"></i>',
+                        ['/labor/update', 'id' => $model->id],
+                        [
+                            'data' => [
+                            'method' => 'post',
+                            ]
+                        ]);
+                    },
+                    'delete'=> function ($url, $model, $key) {
+                        return Html::a('<i class="glyphicon glyphicon-trash"></i>',
+                        ['/labor/delete-edit', 'id' => $model->id],
+                        [
+                            'data' => [
+                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                            'method' => 'post',
+                            ]
+                        ]);
+                    }
+                ]
+            ]
+        ]
         ])?>
     <?= Html::button('Add Labor Instance', [
         'id' => 'new_labor_button',
@@ -88,7 +118,6 @@ yii\bootstrap\Modal::begin([
         <?= Yii::$app->controller->renderPartial('/part/_form', [
                 'model'=> new app\models\Part(),
                 'edit' => false,
-                'change_form' => true,
                 'workorder_id' => $model->id,
             ]) ?>
     </div>
@@ -115,7 +144,6 @@ yii\bootstrap\Modal::begin([
         <?= Yii::$app->controller->renderPartial('/labor/_form', [
                 'model'=> new app\models\Labor(),
                 'edit' => false,
-                'change_form' => true,
                 'workorder_id' => $model->id,
             ]) ?>
     </div>
