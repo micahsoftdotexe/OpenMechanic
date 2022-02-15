@@ -11,6 +11,7 @@ use app\models\Workorder;
  */
 class WorkorderSearch extends Workorder
 {
+    public $fullName;
     /**
      * {@inheritdoc}
      */
@@ -18,7 +19,7 @@ class WorkorderSearch extends Workorder
     {
         return [
             [['id', 'automobile_id', 'paid_in_full'], 'integer'],
-            [['date', 'workorder_notes', 'customer_id','make','model'], 'safe'],
+            [['date', 'workorder_notes', 'customer_id','make','model', 'fullName'], 'safe'],
             [['subtotal', 'tax', 'amount_paid'], 'number'],
         ];
     }
@@ -50,18 +51,28 @@ class WorkorderSearch extends Workorder
             'query' => $query,
         ]);
 
-        $this->load($params);
-
-        if (!$this->validate()) {
+        // $this->load($params);
+        $dataProvider->setSort([
+            'attributes' => [
+                'id',
+                'fullName' => [
+                    'asc' => ['customer.firstName' => SORT_ASC, 'customer.lastName' => SORT_ASC],
+                    'desc' => ['customer.firstName' => SORT_DESC, 'customer.lastName' => SORT_DESC],
+                    'label' => 'Full Name',
+                    'default' => SORT_ASC
+                ],
+            ]
+        ]);
+        if (!($this->load($params) && $this->validate())) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
-
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             //'customer_id' => $this->customer_id,
+            //'fullName' => $this->fullName,
             'automobile_id' => $this->automobile_id,
             'date' => $this->date,
             'subtotal' => $this->subtotal,
@@ -71,9 +82,14 @@ class WorkorderSearch extends Workorder
         ]);
 
         $query->andFilterWhere(['like', 'workorder_notes', $this->workorder_notes])
-            ->andFilterWhere(['like', 'customer.fullName', $this->customer_id])
+            //->andFilterWhere(['like', 'customer.fullName', $this->customer_id])
             ->andFilterWhere(['like', 'automobile.make', $this->make])
             ->andFilterWhere(['like', 'automobile.model', $this->model]);
+        \Yii::debug($this->fullName, 'dev');
+        $query->andWhere('customer.firstName LIKE "%' . $this->fullName . '%" ' .
+        'OR customer.lastName LIKE "%' . $this->fullName . '%"'
+        );
+        
         return $dataProvider;
     }
 }

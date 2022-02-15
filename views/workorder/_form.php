@@ -76,7 +76,10 @@ if ($update) {
     </div>
     <div class="input-group">
         <?= $form->field($model, 'odometer_reading')->label(Yii::t('app', 'Odometer Reading'))->textInput(['id' => 'odometer_reading_input','disabled' => !$update])?>
-    </div>  
+    </div> 
+    <div class="input-group">
+        <?= Html::checkbox('taxable', $update ? $model->tax != 0 ? true : false : true, ['label' => 'Taxable'])?>
+    </div> 
     <div class="form-group">
         <?= !$update ? Html::a('Cancel', 'index', ['class' => 'btn btn-default btn-outline-secondary']): '' ?>
         <?= Html::submitButton('Save', ['class' => 'btn btn-primary btn-success']) ?>
@@ -114,7 +117,7 @@ yii\bootstrap\Modal::begin([
 
 <?php
 //------------------------
-// Add new Customer
+// Add new Automobile
 //------------------------
 yii\bootstrap\Modal::begin([
     'id'    => 'modalNewAutomobile',

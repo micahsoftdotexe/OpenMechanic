@@ -115,10 +115,16 @@ class WorkorderController extends Controller
     public function actionCreateTemplate()
     {
         $model = new Workorder();
-
-        if ($model->load(Yii::$app->request->post())) {
+        //Yii::debug(Yii::$app->request->post(), 'dev');
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->request->post('taxable')) {
             //$model->scenario = Workorder::SCENARIO_STEP2;
             $model->stage_id = \app\models\Stage::find()->where(['title' => 'Created'])->one()->id;
+            if (intval(Yii::$app->request->post('taxable')) == 1) {
+                Yii::debug('true', 'dev');
+                $model->tax = Yii::$app->params['sales_tax'];
+            } else {
+                $model->tax = 0;
+            }
             if ($model->save()) {
                 $this->redirect(['edit', 'id' => $model->id, 'tab' => 'tabCustomerAutomobileLink']);
             } else {
@@ -141,6 +147,13 @@ class WorkorderController extends Controller
     {
         $model = $this->findModel($id);
 
+        if (intval(Yii::$app->request->post('taxable')) == 1) {
+            Yii::debug('true', 'dev');
+            $model->tax = Yii::$app->params['sales_tax'];
+        } else {
+            $model->tax = 0;
+        }
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['edit', 'id' => $model->id]);
         }

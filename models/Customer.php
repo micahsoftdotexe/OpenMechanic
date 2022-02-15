@@ -33,7 +33,7 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['firstName', 'lastName', 'fullName'], 'string', 'max' => 50],
+            [['firstName', 'lastName'], 'string', 'max' => 50],
             [['firstName', 'lastName'], 'required']
         ];
     }
@@ -109,6 +109,7 @@ class Customer extends \yii\db\ActiveRecord
 
     public function getFullName()
     {
+        //Yii::debug($this->firstName . ' ' . $this->lastName, 'dev');
         return $this->firstName.' '.$this->lastName;
     }
 

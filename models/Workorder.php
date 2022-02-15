@@ -142,4 +142,9 @@ class Workorder extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Customer::class, ['id' => 'stage_id']);
     }
+
+    public function getFullName()
+    {
+        return $this->customer->firstName . ' ' . $this->customer->lastName;
+    }
 }
