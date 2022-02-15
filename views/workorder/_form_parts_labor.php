@@ -61,15 +61,23 @@ use yii\helpers\Html;
         'id' => 'laborGrid',
         'dataProvider' => $laborDataProvider
         ])?>
+    <?= Html::button('Add Labor Instance', [
+        'id' => 'new_labor_button',
+        'disabled' => !$update,
+        'class' => 'btn btn-default btn-outline-secondary',
+        'data' => [
+            'toggle' => 'modal',
+            'target' => '#modalNewLabor',
+        ],]) ?>
 </div>
 
 <?php
 //------------------------
-// Add new Customer
+// Add new Part
 //------------------------
 yii\bootstrap\Modal::begin([
     'id'    => 'modalNewPart',
-    'header' => Yii::t('app', 'Create New Customer'),
+    'header' => Yii::t('app', 'Create New Part'),
     'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
 ]);
 ?>
@@ -79,6 +87,33 @@ yii\bootstrap\Modal::begin([
     <div id="modalContent">
         <?= Yii::$app->controller->renderPartial('/part/_form', [
                 'model'=> new app\models\Part(),
+                'edit' => false,
+                'change_form' => true,
+                'workorder_id' => $model->id,
+            ]) ?>
+    </div>
+
+</div>
+<?php
+    yii\bootstrap\Modal::end();
+?>
+
+<?php
+//------------------------
+// Add new Labor
+//------------------------
+yii\bootstrap\Modal::begin([
+    'id'    => 'modalNewLabor',
+    'header' => Yii::t('app', 'Create New Labor Instance'),
+    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+]);
+?>
+
+<div class="modal-body">
+    <!-- Some modal content here -->
+    <div id="modalContent">
+        <?= Yii::$app->controller->renderPartial('/labor/_form', [
+                'model'=> new app\models\Labor(),
                 'edit' => false,
                 'change_form' => true,
                 'workorder_id' => $model->id,

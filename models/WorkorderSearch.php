@@ -54,13 +54,14 @@ class WorkorderSearch extends Workorder
         // $this->load($params);
         $dataProvider->setSort([
             'attributes' => [
-                'id',
+                //'id',
                 'fullName' => [
                     'asc' => ['customer.firstName' => SORT_ASC, 'customer.lastName' => SORT_ASC],
                     'desc' => ['customer.firstName' => SORT_DESC, 'customer.lastName' => SORT_DESC],
                     'label' => 'Full Name',
                     'default' => SORT_ASC
                 ],
+                'date',
             ]
         ]);
         if (!($this->load($params) && $this->validate())) {

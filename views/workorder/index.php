@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
+            //'id',
             'fullName',
             // [
             //     'label' => 'Full Name',
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'date',
-            'subtotal',
+            //'subtotal',
             //'tax',
             //'workorder_notes:ntext',
             //'amount_paid',
