@@ -124,7 +124,7 @@ class WorkorderController extends Controller
             } else {
                 $model->tax = 0;
             }
-            $model->notes = "Replace Text Here";
+            //$model->notes = "Replace Text Here";
             if ($model->save()) {
                 $this->redirect(['edit', 'id' => $model->id, 'tab' => 'tabCustomerAutomobileLink']);
             } else {

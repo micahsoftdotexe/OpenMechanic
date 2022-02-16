@@ -8,3 +8,7 @@ input-group > .select2-container--bootstrap {
     line-height: inherit;
     padding: 0.5rem 1rem;
 }
+
+.invisible {
+    visibility: hidden;
+}

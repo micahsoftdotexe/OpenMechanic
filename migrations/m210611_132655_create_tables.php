@@ -107,11 +107,25 @@ class m210611_132655_create_tables extends Migration
             'date' => $this->datetime(),
             //'subtotal' => $this->decimal(10, 2),
             'tax' => $this->decimal(10, 2),
-            'notes' => $this->text(),
+            //'notes' => $this->text(),
             'amount_paid' => $this->decimal(10, 2),
             'paid_in_full' => $this->boolean(),
         ]);
     }
+    private function notes_up()
+    {
+        $this->createTable('note', [
+            'id' => $this->primaryKey(11),
+            'workorder_id' => $this->integer(11)->notNull(),
+            'text' => $this->text(),
+        ]);
+    }
+
+    private function notes_down()
+    {
+        $this->dropTable('note');
+    }
+
     private function workorder_down(){
 
         // $this->addForeignKey('fk_workorder_automobile', 'workorder');
@@ -275,6 +289,7 @@ class m210611_132655_create_tables extends Migration
     private function foreign_key_up()
     {
         $this->addForeignKey('fk_part_workorder', 'part', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_note_workorder', 'note', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_labor_workorder', 'labor', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
@@ -297,6 +312,7 @@ class m210611_132655_create_tables extends Migration
     {
         $this->dropForeignKey('fk_part_workorder', 'part');
         $this->dropForeignKey('fk_labor_workorder', 'labor');
+        $this->dropForeignKey('fk_note_workorder', 'notes');
         $this->dropForeignKey('fk_owns_customer', 'owns');
         $this->dropForeignKey('fk_owns_automobile', 'owns');
         $this->dropForeignKey('fk_address_customer', 'address');
@@ -322,6 +338,7 @@ class m210611_132655_create_tables extends Migration
         $this->owns_up();
         $this->automobile_up();
         $this->workorder_up();
+        $this->notes_up();
         $this->labor_up();
         $this->part_up();
         $this->stage_up();
@@ -345,6 +362,7 @@ class m210611_132655_create_tables extends Migration
         $this->address_down();
         $this->owns_down();
         $this->automobile_down();
+        $this->notes_down();
         $this->workorder_down();
         $this->labor_down();
         $this->part_down();
