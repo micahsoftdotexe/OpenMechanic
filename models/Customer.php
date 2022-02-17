@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use borales\extensions\phoneInput\PhoneInputValidator;
+
 use Yii;
 
 /**
@@ -33,8 +35,15 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['firstName', 'lastName'], 'string', 'max' => 50],
-            [['firstName', 'lastName'], 'required']
+            [['first_name', 'last_name'], 'string', 'max' => 50],
+            ['street_address', 'string', 'max' => 256],
+            ['city', 'string', 'max' => 128],
+            ['state', 'string', 'max' => 2],
+            ['zip', 'string', 'max' => 5],
+            [['phone_number_1', 'phone_number_2'], 'string', 'max' => 15],
+            [['phone_number_1', 'phone_number_2'], PhoneInputValidator::class],
+            //['email', 'string', 'max' => 128],
+            [['first_name', 'last_name'], 'required']
         ];
     }
 
@@ -51,15 +60,6 @@ class Customer extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Addresses]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAddresses()
-    {
-        return $this->hasMany(Address::className(), ['customer_id' => 'id']);
-    }
 
     /**
      * Gets query for [[Labors]].
@@ -110,7 +110,7 @@ class Customer extends \yii\db\ActiveRecord
     public function getFullName()
     {
         //Yii::debug($this->firstName . ' ' . $this->lastName, 'dev');
-        return $this->firstName.' '.$this->lastName;
+        return $this->first_name.' '.$this->last_name;
     }
 
     /**

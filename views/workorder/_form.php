@@ -11,7 +11,7 @@ use yii\data\ActiveDataProvider;
 /* @var $form yii\widgets\ActiveForm */
 if ($update) {
     $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Workorders'), 'url' => ['index']];
-    $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->firstName.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->lastName.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model, 'url' => ['view', 'id' => $model->id]];
+    $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->last_name.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model, 'url' => ['view', 'id' => $model->id]];
     $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 }
 
@@ -105,7 +105,7 @@ yii\bootstrap\Modal::begin([
     <!-- Some modal content here -->
     <div id="modalContent">
         <?= Yii::$app->controller->renderPartial('/customer/_form', [
-                'model'=> new app\models\CustomerForm(),
+                'model'=> new app\models\Customer(),
                 'change_form' => true,
             ]) ?>
     </div>

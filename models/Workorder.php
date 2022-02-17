@@ -134,7 +134,7 @@ class Workorder extends \yii\db\ActiveRecord
 
     public function getFullName()
     {
-        return $this->customer->firstName . ' ' . $this->customer->lastName;
+        return $this->customer->first_name . ' ' . $this->customer->last_name;
     }
 
     // public function getNotesForm()

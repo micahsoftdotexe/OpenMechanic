@@ -56,8 +56,8 @@ class WorkorderSearch extends Workorder
             'attributes' => [
                 //'id',
                 'fullName' => [
-                    'asc' => ['customer.firstName' => SORT_ASC, 'customer.lastName' => SORT_ASC],
-                    'desc' => ['customer.firstName' => SORT_DESC, 'customer.lastName' => SORT_DESC],
+                    'asc' => ['customer.first_name' => SORT_ASC, 'customer.last_name' => SORT_ASC],
+                    'desc' => ['customer.first_name' => SORT_DESC, 'customer.last_name' => SORT_DESC],
                     'label' => 'Full Name',
                     'default' => SORT_ASC
                 ],
