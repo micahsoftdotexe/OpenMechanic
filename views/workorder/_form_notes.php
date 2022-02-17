@@ -49,7 +49,7 @@ use yii\helpers\Html;
         'action' => ['/note/create'],
         'id' => 'note-form'
     ]) ?>
-    <?= $noteForm->field($model, 'text')->label(Yii::t('app', 'Note'))->textArea(['rows'=>5]); ?>
+    <?= $noteForm->field($model, 'text')->label(Yii::t('app', 'New Note'))->textArea(['rows'=>5]); ?>
     <?= $noteForm->field($model, 'workorder_id')->hiddenInput(['value' => $workorder->id])->label(false) ?>
     <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Save'), [
         'class'             => 'btn btn-success',
