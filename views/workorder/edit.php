@@ -46,7 +46,8 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
             'linkOptions' => ['id' => 'tabNotesLink'],
             'active' => $tab == 'tabNotesLink',
             'content' => $this->render('_form_notes', [
-                'model' => $model->notesForm,
+                //'model' => $model->notesForm,
+                'workorder' => $model,
                 'update' => true,
                 //'partDataProvider' => $partDataProvider,
                 //'laborDataProvider' => $laborDataProvider,

@@ -19,8 +19,8 @@ class WorkorderSearch extends Workorder
     {
         return [
             [['id', 'automobile_id', 'paid_in_full'], 'integer'],
-            [['date', 'workorder_notes', 'customer_id','make','model', 'fullName'], 'safe'],
-            [['subtotal', 'tax', 'amount_paid'], 'number'],
+            [['date',  'customer_id','make','model', 'fullName'], 'safe'],
+            [[ 'tax', 'amount_paid'], 'number'],
         ];
     }
 
@@ -52,7 +52,7 @@ class WorkorderSearch extends Workorder
         ]);
 
         // $this->load($params);
-        $dataProvider->setSort([
+        $dataProvider->setSort([ //merge array
             'attributes' => [
                 //'id',
                 'fullName' => [
@@ -70,23 +70,22 @@ class WorkorderSearch extends Workorder
             return $dataProvider;
         }
         // grid filtering conditions
-        $query->andFilterWhere([
+        $query->andFilterWhere([ 
             'id' => $this->id,
             //'customer_id' => $this->customer_id,
             //'fullName' => $this->fullName,
             'automobile_id' => $this->automobile_id,
-            'date' => $this->date,
-            'subtotal' => $this->subtotal,
+            //'date' => $this->date,
+            //'subtotal' => $this->subtotal,
             'tax' => $this->tax,
             'amount_paid' => $this->amount_paid,
             'paid_in_full' => $this->paid_in_full,
         ]);
 
-        $query->andFilterWhere(['like', 'workorder_notes', $this->workorder_notes])
-            //->andFilterWhere(['like', 'customer.fullName', $this->customer_id])
-            ->andFilterWhere(['like', 'automobile.make', $this->make])
-            ->andFilterWhere(['like', 'automobile.model', $this->model]);
-        \Yii::debug($this->fullName, 'dev');
+        $query->andFilterWhere(['like', 'automobile.make', $this->make])
+            ->andFilterWhere(['like', 'automobile.model', $this->model])
+            ->andFilterWhere(['>=', 'date', $this->date]);
+        //\Yii::debug($this->fullName, 'dev');
         $query->andWhere('customer.firstName LIKE "%' . $this->fullName . '%" ' .
         'OR customer.lastName LIKE "%' . $this->fullName . '%"'
         );
