@@ -38,7 +38,8 @@ use borales\extensions\phoneInput\PhoneInput;
         $jsBlock2 = '
             $("#initial-automobile-form").on("beforeSubmit", function(){
                 let data = $("#initial-automobile-form").serialize();
-                console.log(data);
+                //console.log(data);
+                //console.log($(\'#customer_id_field\').value);
                 $.ajax({
                     url:"'.$ajaxSubmitUrl.'",
                     type: "POST",
