@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 <?php
 $this->title = Yii::t('app', 'Update Workorder: {name}', [
-    'name' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->firstName.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->lastName.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model,
+    'name' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->last_name.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model,
 ]);
 ?>
  <h1><?= Html::encode($this->title) ?></h1>
@@ -59,6 +59,7 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
 <?php
     $jsBlock = <<< JS
         $('#tabUpdate a').click(function (e) {
+            console.log('tabUpdate a clicked');
             Cookies.set('edittab', e.target.id);
         });
     JS;
