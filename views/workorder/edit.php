@@ -59,7 +59,8 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
 <?php
     $jsBlock = <<< JS
         $('#tabUpdate a').click(function (e) {
-            Cookies.set('edittab', e.target.id, { sameSite: 'strict', secure: true });
+            console.log('tabUpdate a clicked');
+            Cookies.set('edittab', e.target.id);
         });
     JS;
     $this->registerJs($jsBlock, yii\web\View::POS_END);
