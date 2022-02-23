@@ -20,7 +20,7 @@ use borales\extensions\phoneInput\PhoneInput;
     <?= $automobileForm->field($model, 'motor_number')->label(Yii::t('app', 'Motor Number'))->textInput()?>
     <?= $automobileForm->field($model, 'vin')->label(Yii::t('app', 'VIN'))->textInput()?>
     <?= $automobileForm->field($model, 'customer_id')->hiddenInput(['id' => 'customer_id_field'])->label(false)?>
-    <?= Html::submitButton(Yii::t('app', 'Update'), [
+    <?= Html::submitButton(Yii::t('app', 'Create'), [
         'class'             => 'btn btn-success',
     ])?>
     <?php $automobileForm = ActiveForm::end() ?>   
