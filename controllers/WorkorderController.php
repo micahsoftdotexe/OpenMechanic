@@ -95,7 +95,11 @@ class WorkorderController extends Controller
 
     public function actionEdit($id, $tab = null)
     {
-        $tab = $tab ? $tab : Yii::$app->request->cookies->getValue('edittab', (isset($_COOKIE['edittab']))? $_COOKIE['edittab']:'tabCustomerAutomobileLink');
+        if ($tab) {
+            setcookie('edittab', $tab, 0, '/');
+            return $this->redirect(['edit', 'id' => $id]);
+        }
+        $tab = Yii::$app->request->cookies->getValue('edittab', (isset($_COOKIE['edittab']))? $_COOKIE['edittab']:'tabCustomerAutomobileLink');
         $model = Workorder::find()->where(['id' => $id])->one();
         $partDataprovider = new ActiveDataProvider([
             'query' => \app\models\Part::find()->where(['workorder_id' => $model->id]),
