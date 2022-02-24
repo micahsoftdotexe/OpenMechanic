@@ -8,7 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     public function behaviors()
     {
@@ -23,7 +23,7 @@ class AdminController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['view', 'deactivate-user'],
+                        'actions' => ['deactivate', 'activate'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -32,15 +32,20 @@ class AdminController extends Controller
         ];
     }
 
-    public function actionView()
+
+    public function actionDeactivate($id)
     {
-        $searchModel = new \app\models\UserSearch();
-        $userDataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $tab = Yii::$app->request->cookies->getValue('admintab', (isset($_COOKIE['admintab']))? $_COOKIE['admintab']:'tabSystemLink');
-        return $this->render('view', [
-            'userDataProvider' => $userDataProvider,
-            'userSearchModel' => $searchModel,
-            'tab' => $tab
-        ]);
+        $user = \app\models\User::findOne($id);
+        $user->status = 0;
+        $user->save();
+        return $this->redirect(['/admin/view']);
+    }
+
+    public function actionActivate($id)
+    {
+        $user = \app\models\User::findOne($id);
+        $user->status = 1;
+        $user->save();
+        return $this->redirect(['/admin/view']);
     }
 }
