@@ -268,13 +268,14 @@ class m210611_132655_create_tables extends Migration
             'last_name' => $this->string(50)->notNull(),
             'password' => $this->string()->notNull(),
             'auth_key' => $this->string(32)->notNull(),
+            'status' => $this->smallInteger()->notNull(),
             'password_reset_token' => $this->string(),
         ]);
-        $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key'], [
-            ['admin', 'admin', 'admin', Yii::$app->security->generatePasswordHash('admin'), 'admin'],
+        $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key', 'status'], [
+            ['admin', 'admin', 'admin', Yii::$app->security->generatePasswordHash('admin'), 'admin', 1],
         ]);
-        $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key'], [
-            ['demo', 'demo', 'demo', Yii::$app->security->generatePasswordHash('demo'), 'demo'],
+        $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key', 'status'], [
+            ['demo', 'demo', 'demo', Yii::$app->security->generatePasswordHash('demo'), 'demo', 1],
         ]);
     }
 

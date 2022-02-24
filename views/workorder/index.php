@@ -68,17 +68,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->id], [
-                                'title' => Yii::t('app', 'lead-view'),
+                                'title' => Yii::t('app', 'view order'),
                         ]);
                     },
                     'edit' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-                                    'title' => Yii::t('app', 'lead-update'),
+                                    'title' => Yii::t('app', 'edit order'),
                         ]);
                     },
                     'delete' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
-                                    'title' => Yii::t('app', 'lead-delete'),
+                                    'title' => Yii::t('app', 'delete order'),
                         ]);
                     }
                 ],

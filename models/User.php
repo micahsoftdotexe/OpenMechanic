@@ -4,6 +4,23 @@ namespace app\models;
 use Yii;
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public const STATUS_INACTIVE = 0;
+    public const STATUS_ACTIVE   = 1;
+
+    public static function getStatusList()
+    {
+        return [
+            self::STATUS_INACTIVE => 'Inactive',
+            self::STATUS_ACTIVE   => 'Active',
+        ];
+    }
+
+    public static function getStatusLabel($status_id)
+    {
+        $statusList = self::getStatusList();
+        return $statusList[$status_id];
+    }
+
     public static function tableName()
     {
         return 'user';
@@ -62,6 +79,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return static::findOne($id);
     }
 
+
+
     /**
      * @inheritdoc
      */
@@ -71,7 +90,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return static::findOne(['access_token' => $token]);
     }
 
+    public static function getActiveUsers()
+    {
+        return static::find()->where(['status' => static::STATUS_ACTIVE])->all();
+    }
 
+    public static function getInactiveUsers()
+    {
+        return static::find()->where(['status' => static::STATUS_INACTIVE])->all();
+    }
     /**
      * Finds user by username
      *
@@ -112,6 +139,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->getPrimaryKey();
     }
 
+    public function getFullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
     /**
      * @inheritdoc
      */
