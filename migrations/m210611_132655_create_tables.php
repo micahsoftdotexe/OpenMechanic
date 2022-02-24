@@ -259,6 +259,30 @@ class m210611_132655_create_tables extends Migration
         ]);
     }
 
+    public function user_up()
+    {
+        $this->createTable('user', [
+            'id' => $this->primaryKey(),
+            'username' => $this->string()->notNull(),
+            'first_name' => $this->string(50)->notNull(),
+            'last_name' => $this->string(50)->notNull(),
+            'password' => $this->string()->notNull(),
+            'auth_key' => $this->string(32)->notNull(),
+            'password_reset_token' => $this->string(),
+        ]);
+        $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key'], [
+            ['admin', 'admin', 'admin', Yii::$app->security->generatePasswordHash('admin'), 'admin'],
+        ]);
+        $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key'], [
+            ['demo', 'demo', 'demo', Yii::$app->security->generatePasswordHash('demo'), 'demo'],
+        ]);
+    }
+
+    public function user_down()
+    {
+        $this->dropTable('user');
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -338,6 +362,7 @@ class m210611_132655_create_tables extends Migration
     {
         //$this->phone_number_up();
         //$this->phone_type_up();
+        $this->user_up();
         $this->customerUp();
         //$this->address_up();
         //$this->address_type_up();
@@ -361,6 +386,7 @@ class m210611_132655_create_tables extends Migration
 
         // return false;
         $this->foreign_key_down();
+        $this->user_down();
         //$this->phone_number_down();
         //$this->phone_type_down();
         $this->customer_down();
