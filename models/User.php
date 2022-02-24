@@ -143,6 +143,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    public function getIsActive()
+    {
+        return $this->status == self::STATUS_ACTIVE;
+    }
+
     /**
      * @inheritdoc
      */

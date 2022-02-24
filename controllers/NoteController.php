@@ -10,7 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-class NoteController extends Controller
+class NoteController extends SafeController
 {
     public function behaviors()
     {

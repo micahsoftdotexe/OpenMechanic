@@ -8,7 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 
-class UserController extends Controller
+class UserController extends SafeController
 {
     public function behaviors()
     {
@@ -36,9 +36,15 @@ class UserController extends Controller
     public function actionDeactivate($id)
     {
         $user = \app\models\User::findOne($id);
-        $user->status = 0;
-        $user->save();
+        if ($id != Yii::$app->user->id){
+            $user->status = 0;
+            $user->save();
+        } else {
+            Yii::$app->session->setFlash('error', 'You Cannot Deactivate Yourself, Silly.');
+        }
+        
         return $this->redirect(['/admin/view']);
+
     }
 
     public function actionActivate($id)

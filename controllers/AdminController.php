@@ -8,7 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 
-class AdminController extends Controller
+class AdminController extends SafeController
 {
     public function behaviors()
     {
