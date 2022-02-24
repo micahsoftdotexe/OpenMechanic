@@ -32,3 +32,17 @@ $this->title = Yii::t('app', 'Admin Dashboard');
         ],
     ],
 ]); ?>
+
+
+<?php
+    $jsBlock = <<< JS
+        $('#tabAdmin a').click(function (e) {
+            Cookies.set('admintab', e.target.id); //,{ secure: true, domain:null } , {sameSite: 'strict'}
+            // var tab = browser.cookies.set({
+            //     name:'edittab', 
+            //     value:e.target.id, 
+            //     sameSite: 'lax'});
+            //console.log(document.cookie)
+        });
+    JS;
+    $this->registerJs($jsBlock, yii\web\View::POS_END);

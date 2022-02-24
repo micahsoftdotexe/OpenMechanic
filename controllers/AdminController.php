@@ -36,10 +36,11 @@ class AdminController extends Controller
     {
         $searchModel = new \app\models\UserSearch();
         $userDataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $tab = Yii::$app->request->cookies->getValue('admintab', (isset($_COOKIE['admintab']))? $_COOKIE['admintab']:'tabSystemLink');
         return $this->render('view', [
             'userDataProvider' => $userDataProvider,
             'userSearchModel' => $searchModel,
-            'tab' => "tabSystemLink"
+            'tab' => $tab
         ]);
     }
 }

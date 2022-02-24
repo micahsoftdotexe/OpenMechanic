@@ -65,7 +65,7 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
             //     name:'edittab', 
             //     value:e.target.id, 
             //     sameSite: 'lax'});
-            console.log(document.cookie)
+            //console.log(document.cookie)
         });
     JS;
     $this->registerJs($jsBlock, yii\web\View::POS_END);
