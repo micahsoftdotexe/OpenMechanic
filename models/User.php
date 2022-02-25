@@ -29,7 +29,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'first_name', 'last_name'], 'required'],
+            [['username', 'password', 'first_name', 'last_name', 'auth_key', 'status'], 'required'],
             [['username', 'password'], 'string', 'max' => 100],
             [['first_name', 'last_name'], 'string', 'max' => 50],
             [['username'], 'unique'],
@@ -191,7 +191,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Yii::$app->security->generateRandomKey();
+        $this->auth_key = \Yii::$app->security->generateRandomString();
     }
 
     /**

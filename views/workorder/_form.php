@@ -97,7 +97,7 @@ if ($update) {
 yii\bootstrap\Modal::begin([
     'id'    => 'modalNewCustomer',
     'header' => Yii::t('app', 'Create New Customer'),
-    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
 ]);
 ?>
 

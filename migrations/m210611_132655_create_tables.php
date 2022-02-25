@@ -267,7 +267,7 @@ class m210611_132655_create_tables extends Migration
             'first_name' => $this->string(50)->notNull(),
             'last_name' => $this->string(50)->notNull(),
             'password' => $this->string()->notNull(),
-            'auth_key' => $this->string(32)->notNull(),
+            'auth_key' => $this->string(255)->notNull(),
             'status' => $this->smallInteger()->notNull(),
             'password_reset_token' => $this->string(),
         ]);
