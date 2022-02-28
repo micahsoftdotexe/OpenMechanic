@@ -63,6 +63,20 @@ $config = [
             'rules' => [
             ],
         ],
+        'authManager' => [
+            // Using DbManager
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles'   => ['registered'],  // Default roles for a user (added in addition to assigned roles)
+
+            // Using PhpManager
+            //'class' => 'yii\rbac\PhpManager',
+            //'defaultRoles'   => ['registered'],  // Default roles for a user (added in addition to assigned roles)
+            // // By default, yii\rbac\PhpManager stores RBAC data in files under @app/rbac/ directory.
+            // // Make sure that directory is web writable.
+            // 'itemFile'       => '@app/rbac/data/items.php',                // Default path to items.php
+            // 'assignmentFile' => '@app/rbac/data/assignments.php',          // Default path to assignments.php
+            // 'ruleFile'       => '@app/rbac/data/rules.php',                // Default path to rules.php
+        ],
     ],
     'params' => $params,
 ];
