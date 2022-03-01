@@ -13,7 +13,7 @@ use yii\filters\VerbFilter;
 /**
  * PartController implements the CRUD actions for Part model.
  */
-class PartController extends Controller
+class PartController extends SafeController
 {
     /**
      * {@inheritdoc}

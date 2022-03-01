@@ -70,7 +70,7 @@ class WorkorderSearch extends Workorder
             return $dataProvider;
         }
         // grid filtering conditions
-        $query->andFilterWhere([ 
+        $query->andFilterWhere([
             'id' => $this->id,
             //'customer_id' => $this->customer_id,
             //'fullName' => $this->fullName,
@@ -89,7 +89,7 @@ class WorkorderSearch extends Workorder
         $query->andWhere('customer.first_name LIKE "%' . $this->fullName . '%" ' .
         'OR customer.last_name LIKE "%' . $this->fullName . '%"'
         );
-        
+
         return $dataProvider;
     }
 }

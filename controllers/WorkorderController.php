@@ -15,7 +15,7 @@ use yii\filters\AccessControl;
 /**
  * WorkorderController implements the CRUD actions for Workorder model.
  */
-class WorkorderController extends Controller
+class WorkorderController extends SafeController
 {
     /**
      * {@inheritdoc}

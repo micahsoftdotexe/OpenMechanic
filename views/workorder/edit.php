@@ -1,6 +1,5 @@
 <?php
 
-use app\models\Workorder;
 use yii\helpers\Html;
 
 //webtoucher\cookie\AssetBundle::register($this);
@@ -10,6 +9,8 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Update Workorder: {name}', [
     'name' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->last_name.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model,
 ]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Workorders'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->last_name.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model, 'url' => ['edit', 'id' => $model->id]];
 ?>
  <h1><?= Html::encode($this->title) ?></h1>
 <?= \yii\bootstrap\Tabs::widget([
@@ -66,7 +67,7 @@ $this->title = Yii::t('app', 'Update Workorder: {name}', [
             //     name:'edittab', 
             //     value:e.target.id, 
             //     sameSite: 'lax'});
-            console.log(document.cookie)
+            //console.log(document.cookie)
         });
     JS;
     $this->registerJs($jsBlock, yii\web\View::POS_END);

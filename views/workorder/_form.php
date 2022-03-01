@@ -9,11 +9,11 @@ use yii\data\ActiveDataProvider;
 /* @var $this yii\web\View */
 /* @var $model app\models\Workorder */
 /* @var $form yii\widgets\ActiveForm */
-if ($update) {
-    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Workorders'), 'url' => ['index']];
-    $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->last_name.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model, 'url' => ['view', 'id' => $model->id]];
-    $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
-}
+// if ($update) {
+//     $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Workorders'), 'url' => ['index']];
+//     $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->last_name.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model, 'url' => ['edit', 'id' => $model->id]];
+//     //$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+// }
 
 ?>
 
@@ -97,7 +97,7 @@ if ($update) {
 yii\bootstrap\Modal::begin([
     'id'    => 'modalNewCustomer',
     'header' => Yii::t('app', 'Create New Customer'),
-    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
 ]);
 ?>
 
