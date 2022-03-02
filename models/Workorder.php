@@ -137,13 +137,6 @@ class Workorder extends \yii\db\ActiveRecord
         return $this->customer->first_name . ' ' . $this->customer->last_name;
     }
 
-    // public function getNotesForm()
-    // {
-    //     $form = new NotesForm();
-    //     $form->note =  $this->notes;
-    //     $form->workorder_id = $this->id;
-    //     return $form;
-    // }
     public function getNotes()
     {
         return $this->hasMany(Note::class, ['workorder_id' => 'id']);

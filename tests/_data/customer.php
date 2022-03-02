@@ -2,10 +2,12 @@
 return [
     'customer1' => [
         'id' => 1,
-        'firstName' => 'Customer',
-        'lastName' => '1',
-        'fullName' => 'Customer 1',
-        //'address' => 'Address 1',
-        //'phone' => 'Phone 1',
+        'first_name' => 'Customer',
+        'last_name' => '1',
+    ],
+    'customer2' => [
+        'id' => 2,
+        'first_name' => 'Customer',
+        'last_name' => '2',
     ],
 ];
