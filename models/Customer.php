@@ -29,6 +29,61 @@ class Customer extends \yii\db\ActiveRecord
         return '{{%customer}}';
     }
 
+    public const STATES = [
+        "AL"=>"ALABAMA",
+        "AK"=>"ALASKA",
+        "AZ"=>"ARIZONA",
+        "AR"=>"ARKANSAS",
+        "CA"=>"CALIFORNIA",
+        "CO"=>"COLORADO",
+        "CT"=>"CONNECTICUT",
+        "DE"=>"DELAWARE",
+        "DC"=>"DISTRICT OF COLUMBIA",
+        "FL"=>"FLORIDA",
+        "GA"=>"GEORGIA",
+        "HI"=>"HAWAII",
+        "ID"=>"IDAHO",
+        "IL"=>"ILLINOIS",
+        "IN"=>"INDIANA",
+        "IA"=>"IOWA",
+        "KS"=>"KANSAS",
+        "KY"=>"KENTUCKY",
+        "LA"=>"LOUISIANA",
+        "ME"=>"MAINE",
+        "MD"=>"MARYLAND",
+        "MA"=>"MASSACHUSETTS",
+        "MI"=>"MICHIGAN",
+        "MN"=>"MINNESOTA",
+        "MS"=>"MISSISSIPPI",
+        "MO"=>"MISSOURI",
+        "MT"=>"MONTANA",
+        "NE"=>"NEBRASKA",
+        "NV"=>"NEVADA",
+        "NH"=>"NEW HAMPSHIRE",
+        "NJ"=>"NEW JERSEY",
+        "NM"=>"NEW MEXICO",
+        "NY"=>"NEW YORK",
+        "NC"=>"NORTH CAROLINA",
+        "ND"=>"NORTH DAKOTA",
+        "OH"=>"OHIO",
+        "OK"=>"OKLAHOMA",
+        "OR"=>"OREGON",
+        "PA"=>"PENNSYLVANIA",
+        "RI"=>"RHODE ISLAND",
+        "SC"=>"SOUTH CAROLINA",
+        "SD"=>"SOUTH DAKOTA",
+        "TN"=>"TENNESSEE",
+        "TX"=>"TEXAS",
+        "UT"=>"UTAH",
+        "VT"=>"VERMONT",
+        "VA"=>"VIRGINIA",
+        "VI"=>"VIRGIN ISLANDS",
+        "WA"=>"WASHINGTON",
+        "WV"=>"WEST VIRGINIA",
+        "WI"=>"WISCONSIN",
+        "WY"=>"WYOMING" ,
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -39,7 +94,9 @@ class Customer extends \yii\db\ActiveRecord
             ['street_address', 'string', 'max' => 256],
             ['city', 'string', 'max' => 128],
             ['state', 'string', 'max' => 2],
-            ['zip', 'string', 'max' => 5],
+            ['state', 'in', 'range' => array_keys(self::STATES)],
+            ['zip', 'string', 'max' => 10],
+            ['zip', 'match', 'pattern' => '/(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)/'],
             [['phone_number_1', 'phone_number_2'], 'string', 'max' => 15],
             [['phone_number_1', 'phone_number_2'], PhoneInputValidator::class],
             //['email', 'string', 'max' => 128],
@@ -79,16 +136,6 @@ class Customer extends \yii\db\ActiveRecord
     public function getOwns()
     {
         return $this->hasMany(Owns::className(), ['customer_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[PhoneNumbers]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPhoneNumbers()
-    {
-        return $this->hasMany(PhoneNumber::className(), ['customer_id' => 'id']);
     }
 
     /**

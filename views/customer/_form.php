@@ -97,8 +97,9 @@ use kartik\select2\Select2;
         ],
     ])?>
     <?= $customerForm->field($model, 'zip')->label(Yii::t('app', 'Zip'))->textInput(['style' => 'width:8%'])?>
-    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Save'), [
+    <?= Html::submitButton(Yii::t('app', 'Save'), [
         'class'             => 'btn btn-success',
+        'id'               => 'save-customer',
     ])?>
     <?php $customerForm = ActiveForm::end() ?>   
 </div>

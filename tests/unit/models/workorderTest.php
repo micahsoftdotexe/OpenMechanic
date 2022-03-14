@@ -20,6 +20,10 @@ class workorderTest extends \Codeception\Test\Unit
                 'dataFile' => codecept_data_dir() . 'part.php',
                 //'depends' => ['Workorders'],
             ],
+            'Labor' => [
+                'class' => \app\tests\fixtures\LaborFixture::className(),
+                'dataFile' => codecept_data_dir() . 'labor.php',
+            ],
             'Owns' => [
                 'class' => \app\tests\fixtures\OwnFixture::className(),
                 'dataFile' => codecept_data_dir() . 'owns.php',
@@ -37,7 +41,7 @@ class workorderTest extends \Codeception\Test\Unit
             ],
         ];
     }
-    
+
     // protected function _before()
     // {
     // }
@@ -53,20 +57,99 @@ class workorderTest extends \Codeception\Test\Unit
         $workorder = new Workorder();
         $workorder->automobile_id = 1;
         $workorder->odometer_reading = 1;
+        $workorder->stage_id = 1;
         $this->tester->assertFalse($workorder->validate());
 
         //without automobile_id
         $workorder = new Workorder();
         $workorder->customer_id = 1;
         $workorder->odometer_reading = 1;
+        $workorder->stage_id = 1;
         $this->tester->assertFalse($workorder->validate());
 
         //without odometer_reading
         $workorder = new Workorder();
         $workorder->customer_id = 1;
         $workorder->automobile_id = 1;
+        $workorder->stage_id = 1;
         $this->tester->assertFalse($workorder->validate());
 
+        //without stage_id
+        $workorder = new Workorder();
+        $workorder->customer_id = 1;
+        $workorder->automobile_id = 1;
+        $workorder->odometer_reading = 1;
+        $this->tester->assertFalse($workorder->validate());
 
+        //customer_id is not an integer
+        $workorder = new Workorder();
+        $workorder->customer_id = 'a';
+        $workorder->automobile_id = 1;
+        $workorder->odometer_reading = 1;
+        $workorder->stage_id = 1;
+        $this->tester->assertFalse($workorder->validate());
+
+        //automobile_id is not an integer
+        $workorder = new Workorder();
+        $workorder->customer_id = 1;
+        $workorder->automobile_id = 'a';
+        $workorder->odometer_reading = 1;
+        $workorder->stage_id = 1;
+        $this->tester->assertFalse($workorder->validate());
+
+        //paid_in_full is not an integer
+        $workorder = new Workorder();
+        $workorder->customer_id = 1;
+        $workorder->automobile_id = 1;
+        $workorder->odometer_reading = 1;
+        $workorder->paid_in_full = 'a';
+        $workorder->stage_id = 1;
+        $this->tester->assertFalse($workorder->validate());
+
+        //tax is not a number
+        $workorder = new Workorder();
+        $workorder->customer_id = 1;
+        $workorder->automobile_id = 1;
+        $workorder->odometer_reading = 1;
+        $workorder->tax = 'a';
+        $workorder->stage_id = 1;
+        $this->tester->assertFalse($workorder->validate());
+
+        //amount_paid is not a number
+        $workorder = new Workorder();
+        $workorder->customer_id = 1;
+        $workorder->automobile_id = 1;
+        $workorder->odometer_reading = 1;
+        $workorder->amount_paid = 'a';
+        $workorder->stage_id = 1;
+        $this->tester->assertFalse($workorder->validate());
+
+        //odometer_reading is not an integer
+        $workorder = new Workorder();
+        $workorder->customer_id = 1;
+        $workorder->automobile_id = 1;
+        $workorder->odometer_reading = 'a';
+        $workorder->stage_id = 1;
+        $this->tester->assertFalse($workorder->validate());
+    }
+
+    public function testSave()
+    {
+        $workorder = new Workorder();
+        $workorder->customer_id = 2;
+        $workorder->stage_id = 1;
+        $workorder->automobile_id = 3;
+        $workorder->odometer_reading = 1;
+        $workorder->paid_in_full = 1;
+        $workorder->tax = 1;
+        $workorder->amount_paid = 1;
+        $workorder->save();
+        $this->tester->seeRecord(Workorder::class, ['customer_id' => 2]);
+    }
+
+    public function testFullName()
+    {
+        $workorder = Workorder::findOne(1);
+        $this->tester->assertEquals('Customer 1', $workorder->fullName);
     }
 }

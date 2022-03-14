@@ -41,7 +41,7 @@ class Workorder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'automobile_id', 'odometer_reading'], 'required'],
+            [['customer_id', 'automobile_id', 'odometer_reading', 'stage_id'], 'required'],
             [['customer_id', 'automobile_id', 'paid_in_full'], 'integer'],
             [['date'], 'safe'],
             [['tax', 'amount_paid', 'odometer_reading'], 'number'],

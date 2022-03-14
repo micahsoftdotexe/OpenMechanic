@@ -1,0 +1,3 @@
+#!/bin/bash
+cd challenges
+python -m lox08O ../$1

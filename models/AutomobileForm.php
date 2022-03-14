@@ -20,6 +20,7 @@ class AutomobileForm extends yii\base\Model
             [['year', 'customer_id'], 'integer'],
             [['vin'], 'string', 'max' => 17],
             [['make', 'model'], 'string', 'max' => 128],
+            [['motor_number'], 'number'],
         ];
     }
 }
