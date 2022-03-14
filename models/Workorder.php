@@ -41,7 +41,7 @@ class Workorder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'automobile_id', 'odometer_reading'], 'required'],
+            [['customer_id', 'automobile_id', 'odometer_reading', 'stage_id'], 'required'],
             [['customer_id', 'automobile_id', 'paid_in_full'], 'integer'],
             [['date'], 'safe'],
             [['tax', 'amount_paid', 'odometer_reading'], 'number'],
@@ -137,13 +137,6 @@ class Workorder extends \yii\db\ActiveRecord
         return $this->customer->first_name . ' ' . $this->customer->last_name;
     }
 
-    // public function getNotesForm()
-    // {
-    //     $form = new NotesForm();
-    //     $form->note =  $this->notes;
-    //     $form->workorder_id = $this->id;
-    //     return $form;
-    // }
     public function getNotes()
     {
         return $this->hasMany(Note::class, ['workorder_id' => 'id']);

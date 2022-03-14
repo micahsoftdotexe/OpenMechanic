@@ -21,7 +21,7 @@ use yii\data\ActiveDataProvider;
     <?php if (!$update) : ?>
         <?php $form = ActiveForm::begin([
             'id' => 'workorder-form',
-            'action' => 'create-template'
+            'action' => ['create-template']
         ]); ?>   
     <?php else : ?>
         <?php $form = ActiveForm::begin([
@@ -45,6 +45,7 @@ use yii\data\ActiveDataProvider;
         <span>
                 <?= Html::button('Add Customer', [
                                 'class' => 'btn btn-default btn-outline-secondary',
+                                'id' => 'add-customer',
                                 'data' => [
                                     'toggle' => 'modal',
                                     'target' => '#modalNewCustomer',
@@ -65,7 +66,7 @@ use yii\data\ActiveDataProvider;
                     ],]) ?>
         <div class="input-group-append">
                 <?= Html::button('Add Automobile', [
-                                'id' => 'new_automobile_button',
+                                'id' => 'new_automobile',
                                 'disabled' => !$update,
                                 'class' => 'btn btn-default btn-outline-secondary',
                                 'data' => [
@@ -82,7 +83,7 @@ use yii\data\ActiveDataProvider;
     </div> 
     <div class="form-group">
         <?= !$update ? Html::a('Cancel', 'index', ['class' => 'btn btn-default btn-outline-secondary']): '' ?>
-        <?= Html::submitButton('Save', ['class' => 'btn btn-primary btn-success']) ?>
+        <?= Html::submitButton('Save', ['id'=> 'save_workorder', 'class' => 'btn btn-primary btn-success']) ?>
     </div>
                  
    
@@ -181,7 +182,7 @@ function updateAutomobiles() {
                 $('#automobile_id').append(newOption);
             }
             $('#automobile_id').attr('disabled',false);
-            $('#new_automobile_button').attr('disabled',false);
+            $('#new_automobile').attr('disabled',false);
             $('#odometer_reading_input').attr('disabled',false);
 
         },

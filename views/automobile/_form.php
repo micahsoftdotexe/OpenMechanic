@@ -21,6 +21,7 @@ use borales\extensions\phoneInput\PhoneInput;
     <?= $automobileForm->field($model, 'vin')->label(Yii::t('app', 'VIN'))->textInput()?>
     <?= $automobileForm->field($model, 'customer_id')->hiddenInput(['id' => 'customer_id_field'])->label(false)?>
     <?= Html::submitButton(Yii::t('app', 'Create'), [
+        'id'                => 'create-automobile',
         'class'             => 'btn btn-success',
     ])?>
     <?php $automobileForm = ActiveForm::end() ?>   

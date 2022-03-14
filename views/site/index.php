@@ -13,7 +13,8 @@ $this->title = Yii::$app->params['applicationName'];
         <!-- yii\helpers\Url::base(true).'/web/workorder' -->
         <!-- yii\helpers\Url::base(true).'/workorder' -->
         <p><?=Html::a('Work Order', ['workorder/index'], [
-            'class' => 'btn btn-lg btn-success'
+            'class' => 'btn btn-lg btn-success',
+            'id' => 'workorder-button',
         ]) ?></p>
     </div>
 
