@@ -87,8 +87,7 @@ class WorkorderSearch extends Workorder
             ->andFilterWhere(['>=', 'date', $this->date]);
         //\Yii::debug($this->fullName, 'dev');
         $query->andWhere('customer.first_name LIKE "%' . $this->fullName . '%" ' .
-        'OR customer.last_name LIKE "%' . $this->fullName . '%"'
-        );
+        'OR customer.last_name LIKE "%' . $this->fullName . '%"'. 'OR Concat(customer.first_name, " ", customer.last_name) LIKE "%' . $this->fullName . '%"' );
 
         return $dataProvider;
     }
