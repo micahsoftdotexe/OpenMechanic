@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Workorder;
+use DateTime;
 
 /**
  * WorkorderSearch represents the model behind the search form of `app\models\Workorder`.
@@ -69,6 +70,11 @@ class WorkorderSearch extends Workorder
             // $query->where('0=1');
             return $dataProvider;
         }
+        // $newDate = new DateTime($this->date);
+        // $newDate = date_modify($newDate, '+1 day');
+        // $newDate = $newDate->format('Y-m-d');
+        //\Yii::debug('newDate: ' . $newDate, 'dev');
+        \Yii::debug('date: ' . $this->date, 'dev');
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -84,7 +90,9 @@ class WorkorderSearch extends Workorder
 
         $query->andFilterWhere(['like', 'automobile.make', $this->make])
             ->andFilterWhere(['like', 'automobile.model', $this->model])
-            ->andFilterWhere(['>=', 'date', $this->date]);
+            //->andFilterWhere(['between', 'date', $this->date, $newDate]);
+            //->andFilterWhere(['<', 'date', $this->date]);
+            ->andFilterWhere(['Date(date)' => $this->date]);
         //\Yii::debug($this->fullName, 'dev');
         $query->andWhere('customer.first_name LIKE "%' . $this->fullName . '%" ' .
         'OR customer.last_name LIKE "%' . $this->fullName . '%"'. 'OR Concat(customer.first_name, " ", customer.last_name) LIKE "%' . $this->fullName . '%"' );

@@ -25,20 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            //'id',
             'fullName',
-            // [
-            //     'label' => 'Full Name',
-            //     'attribute' => 'fullName',
-            //     'value' => function($model) {
-            //         // $name = app\models\Customer::find()->where(['id' => $model->customer_id])->one();
-            //         // return $name->fullName;
-            //         return $model->getFullName();
-            //     }
-            // ],
-            // 'customer.fullName',
-            // 'customer_id',
-            // 'automobile_id',
             [
                 'label' => 'Make',
                 'attribute' => 'make',
@@ -55,7 +42,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $automobile->model;
                 }
             ],
-            'date',
+            [
+                //'label' => 'Date',
+                'attribute' => 'date',
+                'filter' => \yii\jui\DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'date',
+                    'dateFormat' => 'yyyy-MM-dd',
+                ]),
+                'format' => 'html',
+            ],
             //'subtotal',
             //'tax',
             //'workorder_notes:ntext',
