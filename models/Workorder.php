@@ -141,4 +141,17 @@ class Workorder extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Note::class, ['workorder_id' => 'id']);
     }
+
+    public function getSubtotal()
+    {
+        $subtotal = 0;
+        foreach ($this->parts as $part) {
+            $part_with_margin = $part->price + ($part->price * ($part->margin / 100));
+            $subtotal += $part_with_margin*$part->quantity;
+        }
+        foreach ($this->labors as $labor) {
+            $subtotal += $labor->price;
+        }
+        return round($subtotal, 2);
+    }
 }

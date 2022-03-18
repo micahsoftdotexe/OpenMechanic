@@ -52,7 +52,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'format' => 'html',
             ],
-            //'subtotal',
+            [
+                'attribute' => 'subtotal',
+                'value' => function($model) {
+                    return '$' . $model->subtotal;
+                }
+            ],
             //'tax',
             //'workorder_notes:ntext',
             //'amount_paid',
