@@ -29,7 +29,7 @@ use app\models\User;
         ],
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{status_change}', //{edit}
+            'template' => '{status_change}{edit}', //{edit}
             'buttons' => [
                 // 'edit' => function($url, $model, $key) {
                 //     return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['user/update', 'id' => $model->id], ['title' => 'Edit']);
@@ -47,7 +47,10 @@ use app\models\User;
                     } else {
                         return Html::a('<span class="glyphicon glyphicon-ok"></span>', ['/user/activate', 'id' => $model->id], ['title' => 'Activate']);
                     }
-                }
+                },
+                'edit' => function($url, $model, $key) {
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['user/edit', 'id' => $model->id], ['title' => 'Edit']);
+                },
             ]
         ]
     ]
@@ -65,6 +68,7 @@ yii\bootstrap\Modal::begin([
     <div id="modalContent">
         <?= Yii::$app->controller->renderPartial('_user_sign_up', [
                 'model'=> new app\models\SignupForm(),
+                'edit' => false,
             ]) ?>
     </div>
 

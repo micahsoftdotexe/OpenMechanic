@@ -28,7 +28,7 @@ $config = [
         'authManager' => [
             // Using DbManager
             'class' => 'yii\rbac\DbManager',
-            'defaultRoles'   => ['employee'],  // Default roles for a user (added in addition to assigned roles)
+            //'defaultRoles'   => ['employee'],  // Default roles for a user (added in addition to assigned roles)
 
             // Using PhpManager
             //'class' => 'yii\rbac\PhpManager',

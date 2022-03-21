@@ -19,7 +19,7 @@ class SignupForm extends yii\base\Model
     {
         return [
             [['first_name', 'last_name', 'username', 'password', 'password_repeat'], 'required'],
-            //[['first_name', 'last_name', 'username'], 'string', 'max' => 255],
+            [['first_name', 'last_name', 'username'], 'string', 'max' => 255],
             ['password', 'string', 'min' => 6],
             ['password_repeat', 'compare', 'compareAttribute' => 'password'],
         ];

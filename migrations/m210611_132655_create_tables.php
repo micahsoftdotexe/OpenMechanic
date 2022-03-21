@@ -123,6 +123,7 @@ class m210611_132655_create_tables extends Migration
         $this->createTable('note', [
             'id' => $this->primaryKey(11),
             'workorder_id' => $this->integer(11)->notNull(),
+            'created_by' => $this->integer(11)->notNull(),
             'text' => $this->text(),
         ]);
     }
@@ -275,6 +276,9 @@ class m210611_132655_create_tables extends Migration
             ['admin', 'admin', 'admin', Yii::$app->security->generatePasswordHash('admin'), 'admin', 1],
         ]);
         $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key', 'status'], [
+            ['manager', 'manager', 'manager', Yii::$app->security->generatePasswordHash('manager'), 'manager', 1],
+        ]);
+        $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key', 'status'], [
             ['demo', 'demo', 'demo', Yii::$app->security->generatePasswordHash('demo'), 'demo', 1],
         ]);
     }
@@ -321,6 +325,7 @@ class m210611_132655_create_tables extends Migration
     {
         $this->addForeignKey('fk_part_workorder', 'part', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_note_workorder', 'note', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_note_user', 'note', 'created_by', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_labor_workorder', 'labor', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
