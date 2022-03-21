@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Workorder;
+use DateTime;
 
 /**
  * WorkorderSearch represents the model behind the search form of `app\models\Workorder`.
@@ -19,8 +20,8 @@ class WorkorderSearch extends Workorder
     {
         return [
             [['id', 'automobile_id', 'paid_in_full'], 'integer'],
-            [['date', 'workorder_notes', 'customer_id','make','model', 'fullName'], 'safe'],
-            [['subtotal', 'tax', 'amount_paid'], 'number'],
+            [['date',  'customer_id','make','model', 'fullName'], 'safe'],
+            [[ 'tax', 'amount_paid'], 'number'],
         ];
     }
 
@@ -52,12 +53,12 @@ class WorkorderSearch extends Workorder
         ]);
 
         // $this->load($params);
-        $dataProvider->setSort([
+        $dataProvider->setSort([ //merge array
             'attributes' => [
                 //'id',
                 'fullName' => [
-                    'asc' => ['customer.firstName' => SORT_ASC, 'customer.lastName' => SORT_ASC],
-                    'desc' => ['customer.firstName' => SORT_DESC, 'customer.lastName' => SORT_DESC],
+                    'asc' => ['customer.first_name' => SORT_ASC, 'customer.last_name' => SORT_ASC],
+                    'desc' => ['customer.first_name' => SORT_DESC, 'customer.last_name' => SORT_DESC],
                     'label' => 'Full Name',
                     'default' => SORT_ASC
                 ],
@@ -69,28 +70,33 @@ class WorkorderSearch extends Workorder
             // $query->where('0=1');
             return $dataProvider;
         }
+        // $newDate = new DateTime($this->date);
+        // $newDate = date_modify($newDate, '+1 day');
+        // $newDate = $newDate->format('Y-m-d');
+        //\Yii::debug('newDate: ' . $newDate, 'dev');
+        \Yii::debug('date: ' . $this->date, 'dev');
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             //'customer_id' => $this->customer_id,
             //'fullName' => $this->fullName,
             'automobile_id' => $this->automobile_id,
-            'date' => $this->date,
-            'subtotal' => $this->subtotal,
+            //'date' => $this->date,
+            //'subtotal' => $this->subtotal,
             'tax' => $this->tax,
             'amount_paid' => $this->amount_paid,
             'paid_in_full' => $this->paid_in_full,
         ]);
 
-        $query->andFilterWhere(['like', 'workorder_notes', $this->workorder_notes])
-            //->andFilterWhere(['like', 'customer.fullName', $this->customer_id])
-            ->andFilterWhere(['like', 'automobile.make', $this->make])
-            ->andFilterWhere(['like', 'automobile.model', $this->model]);
-        \Yii::debug($this->fullName, 'dev');
-        $query->andWhere('customer.firstName LIKE "%' . $this->fullName . '%" ' .
-        'OR customer.lastName LIKE "%' . $this->fullName . '%"'
-        );
-        
+        $query->andFilterWhere(['like', 'automobile.make', $this->make])
+            ->andFilterWhere(['like', 'automobile.model', $this->model])
+            //->andFilterWhere(['between', 'date', $this->date, $newDate]);
+            //->andFilterWhere(['<', 'date', $this->date]);
+            ->andFilterWhere(['Date(date)' => $this->date]);
+        //\Yii::debug($this->fullName, 'dev');
+        $query->andWhere('customer.first_name LIKE "%' . $this->fullName . '%" ' .
+        'OR customer.last_name LIKE "%' . $this->fullName . '%"'. 'OR Concat(customer.first_name, " ", customer.last_name) LIKE "%' . $this->fullName . '%"' );
+
         return $dataProvider;
     }
 }

@@ -70,16 +70,23 @@ use kartik\select2\Select2;
         'id' => 'initial-customer-form',
         'action' => \yii\helpers\Url::to(['/customer/initial-create']),
     ]) ?>
-    <?= $customerForm->field($model, 'firstName')->label(Yii::t('app', 'First Name'))->textInput()?>
-    <?= $customerForm->field($model, 'lastName')->label(Yii::t('app', 'Last Name'))->textInput()?>
-    <?= $customerForm->field($model, 'phoneNumber')->label(Yii::t('app', 'Phone Number'))->widget(PhoneInput::class, [
+    <?= $customerForm->field($model, 'first_name')->label(Yii::t('app', 'First Name'))->textInput()?>
+    <?= $customerForm->field($model, 'last_name')->label(Yii::t('app', 'Last Name'))->textInput()?>
+    <?= $customerForm->field($model, 'phone_number_1')->label(Yii::t('app', 'Phone Number 1'))->widget(PhoneInput::class, [
             'id' => 'customerPhonenumber',
             //'name' => 'Customer[phone_number]',
             'jsOptions' => [
                 'allowExtensions' => true,
             ]
         ])?>
-    <?= $customerForm->field($model, 'streetAddress')->label(Yii::t('app', 'Street Address'))->textInput()?>
+    <?= $customerForm->field($model, 'phone_number_2')->label(Yii::t('app', 'Phone Number 2'))->widget(PhoneInput::class, [
+            'id' => 'customerPhonenumber',
+            //'name' => 'Customer[phone_number]',
+            'jsOptions' => [
+                'allowExtensions' => true,
+            ]
+        ])?>
+    <?= $customerForm->field($model, 'street_address')->label(Yii::t('app', 'Street Address'))->textInput()?>
     <?= $customerForm->field($model, 'city')->label(Yii::t('app', 'City'))->textInput()?>
     <?= $customerForm->field($model, 'state')->label(Yii::t('app', 'State'))->widget(Select2::class, [
         'data' => $states,
@@ -90,8 +97,9 @@ use kartik\select2\Select2;
         ],
     ])?>
     <?= $customerForm->field($model, 'zip')->label(Yii::t('app', 'Zip'))->textInput(['style' => 'width:8%'])?>
-    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Save'), [
+    <?= Html::submitButton(Yii::t('app', 'Save'), [
         'class'             => 'btn btn-success',
+        'id'               => 'save-customer',
     ])?>
     <?php $customerForm = ActiveForm::end() ?>   
 </div>
@@ -102,15 +110,15 @@ if ($change_form) {
     $jsBlock2 = <<< JS
         $("#initial-customer-form").on("beforeSubmit", function(){
             let data = $("#initial-customer-form").serialize();
-            console.log(data);
-            console.log('$ajaxSubmitUrl');
+            //console.log(data);
+            //console.log('$ajaxSubmitUrl');
             $.ajax({
                 url:'$ajaxSubmitUrl',
                 type: "POST",
                 data: data,
                 success: function (returnData) {
-                    console.log(returnData);
-                    if(returnData != 400) {
+                    //console.log(returnData);
+                    if(returnData.status != 400) {
                         returnData = JSON.parse(returnData);
                         let newOption = new Option(returnData.text, returnData.id, false, false);
                         //change the forms
@@ -122,7 +130,7 @@ if ($change_form) {
                         //updateAutomobiles();
                         
                     } else {
-                        console.log(returnData);
+                        console.log(returnData.message);
                         console.log("Error")
                     }
 

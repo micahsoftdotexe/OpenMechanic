@@ -9,11 +9,11 @@ use yii\data\ActiveDataProvider;
 /* @var $this yii\web\View */
 /* @var $model app\models\Workorder */
 /* @var $form yii\widgets\ActiveForm */
-if ($update) {
-    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Workorders'), 'url' => ['index']];
-    $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->firstName.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->lastName.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model, 'url' => ['view', 'id' => $model->id]];
-    $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
-}
+// if ($update) {
+//     $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Workorders'), 'url' => ['index']];
+//     $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->last_name.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model, 'url' => ['edit', 'id' => $model->id]];
+//     //$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+// }
 
 ?>
 
@@ -21,7 +21,7 @@ if ($update) {
     <?php if (!$update) : ?>
         <?php $form = ActiveForm::begin([
             'id' => 'workorder-form',
-            'action' => 'create-template'
+            'action' => ['create-template']
         ]); ?>   
     <?php else : ?>
         <?php $form = ActiveForm::begin([
@@ -45,6 +45,7 @@ if ($update) {
         <span>
                 <?= Html::button('Add Customer', [
                                 'class' => 'btn btn-default btn-outline-secondary',
+                                'id' => 'add-customer',
                                 'data' => [
                                     'toggle' => 'modal',
                                     'target' => '#modalNewCustomer',
@@ -65,7 +66,7 @@ if ($update) {
                     ],]) ?>
         <div class="input-group-append">
                 <?= Html::button('Add Automobile', [
-                                'id' => 'new_automobile_button',
+                                'id' => 'new_automobile',
                                 'disabled' => !$update,
                                 'class' => 'btn btn-default btn-outline-secondary',
                                 'data' => [
@@ -82,7 +83,7 @@ if ($update) {
     </div> 
     <div class="form-group">
         <?= !$update ? Html::a('Cancel', 'index', ['class' => 'btn btn-default btn-outline-secondary']): '' ?>
-        <?= Html::submitButton('Save', ['class' => 'btn btn-primary btn-success']) ?>
+        <?= Html::submitButton('Save', ['id'=> 'save_workorder', 'class' => 'btn btn-primary btn-success']) ?>
     </div>
                  
    
@@ -97,7 +98,7 @@ if ($update) {
 yii\bootstrap\Modal::begin([
     'id'    => 'modalNewCustomer',
     'header' => Yii::t('app', 'Create New Customer'),
-    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
 ]);
 ?>
 
@@ -105,7 +106,7 @@ yii\bootstrap\Modal::begin([
     <!-- Some modal content here -->
     <div id="modalContent">
         <?= Yii::$app->controller->renderPartial('/customer/_form', [
-                'model'=> new app\models\CustomerForm(),
+                'model'=> new app\models\Customer(),
                 'change_form' => true,
             ]) ?>
     </div>
@@ -181,7 +182,7 @@ function updateAutomobiles() {
                 $('#automobile_id').append(newOption);
             }
             $('#automobile_id').attr('disabled',false);
-            $('#new_automobile_button').attr('disabled',false);
+            $('#new_automobile').attr('disabled',false);
             $('#odometer_reading_input').attr('disabled',false);
 
         },

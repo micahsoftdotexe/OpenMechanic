@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Work Order'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Work Order'), ['create'], ['id' => 'workorder-create','class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -25,20 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            //'id',
             'fullName',
-            // [
-            //     'label' => 'Full Name',
-            //     'attribute' => 'fullName',
-            //     'value' => function($model) {
-            //         // $name = app\models\Customer::find()->where(['id' => $model->customer_id])->one();
-            //         // return $name->fullName;
-            //         return $model->getFullName();
-            //     }
-            // ],
-            // 'customer.fullName',
-            // 'customer_id',
-            // 'automobile_id',
             [
                 'label' => 'Make',
                 'attribute' => 'make',
@@ -55,8 +42,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $automobile->model;
                 }
             ],
-            'date',
-            //'subtotal',
+            [
+                //'label' => 'Date',
+                'attribute' => 'date',
+                'filter' => \yii\jui\DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'date',
+                    'dateFormat' => 'yyyy-MM-dd',
+                ]),
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'subtotal',
+                'value' => function($model) {
+                    return '$' . $model->subtotal;
+                }
+            ],
             //'tax',
             //'workorder_notes:ntext',
             //'amount_paid',
@@ -68,17 +69,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->id], [
-                                'title' => Yii::t('app', 'lead-view'),
+                                'title' => Yii::t('app', 'view order'),
                         ]);
                     },
                     'edit' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-                                    'title' => Yii::t('app', 'lead-update'),
+                                    'title' => Yii::t('app', 'edit order'),
                         ]);
                     },
                     'delete' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
-                                    'title' => Yii::t('app', 'lead-delete'),
+                                    'title' => Yii::t('app', 'delete order'),
                         ]);
                     }
                 ],

@@ -15,7 +15,7 @@ use yii\filters\AccessControl;
 /**
  * WorkorderController implements the CRUD actions for Workorder model.
  */
-class WorkorderController extends Controller
+class WorkorderController extends SafeController
 {
     /**
      * {@inheritdoc}
@@ -95,7 +95,11 @@ class WorkorderController extends Controller
 
     public function actionEdit($id, $tab = null)
     {
-        $tab = $tab ? $tab : Yii::$app->request->cookies->getValue('edittab', (isset($_COOKIE['edittab']))? $_COOKIE['edittab']:'tabCustomerAutomobileLink');
+        if ($tab) {
+            setcookie('edittab', $tab, 0, '/');
+            return $this->redirect(['edit', 'id' => $id]);
+        }
+        $tab = Yii::$app->request->cookies->getValue('edittab', (isset($_COOKIE['edittab']))? $_COOKIE['edittab']:'tabCustomerAutomobileLink');
         $model = Workorder::find()->where(['id' => $id])->one();
         $partDataprovider = new ActiveDataProvider([
             'query' => \app\models\Part::find()->where(['workorder_id' => $model->id]),
@@ -124,7 +128,7 @@ class WorkorderController extends Controller
             } else {
                 $model->tax = 0;
             }
-            $model->notes = "Replace Text Here";
+            //$model->notes = "Replace Text Here";
             if ($model->save()) {
                 $this->redirect(['edit', 'id' => $model->id, 'tab' => 'tabCustomerAutomobileLink']);
             } else {

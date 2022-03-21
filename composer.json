@@ -22,7 +22,9 @@
         "yiisoft/yii2-bootstrap4": "^2.0",
         "kartik-v/yii2-money": "dev-master",
         "borales/yii2-phone-input": "*",
-        "webtoucher/yii2-js-cookie": "*"
+        "webtoucher/yii2-js-cookie": "*",
+        "hoa/console": "~3.0",
+        "yiisoft/yii2-jui": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -34,7 +36,8 @@
         "symfony/browser-kit": ">=2.7 <=4.2.4",
         "codeception/module-filesystem": "^1.0.0",
         "codeception/module-yii2": "^1.0.0",
-        "codeception/module-asserts": "^1.0.0"
+        "codeception/module-asserts": "^1.0.0",
+        "codeception/module-webdriver": "^2.0"
     },
     "config": {
         "process-timeout": 1800,

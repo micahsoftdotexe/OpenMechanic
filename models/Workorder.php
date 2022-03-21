@@ -41,7 +41,7 @@ class Workorder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'automobile_id', 'odometer_reading'], 'required'],
+            [['customer_id', 'automobile_id', 'odometer_reading', 'stage_id'], 'required'],
             [['customer_id', 'automobile_id', 'paid_in_full'], 'integer'],
             [['date'], 'safe'],
             [['tax', 'amount_paid', 'odometer_reading'], 'number'],
@@ -75,7 +75,6 @@ class Workorder extends \yii\db\ActiveRecord
             if ($this->isNewRecord) {
                 date_default_timezone_set(!empty(Yii::$app->params['timezone']) ? Yii::$app->params['timezone'] : 'America/New_York');
                 $this->date = new \yii\db\Expression('NOW()');
-                //$this->date = date('Y-m-d H:i:s');
             }
             return true;
         }
@@ -134,14 +133,24 @@ class Workorder extends \yii\db\ActiveRecord
 
     public function getFullName()
     {
-        return $this->customer->firstName . ' ' . $this->customer->lastName;
+        return $this->customer->first_name . ' ' . $this->customer->last_name;
     }
 
-    public function getNotesForm()
+    public function getNotes()
     {
-        $form = new NotesForm();
-        $form->note =  $this->notes;
-        $form->workorder_id = $this->id;
-        return $form;
+        return $this->hasMany(Note::class, ['workorder_id' => 'id']);
+    }
+
+    public function getSubtotal()
+    {
+        $subtotal = 0;
+        foreach ($this->parts as $part) {
+            $part_with_margin = $part->price + ($part->price * ($part->margin / 100));
+            $subtotal += $part_with_margin*$part->quantity;
+        }
+        foreach ($this->labors as $labor) {
+            $subtotal += $labor->price;
+        }
+        return round($subtotal, 2);
     }
 }

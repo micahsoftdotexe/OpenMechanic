@@ -12,7 +12,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 
-class AutomobileController extends Controller
+class AutomobileController extends SafeController
 {
 
     /**
