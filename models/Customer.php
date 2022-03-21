@@ -99,7 +99,6 @@ class Customer extends \yii\db\ActiveRecord
             ['zip', 'match', 'pattern' => '/(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)/'],
             [['phone_number_1', 'phone_number_2'], 'string', 'max' => 15],
             [['phone_number_1', 'phone_number_2'], PhoneInputValidator::class],
-            //['email', 'string', 'max' => 128],
             [['first_name', 'last_name'], 'required']
         ];
     }

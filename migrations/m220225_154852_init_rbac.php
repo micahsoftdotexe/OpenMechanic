@@ -111,7 +111,7 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($shopManager, $createCustomer);
         $auth->addChild($shopManager, $editAuto);
         $auth->addChild($shopManager, $editCustomer);
-        
+
         //create admin role
         $admin = $auth->createRole('admin');
         $auth->add($admin);

@@ -3,7 +3,7 @@ namespace models;
 
 use app\models\Part;
 
-class partTest extends \Codeception\Test\Unit
+class PartTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -182,6 +182,15 @@ class partTest extends \Codeception\Test\Unit
         $this->tester->assertFalse($part->validate());
 
 
+        //valid
+        $part = new Part();
+        $part->margin = 1;
+        $part->description = 'test';
+        $part->part_number = 'test';
+        $part->quantity = 1;
+        $part->price = 1;
+        $part->workorder_id = 1;
+        $this->tester->assertTrue($part->validate());
 
     }
 }

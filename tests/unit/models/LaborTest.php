@@ -3,7 +3,7 @@ namespace models;
 
 use app\models\Labor;
 
-class laborTest extends \Codeception\Test\Unit
+class LaborTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -99,5 +99,13 @@ class laborTest extends \Codeception\Test\Unit
         $labor->description = 'test';
         $labor->price = 1.2;
         $this->assertFalse($labor->validate());
+
+        //valid
+        $labor = new Labor();
+        $labor->workorder_id = 1;
+        $labor->description = 'test';
+        $labor->price = 1.2;
+        $this->assertTrue($labor->validate());
+
     }
 }

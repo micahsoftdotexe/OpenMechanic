@@ -2,7 +2,7 @@
 namespace models;
 use \app\models\Automobile;
 
-class automobileTest extends \Codeception\Test\Unit
+class AutomobileTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -128,6 +128,16 @@ class automobileTest extends \Codeception\Test\Unit
         $automobile->year = 2000;
         $automobile->motor_number = 1.2;
         $this->assertFalse($automobile->validate());
+
+        //valid
+        $automobile = new Automobile();
+        $automobile->vin = '12345678901234567';
+        $automobile->make = 'Honda';
+        $automobile->model = 'Civic';
+        $automobile->year = 2000;
+        $automobile->motor_number = 1.2;
+        $this->assertTrue($automobile->validate());
+
     }
 
     public function testGetIds() {

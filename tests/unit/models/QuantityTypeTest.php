@@ -1,9 +1,7 @@
 <?php
 namespace models;
-use app\models\Note;
 
-
-class noteTest extends \Codeception\Test\Unit
+class QuantityTypeTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -46,27 +44,18 @@ class noteTest extends \Codeception\Test\Unit
     // tests
     public function testValidation()
     {
-        //workorder_id not added
-        $note = new Note();
-        $note->text = 'test';
-        $this->assertFalse($note->validate());
+        //description not added
+        $quantityType = new \app\models\QuantityType();
+        $this->assertFalse($quantityType->validate());
+        //description not string
+        $quantityType = new \app\models\QuantityType();
+        $quantityType->description = 1;
+        $this->assertFalse($quantityType->validate());
 
-        //workorder_id not integer
-        $note = new Note();
-        $note->workorder_id = 'a';
-        $note->text = 'test';
-        $this->assertFalse($note->validate());
+        //valid
+        $quantityType = new \app\models\QuantityType();
+        $quantityType->description = 'test';
+        $this->assertTrue($quantityType->validate());
 
-        //text not string
-        $note = new Note();
-        $note->workorder_id = 1;
-        $note->text = 1;
-        $this->assertFalse($note->validate());
-
-        //workorder_id does not exist
-        $note = new Note();
-        $note->workorder_id = 9;
-        $note->text = 'test';
-        $this->assertFalse($note->validate());
     }
 }

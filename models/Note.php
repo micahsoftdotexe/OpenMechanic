@@ -23,6 +23,17 @@ class Note extends \yii\db\ActiveRecord
         return 'note';
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->created_by = Yii::$app->user->id;
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * {@inheritdoc}
      */

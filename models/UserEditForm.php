@@ -34,9 +34,4 @@ class UserEditForm extends yii\base\Model
         }
         return $returnRoles;
     }
-
-    public function getUserRoles()
-    {
-        return array_keys(Yii::$app->authManager->getRolesByUser($this->id));
-    }
 }

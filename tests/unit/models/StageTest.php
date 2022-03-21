@@ -2,7 +2,7 @@
 namespace models;
 use app\models\Stage;
 
-class stageTest extends \Codeception\Test\Unit
+class StageTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -49,5 +49,10 @@ class stageTest extends \Codeception\Test\Unit
         $stage = new Stage();
         $stage->title = 1;
         $this->tester->assertFalse($stage->validate());
+
+        //valid
+        $stage = new Stage();
+        $stage->title = 'test';
+        $this->tester->assertTrue($stage->validate());
     }
 }

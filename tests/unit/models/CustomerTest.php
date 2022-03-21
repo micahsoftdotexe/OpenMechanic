@@ -3,7 +3,7 @@ namespace models;
 
 use \app\models\Customer;
 
-class customerTest extends \Codeception\Test\Unit
+class CustomerTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
@@ -42,7 +42,7 @@ class customerTest extends \Codeception\Test\Unit
             ],
         ];
     }
-    
+
 
     // tests
     public function testValidation()
@@ -126,5 +126,11 @@ class customerTest extends \Codeception\Test\Unit
         $customer->last_name = 'Smith';
         $customer->phone_number_1 = '12345678901';
         $this->assertFalse($customer->validate());
+
+        // valid
+        $customer = new Customer();
+        $customer->first_name = 'John';
+        $customer->last_name = 'Smith';
+        $this->assertTrue($customer->validate());
     }
 }

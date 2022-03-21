@@ -2,7 +2,7 @@
 namespace models;
 use \app\models\Workorder;
 
-class workorderTest extends \Codeception\Test\Unit
+class WorkorderTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester
