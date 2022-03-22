@@ -19,6 +19,7 @@ class UserEditRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-        return $params['id'] == Yii::$app->user->id || Yii::$app->user->hasRole('admin');
+        \Yii::trace('id' . $params['id'], 'dev');
+        return $params['id'] == Yii::$app->user->id || Yii::$app->user->can('admin');
     }
 }

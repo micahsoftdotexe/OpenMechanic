@@ -35,10 +35,26 @@ class WorkorderController extends SafeController
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['create','get-automobiles', 'index', 'edit', 'create-template', 'delete', 'update-template', 'update-notes'],
+                        'actions' => ['get-automobiles', 'index', 'edit'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['create', 'create-template'],
+                        'allow' => true,
+                        'roles' => ['createWorkorder'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['deleteWorkorder'],
+                    ],
+                    [
+                        'actions' => ['update-template'],
+                        'allow' => true,
+                        'roles' => ['editWorkorder'],
+                    ],
+
                 ],
             ],
         ];
@@ -164,22 +180,6 @@ class WorkorderController extends SafeController
         return $this->render('edit', [
             'id' => $model->id,
         ]);
-    }
-
-    public function actionUpdateNotes($id)
-    {
-        $model = new \app\models\NotesForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $work_order_model = Workorder::find()->where(['id' => $model->workorder_id])->one();
-            $work_order_model->notes = $model->note;
-            if (!!!$work_order_model->save()) {
-                Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Notes Save Error'));
-            }
-            
-        } else {
-            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Notes Save Error')); 
-        }
-        return $this->redirect(['edit', 'id' => $work_order_model->id]);
     }
 
     /**

@@ -34,7 +34,22 @@ class PartController extends SafeController
                     [
                         'actions' => ['submit-part-form-url', 'create-edit', 'delete', 'delete-edit', 'update'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
+                    ],
+                    [
+                       'actions' => ['create-edit'],
+                        'allow' => true,
+                        'roles' => ['createPart'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['editPart'],
+                    ],
+                    [
+                        'actions' => ['delete-edit'],
+                        'allow' => true,
+                        'roles' => ['deletePart'],
                     ],
                 ],
             ],
@@ -123,20 +138,6 @@ class PartController extends SafeController
             'model' => $model,
             'edit' => true,
         ]);
-    }
-
-    /**
-     * Deletes an existing Part model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

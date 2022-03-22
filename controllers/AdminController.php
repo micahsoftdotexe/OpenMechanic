@@ -23,9 +23,9 @@ class AdminController extends SafeController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['view', 'deactivate-user'],
+                        'actions' => ['view'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

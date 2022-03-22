@@ -21,10 +21,23 @@ class UserController extends SafeController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['deactivate', 'activate', 'create', 'edit'],
+                        'actions' => ['deactivate', 'activate'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
                     ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['createUser'],
+                    ],
+                    [
+                        'actions' => ['edit'],
+                        'allow' => true,
+                        'roles' => ['editOwnUser'],
+                        'roleParams' => function() {
+                            return ['id' => Yii::$app->request->get('id')];
+                        }
+                    ]
                 ],
             ],
         ];

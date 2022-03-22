@@ -33,11 +33,14 @@ class m220225_154852_init_rbac extends Migration
         // create work order permission
         // create customer permission
         // edit customer permission
+        // delete customer permission
         // create automobile permission
         // edit automobile permission
+        // delete automobile permission
         // create notes permission
-        // edit notes permission
         //! edit own notes permission
+        //! delete own notes permission
+        // delete notes permission
         // create user permission
         // edit user permission
         //! edit own user permission
@@ -57,6 +60,14 @@ class m220225_154852_init_rbac extends Migration
         $createWorkorder->description = 'Create Workorder';
         $auth->add($createWorkorder);
 
+        $editWorkorder = $auth->createPermission('editWorkorder');
+        $editWorkorder->description = 'Edit Workorder';
+        $auth->add($editWorkorder);
+
+        $deleteWorkorder = $auth->createPermission('deleteWorkorder');
+        $deleteWorkorder->description = 'Delete Workorder';
+        $auth->add($deleteWorkorder);
+
         $createCustomer = $auth->createPermission('createCustomer');
         $createCustomer->description = 'Create Customer';
         $auth->add($createCustomer);
@@ -64,6 +75,10 @@ class m220225_154852_init_rbac extends Migration
         $editCustomer = $auth->createPermission('editCustomer');
         $editCustomer->description = 'Edit Customer';
         $auth->add($editCustomer);
+
+        $deleteCustomer = $auth->createPermission('deleteCustomer');
+        $deleteCustomer->description = 'Delete Customer';
+        $auth->add($deleteCustomer);
 
         $createAuto = $auth->createPermission('createAuto');
         $createAuto->description = 'Create Automobile';
@@ -73,6 +88,10 @@ class m220225_154852_init_rbac extends Migration
         $editAuto->description = 'Edit Automobile';
         $auth->add($editAuto);
 
+        $deleteAuto = $auth->createPermission('deleteAuto');
+        $deleteAuto->description = 'Delete Automobile';
+        $auth->add($deleteAuto);
+
         $createNote = $auth->createPermission('createNote');
         $createNote->description = 'Create Note';
         $auth->add($createNote);
@@ -81,6 +100,15 @@ class m220225_154852_init_rbac extends Migration
         $editNote->description = 'Edit Own Note';
         $editNote->ruleName = $noteAuthor->name;
         $auth->add($editNote);
+
+        $deleteNote = $auth->createPermission('deleteOwnNote');
+        $deleteNote->description = 'Delete Own Note';
+        $deleteNote->ruleName = $noteAuthor->name;
+        $auth->add($deleteNote);
+
+        $deleteNote2 = $auth->createPermission('deleteNote');
+        $deleteNote2->description = 'Delete Note';
+        $auth->add($deleteNote2);
 
         $createUser = $auth->createPermission('createUser');
         $createUser->description = 'Create User';
@@ -101,16 +129,21 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($employee, $editUser);
         $auth->addChild($employee, $createNote);
         $auth->addChild($employee, $editNote);
+        $auth->addChild($employee, $deleteNote);
 
         //create shop manager role
         $shopManager = $auth->createRole('shopManager');
         $auth->add($shopManager);
         $auth->addChild($shopManager, $employee);
         $auth->addChild($shopManager, $createWorkorder);
+        $auth->addChild($shopManager, $editWorkorder);
         $auth->addChild($shopManager, $createAuto);
         $auth->addChild($shopManager, $createCustomer);
         $auth->addChild($shopManager, $editAuto);
         $auth->addChild($shopManager, $editCustomer);
+        $auth->addChild($shopManager, $deleteAuto);
+        $auth->addChild($shopManager, $deleteCustomer);
+        $auth->addChild($shopManager, $deleteNote2);
 
         //create admin role
         $admin = $auth->createRole('admin');
@@ -119,6 +152,8 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($admin, $employee);
         $auth->addChild($admin, $createUser);
         $auth->addChild($admin, $editUserRoles);
+        $auth->addChild($admin, $deleteWorkorder);
+
         $this->assignSeededUserToRoles();
     }
 

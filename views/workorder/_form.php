@@ -14,6 +14,9 @@ use yii\data\ActiveDataProvider;
 //     $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->last_name.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model, 'url' => ['edit', 'id' => $model->id]];
 //     //$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 // }
+$canAddCustomer = Yii::$app->user->can('createCustomer');
+$canAddAutomobile = Yii::$app->user->can('createAuto');
+$canEditWorkorder = $update ? Yii::$app->user->can('editWorkorder'):Yii::$app->user->can('createWorkorder');
 
 ?>
 
@@ -36,16 +39,15 @@ use yii\data\ActiveDataProvider;
                     'options' => [
                         'id'   => 'customer_id',
                         'placeholder' => '--'.Yii::t('app', 'Select One').'--',
+                        'disabled' => !$canEditWorkorder
                         //'class' => 'form-control'
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true
                     ],
                 ]) ?>
         <span>
                 <?= Html::button('Add Customer', [
                                 'class' => 'btn btn-default btn-outline-secondary',
                                 'id' => 'add-customer',
+                                'disabled' => !$canAddCustomer,
                                 'data' => [
                                     'toggle' => 'modal',
                                     'target' => '#modalNewCustomer',
@@ -59,15 +61,14 @@ use yii\data\ActiveDataProvider;
                     'options' => [
                         'id'   => 'automobile_id',
                         'placeholder' => '--'.Yii::t('app', 'Select One').'--',
-                        'disabled' => !$update,
+                        'disabled' => !$update || !$canEditWorkorder,
                     ],
                     'pluginOptions' => [
-                        'allowClear' => true
                     ],]) ?>
         <div class="input-group-append">
                 <?= Html::button('Add Automobile', [
                                 'id' => 'new_automobile',
-                                'disabled' => !$update,
+                                'disabled' => !$update || !$canAddAutomobile,
                                 'class' => 'btn btn-default btn-outline-secondary',
                                 'data' => [
                                     'toggle' => 'modal',
@@ -76,14 +77,14 @@ use yii\data\ActiveDataProvider;
         </div>
     </div>
     <div class="input-group">
-        <?= $form->field($model, 'odometer_reading')->label(Yii::t('app', 'Odometer Reading'))->textInput(['id' => 'odometer_reading_input','disabled' => !$update])?>
+        <?= $form->field($model, 'odometer_reading')->label(Yii::t('app', 'Odometer Reading'))->textInput(['id' => 'odometer_reading_input','disabled' => !$update || !$canEditWorkorder])?>
     </div> 
     <div class="input-group">
-        <?= Html::checkbox('taxable', $update ? $model->tax != 0 ? true : false : true, ['label' => 'Taxable'])?>
+        <?= Html::checkbox('taxable', $update ? ($model->tax != 0 ? true : false) : true, ['label' => 'Taxable', 'disabled' => !$canEditWorkorder])?>
     </div> 
     <div class="form-group">
         <?= !$update ? Html::a('Cancel', 'index', ['class' => 'btn btn-default btn-outline-secondary']): '' ?>
-        <?= Html::submitButton('Save', ['id'=> 'save_workorder', 'class' => 'btn btn-primary btn-success']) ?>
+        <?= Html::submitButton('Save', ['id'=> 'save_workorder', 'class' => 'btn btn-primary btn-success', 'disabled' => !$canEditWorkorder]) ?>
     </div>
                  
    

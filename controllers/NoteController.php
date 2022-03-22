@@ -28,7 +28,24 @@ class NoteController extends SafeController
                     [
                         'actions' => ['create', 'delete', 'update'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['createNote'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['editOwnNote'],
+                        'roleParams' => ['id' => Yii::$app->request->get('id')],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['deleteOwnNote', 'deleteNote'],
+                        'roleParams' => ['id' => Yii::$app->request->get('id')],
                     ],
                 ],
             ],
