@@ -42,7 +42,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Admin Tools', 'url' => ['/admin/view']],
+            Yii::$app->user->can('admin') ? ['label' => 'Admin Tools', 'url' => ['/admin/view']] : [ 'label' => 'Update User', 'url' => ['/user/edit', 'id' => Yii::$app->user->id]],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

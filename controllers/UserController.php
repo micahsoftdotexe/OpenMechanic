@@ -111,11 +111,10 @@ class UserController extends SafeController
             }
             if ($user->save()) {
                 Yii::$app->session->setFlash('success', 'User Updated');
-                return $this->redirect(['/admin/view']);
             } else {
                 Yii::$app->session->setFlash('error', 'User Not Updated');
-                return $this->redirect(['/admin/view']);
             }
+            return Yii::$app->user->can('admin') ? $this->redirect(['/admin/view']) : $this->redirect(['/site/index']);
         } else {
             return $this->render('/admin/_user_sign_up', [
                 'model' => $model,
