@@ -45,7 +45,13 @@ class m220225_154852_init_rbac extends Migration
         // edit user permission
         //! edit own user permission
         // edit user roles permission
-
+        // create labor permission
+        // edit labor permission
+        // delete labor permission
+        // create parts permission
+        // edit parts permission
+        // delete parts permission
+        // view workorder permission
 
 
         $auth = Yii::$app->authManager;
@@ -123,6 +129,34 @@ class m220225_154852_init_rbac extends Migration
         $editUserRoles->description = 'Edit User Roles';
         $auth->add($editUserRoles);
 
+        $createLabor = $auth->createPermission('createLabor');
+        $createLabor->description = 'Create Labor';
+        $auth->add($createLabor);
+
+        $editLabor = $auth->createPermission('editLabor');
+        $editLabor->description = 'Edit Labor';
+        $auth->add($editLabor);
+
+        $deleteLabor = $auth->createPermission('deleteLabor');
+        $deleteLabor->description = 'Delete Labor';
+        $auth->add($deleteLabor);
+
+        $createParts = $auth->createPermission('createPart');
+        $createParts->description = 'Create Parts';
+        $auth->add($createParts);
+
+        $editParts = $auth->createPermission('editPart');
+        $editParts->description = 'Edit Parts';
+        $auth->add($editParts);
+
+        $deleteParts = $auth->createPermission('deletePart');
+        $deleteParts->description = 'Delete Parts';
+        $auth->add($deleteParts);
+
+        $viewWorkorder = $auth->createPermission('viewWorkorder');
+        $viewWorkorder->description = 'View Workorder';
+        $auth->add($viewWorkorder);
+
         //create employee role
         $employee = $auth->createRole('employee');
         $auth->add($employee);
@@ -130,6 +164,7 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($employee, $createNote);
         $auth->addChild($employee, $editNote);
         $auth->addChild($employee, $deleteNote);
+        $auth->addChild($employee, $viewWorkorder);
 
         //create shop manager role
         $shopManager = $auth->createRole('shopManager');
@@ -141,9 +176,6 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($shopManager, $createCustomer);
         $auth->addChild($shopManager, $editAuto);
         $auth->addChild($shopManager, $editCustomer);
-        $auth->addChild($shopManager, $deleteAuto);
-        $auth->addChild($shopManager, $deleteCustomer);
-        $auth->addChild($shopManager, $deleteNote2);
 
         //create admin role
         $admin = $auth->createRole('admin');

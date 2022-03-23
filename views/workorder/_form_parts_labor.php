@@ -1,5 +1,10 @@
 <?php
 use yii\helpers\Html;
+
+$createPart  = Yii::$app->user->can('createPart');
+$createLabor = Yii::$app->user->can('createLabor');
+$deletePart  = Yii::$app->user->can('deletePart');
+$deleteLabor = Yii::$app->user->can('deleteLabor');
 ?>
 <h1> Parts and Labor </h1>
 <div id="partsdiv">
@@ -24,23 +29,23 @@ use yii\helpers\Html;
                 'template' => '{update} {delete}',
                 'buttons' => [
                     'update'=> function ($url, $model, $key) {
-                        return Html::a('<i class="glyphicon glyphicon-pencil"></i>',
+                        return Yii::$app->user->can('editPart') ? Html::a('<i class="glyphicon glyphicon-pencil"></i>',
                         ['/part/update', 'id' => $model->id],
                         [
                             'data' => [
                             'method' => 'post',
                             ]
-                        ]);
+                        ]) : '';
                     },
                     'delete'=> function ($url, $model, $key) {
-                        return Html::a('<i class="glyphicon glyphicon-trash"></i>',
+                        return Yii::$app->user->can('deletePart') ? Html::a('<i class="glyphicon glyphicon-trash"></i>',
                         ['/part/delete-edit', 'id' => $model->id],
                         [
                             'data' => [
                             'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                             'method' => 'post',
                             ]
-                        ]);
+                        ]): '';
                     }
                 ]
             ]
@@ -48,7 +53,7 @@ use yii\helpers\Html;
     ])?>
     <?= Html::button('Add Part', [
         'id' => 'new_part_button',
-        'disabled' => !$update,
+        'disabled' => !$update || !$createPart,
         'class' => 'btn btn-default btn-outline-secondary',
         'data' => [
             'toggle' => 'modal',
@@ -69,23 +74,23 @@ use yii\helpers\Html;
                 'template' => '{update} {delete}',
                 'buttons' => [
                     'update'=> function ($url, $model, $key) {
-                        return Html::a('<i class="glyphicon glyphicon-pencil"></i>',
+                        return Yii::$app->user->can('editLabor') ? Html::a('<i class="glyphicon glyphicon-pencil"></i>',
                         ['/labor/update', 'id' => $model->id],
                         [
                             'data' => [
                             'method' => 'post',
                             ]
-                        ]);
+                        ]): '';
                     },
                     'delete'=> function ($url, $model, $key) {
-                        return Html::a('<i class="glyphicon glyphicon-trash"></i>',
+                        return Yii::$app->user->can('deleteLabor') ? Html::a('<i class="glyphicon glyphicon-trash"></i>',
                         ['/labor/delete-edit', 'id' => $model->id],
                         [
                             'data' => [
                             'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                             'method' => 'post',
                             ]
-                        ]);
+                        ]) : '';
                     }
                 ]
             ]
@@ -93,7 +98,7 @@ use yii\helpers\Html;
         ])?>
     <?= Html::button('Add Labor Instance', [
         'id' => 'new_labor_button',
-        'disabled' => !$update,
+        'disabled' => !$update || !$createLabor,
         'class' => 'btn btn-default btn-outline-secondary',
         'data' => [
             'toggle' => 'modal',
