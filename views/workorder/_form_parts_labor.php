@@ -3,8 +3,6 @@ use yii\helpers\Html;
 
 $createPart  = Yii::$app->user->can('createPart');
 $createLabor = Yii::$app->user->can('createLabor');
-$deletePart  = Yii::$app->user->can('deletePart');
-$deleteLabor = Yii::$app->user->can('deleteLabor');
 ?>
 <h1> Parts and Labor </h1>
 <div id="partsdiv">

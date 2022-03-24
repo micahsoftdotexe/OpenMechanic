@@ -35,7 +35,7 @@ class Labor extends \yii\db\ActiveRecord
             [['workorder_id'], 'integer'],
             [['description', 'notes'], 'string'],
             [['price'], 'number'],
-            [['workorder_id'], 'exist', 'skipOnError' => true, 'targetClass' => Workorder::className(), 'targetAttribute' => ['workorder_id' => 'id']],
+            [['workorder_id'], 'exist', 'skipOnError' => true, 'targetClass' => Workorder::class, 'targetAttribute' => ['workorder_id' => 'id']],
         ];
     }
 
@@ -60,6 +60,6 @@ class Labor extends \yii\db\ActiveRecord
      */
     public function getWorkorder()
     {
-        return $this->hasOne(Workorder::className(), ['id' => 'workorder_id']);
+        return $this->hasOne(Workorder::class, ['id' => 'workorder_id']);
     }
 }

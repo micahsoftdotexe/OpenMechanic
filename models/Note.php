@@ -43,7 +43,7 @@ class Note extends \yii\db\ActiveRecord
             [['workorder_id'], 'required'],
             [['workorder_id'], 'integer'],
             [['text'], 'string'],
-            [['workorder_id'], 'exist', 'skipOnError' => true, 'targetClass' => Workorder::className(), 'targetAttribute' => ['workorder_id' => 'id']],
+            [['workorder_id'], 'exist', 'skipOnError' => true, 'targetClass' => Workorder::class, 'targetAttribute' => ['workorder_id' => 'id']],
         ];
     }
 
@@ -66,6 +66,6 @@ class Note extends \yii\db\ActiveRecord
      */
     public function getWorkorder()
     {
-        return $this->hasOne(Workorder::className(), ['id' => 'workorder_id']);
+        return $this->hasOne(Workorder::class, ['id' => 'workorder_id']);
     }
 }

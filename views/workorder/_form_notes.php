@@ -12,25 +12,29 @@ use yii\helpers\Html;
                     <?= $noteEditForm->field($note, 'workorder_id')->hiddenInput(['value' => $workorder->id])->label(false) ?>
                 </div>
                 <div class="col-md-2">
-                    <?= Html::a('<i class="glyphicon glyphicon-pencil"></i>',
-                        '#',
-                        [
-                            'onclick' => 'editNote('.$note->id.')',
-                            'data' => [
-                            'method' => 'post',
-                            ],
-                            'class' => 'edit-btn',
-                        ]); ?>
-                    <?= Html::a('<i class="glyphicon glyphicon-trash"></i>',
-                            ['/note/delete', 'id' => $note->id],
+                    <?php if (Yii::$app->user->can('editOwnNote', ['id' => $note->id])) :?>
+                        <?= Html::a('<i class="glyphicon glyphicon-pencil"></i>',
+                            '#',
                             [
+                                'onclick' => 'editNote('.$note->id.')',
                                 'data' => [
-                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                                 'method' => 'post',
+                                ],
+                                'class' => 'edit-btn',
+                            ]); ?>
+                    <?php endif; ?>
+                    <?php if (Yii::$app->user->can('deleteOwnNote', ['id' => $note->id]) || Yii::$app->user->can('deleteNote')) :?>
+                        <?= Html::a('<i class="glyphicon glyphicon-trash"></i>',
+                                ['/note/delete', 'id' => $note->id],
+                                [
+                                    'data' => [
+                                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                    'method' => 'post',
+                                    ]
                                 ]
-                            ]
-                        );
-                    ?> 
+                            );
+                        ?> 
+                    <?php endif; ?>
                 </div>
                 
             </div>
@@ -42,20 +46,21 @@ use yii\helpers\Html;
     <?php endforeach; ?>
         
 </div>
-
-<div class="form-group">
-    <?php $model = new \app\models\Note(); ?>
-    <?php $noteForm = ActiveForm::begin([
-        'action' => ['/note/create'],
-        'id' => 'note-form'
-    ]) ?>
-    <?= $noteForm->field($model, 'text')->label(Yii::t('app', 'New Note'))->textArea(['rows'=>5]); ?>
-    <?= $noteForm->field($model, 'workorder_id')->hiddenInput(['value' => $workorder->id])->label(false) ?>
-    <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Save'), [
-        'class'             => 'btn btn-success',
-    ])?>
-    <?php $noteForm = ActiveForm::end() ?>   
-</div>
+<?php if (Yii::$app->user->can('createNote')) :?>
+    <div class="form-group">
+        <?php $model = new \app\models\Note(); ?>
+        <?php $noteForm = ActiveForm::begin([
+            'action' => ['/note/create'],
+            'id' => 'note-form'
+        ]) ?>
+        <?= $noteForm->field($model, 'text')->label(Yii::t('app', 'New Note'))->textArea(['rows'=>5]); ?>
+        <?= $noteForm->field($model, 'workorder_id')->hiddenInput(['value' => $workorder->id])->label(false) ?>
+        <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Save'), [
+            'class'             => 'btn btn-success',
+        ])?>
+        <?php $noteForm = ActiveForm::end() ?>   
+    </div>
+<?php endif; ?>
 
 <?php
 $jsBlock = <<< JS

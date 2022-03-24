@@ -31,8 +31,8 @@ class Owns extends \yii\db\ActiveRecord
         return [
             [['customer_id', 'automobile_id'], 'required'],
             [['customer_id', 'automobile_id'], 'integer'],
-            [['automobile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Automobile::className(), 'targetAttribute' => ['automobile_id' => 'id']],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
+            [['automobile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Automobile::class, 'targetAttribute' => ['automobile_id' => 'id']],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['customer_id' => 'id']],
         ];
     }
 
@@ -54,7 +54,7 @@ class Owns extends \yii\db\ActiveRecord
      */
     public function getAutomobile()
     {
-        return $this->hasOne(Automobile::className(), ['id' => 'automobile_id']);
+        return $this->hasOne(Automobile::class, ['id' => 'automobile_id']);
     }
 
     /**
@@ -64,6 +64,6 @@ class Owns extends \yii\db\ActiveRecord
      */
     public function getCustomer()
     {
-        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+        return $this->hasOne(Customer::class, ['id' => 'customer_id']);
     }
 }

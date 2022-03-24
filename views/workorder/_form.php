@@ -56,7 +56,7 @@ $canEditWorkorder = $update ? Yii::$app->user->can('editWorkorder'):Yii::$app->u
         
     </div>
     <div class="input-group">                               
-        <?= $form->field($model, 'automobile_id')->label(Yii::t('app', 'Automobile'))->widget(Select2::classname(), [
+        <?= $form->field($model, 'automobile_id')->label(Yii::t('app', 'Automobile'))->widget(Select2::class, [
                     'data' => ($update) ? \app\models\Automobile::getIds($model->customer_id) : [],
                     'options' => [
                         'id'   => 'automobile_id',
@@ -84,7 +84,9 @@ $canEditWorkorder = $update ? Yii::$app->user->can('editWorkorder'):Yii::$app->u
     </div> 
     <div class="form-group">
         <?= !$update ? Html::a('Cancel', 'index', ['class' => 'btn btn-default btn-outline-secondary']): '' ?>
-        <?= Html::submitButton('Save', ['id'=> 'save_workorder', 'class' => 'btn btn-primary btn-success', 'disabled' => !$canEditWorkorder]) ?>
+        <?php if ($canEditWorkorder) : ?>
+            <?= Html::submitButton('Save', ['id'=> 'save_workorder', 'class' => 'btn btn-primary btn-success']) ?>
+        <?php endif ?>
     </div>
                  
    
