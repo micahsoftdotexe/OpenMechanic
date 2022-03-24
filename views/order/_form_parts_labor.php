@@ -121,7 +121,7 @@ yii\bootstrap\Modal::begin([
         <?= Yii::$app->controller->renderPartial('/part/_form', [
                 'model'=> new app\models\Part(),
                 'edit' => false,
-                'workorder_id' => $model->id,
+                'order_id' => $model->id,
             ]) ?>
     </div>
 
@@ -147,7 +147,7 @@ yii\bootstrap\Modal::begin([
         <?= Yii::$app->controller->renderPartial('/labor/_form', [
                 'model'=> new app\models\Labor(),
                 'edit' => false,
-                'workorder_id' => $model->id,
+                'order_id' => $model->id,
             ]) ?>
     </div>
 

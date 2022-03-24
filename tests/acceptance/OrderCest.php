@@ -1,18 +1,18 @@
 <?php
 use yii\helpers\Url;
 
-class WorkorderCest
+class OrderCest
 {
     public function _fixtures()
     {   return [
-            'Workorders' => [
-                'class' => \app\tests\fixtures\WorkorderFixture::class,
-                'dataFile' => codecept_data_dir() . 'workorder.php',
+            'Orders' => [
+                'class' => \app\tests\fixtures\OrderFixture::class,
+                'dataFile' => codecept_data_dir() . 'order.php',
             ],
             'Parts' => [
                 'class' => \app\tests\fixtures\PartFixture::class,
                 'dataFile' => codecept_data_dir() . 'part.php',
-                //'depends' => ['Workorders'],
+                //'depends' => ['Orders'],
             ],
             'Labor' => [
                 'class' => \app\tests\fixtures\LaborFixture::class,
@@ -41,7 +41,7 @@ class WorkorderCest
     }
 
     // tests
-    public function testCreateWorkorder(AcceptanceTester $I)
+    public function testCreateOrder(AcceptanceTester $I)
     {
         $I->amOnPage(Url::toRoute('/site/login'));
         $I->see('Login', 'h1');
@@ -51,8 +51,8 @@ class WorkorderCest
         $I->fillField('input[name="LoginForm[password]"]', 'admin');
         $I->click('login-button');
         $I->wait(2); // wait for button to be clicked
-        $I->click('#workorder-button');
-        $I->click('#workorder-create');
+        $I->click('#order-button');
+        $I->click('#order-create');
         $I->wait(2); // wait for button to be clicked
         $I->click('#add-customer');
         $I->wait(2); // wait for button to be clicked
@@ -76,13 +76,9 @@ class WorkorderCest
         $I->fillField('input[name="AutomobileForm[motor_number]"]', '1.2');
         $I->click('#create-automobile');
         $I->wait(1); // wait for button to be clicked
-        $I->fillField('input[name="Workorder[odometer_reading]"]', '1234');
-        $I->click('#save_workorder');
+        $I->fillField('input[name="Order[odometer_reading]"]', '1234');
+        $I->click('#save_order');
         $I->wait(1); // wait for button to be clicked
-        $I->see("Update Workorder: Customer 3 - Honda Civic");
-
-
-
-
+        $I->see("Update Order: Customer 3 - Honda Civic");
     }
 }

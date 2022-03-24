@@ -8,12 +8,12 @@ use Yii;
  * This is the model class for table "{{%labor}}".
  *
  * @property int $id
- * @property int $workorder_id
+ * @property int $order_id
  * @property string $description
  * @property string|null $notes
  * @property float $price
  *
- * @property Workorder $workorder
+ * @property Order $order
  */
 class Labor extends \yii\db\ActiveRecord
 {
@@ -31,11 +31,11 @@ class Labor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['workorder_id', 'description', 'price'], 'required'],
-            [['workorder_id'], 'integer'],
+            [['order_id', 'description', 'price'], 'required'],
+            [['order_id'], 'integer'],
             [['description', 'notes'], 'string'],
             [['price'], 'number'],
-            [['workorder_id'], 'exist', 'skipOnError' => true, 'targetClass' => Workorder::class, 'targetAttribute' => ['workorder_id' => 'id']],
+            [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::class, 'targetAttribute' => ['order_id' => 'id']],
         ];
     }
 
@@ -46,7 +46,7 @@ class Labor extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'workorder_id' => Yii::t('app', 'Workorder ID'),
+            'order_id' => Yii::t('app', 'Order ID'),
             'description' => Yii::t('app', 'Description'),
             'notes' => Yii::t('app', 'Notes'),
             'price' => Yii::t('app', 'Price'),
@@ -54,12 +54,12 @@ class Labor extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Workorder]].
+     * Gets query for [[Order]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getWorkorder()
+    public function getOrder()
     {
-        return $this->hasOne(Workorder::class, ['id' => 'workorder_id']);
+        return $this->hasOne(Order::class, ['id' => 'order_id']);
     }
 }

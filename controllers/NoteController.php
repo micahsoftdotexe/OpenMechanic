@@ -56,18 +56,18 @@ class NoteController extends SafeController
     {
         $model = new Note();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+            return $this->redirect(['/order/edit', 'id' => $model->order_id]);
         }
         Yii::$app->session->setFlash('error', "Note Save Error");
-        return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+        return $this->redirect(['/order/edit', 'id' => $model->order_id]);
     }
 
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $workorder_id = $model->workorder_id;
+        $order_id = $model->order_id;
         $model->delete();
-        return $this->redirect(['/workorder/edit', 'id' => $workorder_id]);
+        return $this->redirect(['/order/edit', 'id' => $order_id]);
     }
 
     public function actionUpdate($id)
@@ -77,7 +77,7 @@ class NoteController extends SafeController
         if (!$model->load(Yii::$app->request->post()) || !$model->save()) {
             Yii::$app->session->setFlash('error', "Note Save Error");
         }
-        return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+        return $this->redirect(['/order/edit', 'id' => $model->order_id]);
     }
     protected function findModel($id)
     {

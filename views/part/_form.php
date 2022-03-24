@@ -46,13 +46,13 @@ use kartik\money\MaskMoney;
                     'allowClear' => true
                 ],
             ]) ?>
-    <?= $partForm->field($model, 'workorder_id')->hiddenInput(['value' => $workorder_id])->label(false) ?>
+    <?= $partForm->field($model, 'order_id')->hiddenInput(['value' => $order_id])->label(false) ?>
     <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Create'), [
             'class'             => 'btn btn-success',
             'id'                => "btn-save-part",
             'data-loading-text' => Yii::t('app', "Loading..."),
         ]) ?>
-    <?= Html::a('Close', $edit?['/workorder/edit', 'id' => $workorder_id]:'#', [
+    <?= Html::a('Close', $edit?['/order/edit', 'id' => $order_id]:'#', [
         'onclick' => !$edit ?'$("#modalNewPart").modal("hide")':'',
         'class' => 'btn btn-default btn-outline-secondary',
     ]); ?>

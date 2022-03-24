@@ -112,10 +112,10 @@ class PartController extends SafeController
         $model = new Part();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+            return $this->redirect(['/order/edit', 'id' => $model->order_id]);
         }
         Yii::$app->session->setFlash('error', $model->getErrors());
-        return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+        return $this->redirect(['/order/edit', 'id' => $model->order_id]);
     }
 
     /**
@@ -130,11 +130,11 @@ class PartController extends SafeController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+            return $this->redirect(['/order/edit', 'id' => $model->order_id]);
         }
 
         return $this->render('_form', [
-            'workorder_id' => $model->workorder_id,
+            'order_id' => $model->order_id,
             'model' => $model,
             'edit' => true,
         ]);
@@ -149,10 +149,10 @@ class PartController extends SafeController
      */
     public function actionDeleteEdit($id)
     {
-        $workorder_id = $this->findModel($id)->workorder_id;
+        $order_id = $this->findModel($id)->order_id;
         $this->findModel($id)->delete();
 
-        return $this->redirect(['/workorder/edit', 'id' => $workorder_id]);
+        return $this->redirect(['/order/edit', 'id' => $order_id]);
     }
 
     /**
@@ -184,13 +184,12 @@ class PartController extends SafeController
             $newPart->part_number = $data['part_number'];
             $newPart->margin = $data['margin'];
             $newPart->price = $data['price'];
-            if($data['quantity']!="" && $data['quantity_type_id']!="" ) {
+            if ($data['quantity']!="" && $data['quantity_type_id']!="" ) {
                 $newPart->quantity;
             }
-            if($newPart->validate()) {
+            if ($newPart->validate()) {
                 $newPart->save();
-            }
-            else {
+            } else {
                 //$data = implode('|',$data);
                 // \Yii::debug("not getting validated: {$newPart->errors}",
                 // 'dev'  // devlog file.  See components->log->dev defined in /config/web.php

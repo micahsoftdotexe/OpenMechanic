@@ -4,20 +4,20 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\WorkorderSearch */
+/* @var $searchModel app\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Workorders');
+$this->title = Yii::t('app', 'Orders');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="workorder-index">
+<div class="order-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?php
-            if (Yii::$app->user->can('createWorkorder')) {
-                echo Html::a(Yii::t('app', 'Create Work Order'), ['create'], ['id' => 'workorder-create','class' => 'btn btn-success']);
+            if (Yii::$app->user->can('createOrder')) {
+                echo Html::a(Yii::t('app', 'Create Work Order'), ['create'], ['id' => 'order-create','class' => 'btn btn-success']);
 
             }
         ?>
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             //'tax',
-            //'workorder_notes:ntext',
+            //'order_notes:ntext',
             //'amount_paid',
             //'paid_in_full',
 
@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                     'delete' => function ($url, $model, $key) {
-                        if (Yii::$app->user->can('deleteWorkorder')) {
+                        if (Yii::$app->user->can('deleteOrder')) {
                             return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
                                 'title' => Yii::t('app', 'delete order'),
                             ]);

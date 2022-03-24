@@ -30,7 +30,7 @@ class m220225_154852_init_rbac extends Migration
     public function safeUp()
     {
         \Yii::$app->runAction('migrate', ['migrationPath' => '@yii/rbac/migrations/', 'interactive' => false]);
-        // create work order permission
+        // create order permission
         // create customer permission
         // edit customer permission
         // delete customer permission
@@ -51,7 +51,7 @@ class m220225_154852_init_rbac extends Migration
         // create parts permission
         // edit parts permission
         // delete parts permission
-        // view workorder permission
+        // view order permission
 
 
         $auth = Yii::$app->authManager;
@@ -62,17 +62,17 @@ class m220225_154852_init_rbac extends Migration
         $auth->add($userEdit);
 
         //permissions
-        $createWorkorder = $auth->createPermission('createWorkorder');
-        $createWorkorder->description = 'Create Workorder';
-        $auth->add($createWorkorder);
+        $createOrder = $auth->createPermission('createOrder');
+        $createOrder->description = 'Create Order';
+        $auth->add($createOrder);
 
-        $editWorkorder = $auth->createPermission('editWorkorder');
-        $editWorkorder->description = 'Edit Workorder';
-        $auth->add($editWorkorder);
+        $editOrder = $auth->createPermission('editOrder');
+        $editOrder->description = 'Edit Order';
+        $auth->add($editOrder);
 
-        $deleteWorkorder = $auth->createPermission('deleteWorkorder');
-        $deleteWorkorder->description = 'Delete Workorder';
-        $auth->add($deleteWorkorder);
+        $deleteOrder = $auth->createPermission('deleteOrder');
+        $deleteOrder->description = 'Delete Order';
+        $auth->add($deleteOrder);
 
         $createCustomer = $auth->createPermission('createCustomer');
         $createCustomer->description = 'Create Customer';
@@ -153,9 +153,9 @@ class m220225_154852_init_rbac extends Migration
         $deleteParts->description = 'Delete Parts';
         $auth->add($deleteParts);
 
-        $viewWorkorder = $auth->createPermission('viewWorkorder');
-        $viewWorkorder->description = 'View Workorder';
-        $auth->add($viewWorkorder);
+        $viewOrder = $auth->createPermission('viewOrder');
+        $viewOrder->description = 'View Order';
+        $auth->add($viewOrder);
 
         //create employee role
         $employee = $auth->createRole('employee');
@@ -164,18 +164,24 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($employee, $createNote);
         $auth->addChild($employee, $editNote);
         $auth->addChild($employee, $deleteNote);
-        $auth->addChild($employee, $viewWorkorder);
+        $auth->addChild($employee, $viewOrder);
 
         //create shop manager role
         $shopManager = $auth->createRole('shopManager');
         $auth->add($shopManager);
         $auth->addChild($shopManager, $employee);
-        $auth->addChild($shopManager, $createWorkorder);
-        $auth->addChild($shopManager, $editWorkorder);
+        $auth->addChild($shopManager, $createOrder);
+        $auth->addChild($shopManager, $editOrder);
         $auth->addChild($shopManager, $createAuto);
         $auth->addChild($shopManager, $createCustomer);
         $auth->addChild($shopManager, $editAuto);
         $auth->addChild($shopManager, $editCustomer);
+        $auth->addChild($shopManager, $createLabor);
+        $auth->addChild($shopManager, $editLabor);
+        $auth->addChild($shopManager, $deleteLabor);
+        $auth->addChild($shopManager, $createParts);
+        $auth->addChild($shopManager, $editParts);
+        $auth->addChild($shopManager, $deleteParts);
 
         //create admin role
         $admin = $auth->createRole('admin');
@@ -184,7 +190,7 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($admin, $employee);
         $auth->addChild($admin, $createUser);
         $auth->addChild($admin, $editUserRoles);
-        $auth->addChild($admin, $deleteWorkorder);
+        $auth->addChild($admin, $deleteOrder);
 
         $this->assignSeededUserToRoles();
     }
