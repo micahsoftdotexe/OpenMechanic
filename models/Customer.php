@@ -124,7 +124,7 @@ class Customer extends \yii\db\ActiveRecord
      */
     public function getLabors()
     {
-        return $this->hasMany(Labor::className(), ['workorder_id' => 'id']);
+        return $this->hasMany(Labor::class, ['workorder_id' => 'id']);
     }
 
     /**
@@ -134,7 +134,7 @@ class Customer extends \yii\db\ActiveRecord
      */
     public function getOwns()
     {
-        return $this->hasMany(Owns::className(), ['customer_id' => 'id']);
+        return $this->hasMany(Owns::class, ['customer_id' => 'id']);
     }
 
     /**
@@ -144,7 +144,7 @@ class Customer extends \yii\db\ActiveRecord
      */
     public function getWorkorders()
     {
-        return $this->hasMany(Workorder::className(), ['customer_id' => 'id']);
+        return $this->hasMany(Workorder::class, ['customer_id' => 'id']);
     }
 
     public function getAutomobiles()

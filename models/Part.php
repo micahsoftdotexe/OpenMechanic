@@ -39,7 +39,7 @@ class Part extends \yii\db\ActiveRecord
             [['price', 'margin', 'quantity'], 'number'],
             [['description'], 'string'],
             [['part_number'], 'string', 'max' => 100],
-            [['workorder_id'], 'exist', 'skipOnError' => true, 'targetClass' => Workorder::className(), 'targetAttribute' => ['workorder_id' => 'id']],
+            [['workorder_id'], 'exist', 'skipOnError' => true, 'targetClass' => Workorder::class, 'targetAttribute' => ['workorder_id' => 'id']],
         ];
     }
 
@@ -65,6 +65,6 @@ class Part extends \yii\db\ActiveRecord
      */
     public function getWorkorder()
     {
-        return $this->hasOne(Workorder::className(), ['id' => 'workorder_id']);
+        return $this->hasOne(Workorder::class, ['id' => 'workorder_id']);
     }
 }

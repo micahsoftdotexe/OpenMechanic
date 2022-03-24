@@ -12,30 +12,30 @@ class WorkorderTest extends \Codeception\Test\Unit
     public function _fixtures()
     {   return [
             'Workorders' => [
-                'class' => \app\tests\fixtures\WorkorderFixture::className(),
+                'class' => \app\tests\fixtures\WorkorderFixture::class,
                 'dataFile' => codecept_data_dir() . 'workorder.php',
             ],
             'Parts' => [
-                'class' => \app\tests\fixtures\PartFixture::className(),
+                'class' => \app\tests\fixtures\PartFixture::class,
                 'dataFile' => codecept_data_dir() . 'part.php',
                 //'depends' => ['Workorders'],
             ],
             'Labor' => [
-                'class' => \app\tests\fixtures\LaborFixture::className(),
+                'class' => \app\tests\fixtures\LaborFixture::class,
                 'dataFile' => codecept_data_dir() . 'labor.php',
             ],
             'Owns' => [
-                'class' => \app\tests\fixtures\OwnFixture::className(),
+                'class' => \app\tests\fixtures\OwnFixture::class,
                 'dataFile' => codecept_data_dir() . 'owns.php',
                 //'depends' => ['Parts'],
             ],
             'Customers' => [
-                'class' => \app\tests\fixtures\CustomerFixture::className(),
+                'class' => \app\tests\fixtures\CustomerFixture::class,
                 'dataFile' => codecept_data_dir() . 'customer.php',
                 //'depends' => ['Owns'],
             ],
             'Automobiles' => [
-                'class' => \app\tests\fixtures\AutomobileFixture::className(),
+                'class' => \app\tests\fixtures\AutomobileFixture::class,
                 'dataFile' => codecept_data_dir() . 'automobile.php',
                 //'depends' => ['Owns'],
             ],

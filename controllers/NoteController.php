@@ -5,8 +5,6 @@ namespace app\controllers;
 use Yii;
 use app\models\Note;
 use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -16,19 +14,38 @@ class NoteController extends SafeController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'create' => ['POST'],
+                    'update' => ['POST'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 //'only' => ['get-batch-data'],
                 'rules' => [
                     [
                         'actions' => ['create', 'delete', 'update'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['createNote'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['editOwnNote'],
+                        'roleParams' => ['id' => Yii::$app->request->get('id')],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['deleteOwnNote', 'deleteNote'],
+                        'roleParams' => ['id' => Yii::$app->request->get('id')],
                     ],
                 ],
             ],

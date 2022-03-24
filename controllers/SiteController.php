@@ -19,7 +19,7 @@ class SiteController extends SafeController
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'only' => ['logout'],
                 'rules' => [
                     [
@@ -30,7 +30,7 @@ class SiteController extends SafeController
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],

@@ -16,19 +16,34 @@ class LaborController extends SafeController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 //'only' => ['get-batch-data'],
                 'rules' => [
                     [
-                        'actions' => ['create-edit', 'delete', 'delete-edit', 'update'],
+                        'actions' => ['create-edit', 'delete-edit', 'update'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
+                    ],
+                    [
+                        'actions' => ['create-edit'],
+                        'allow' => true,
+                        'roles' => ['createLabor'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['editLabor'],
+                    ],
+                    [
+                        'actions' => ['delete-edit'],
+                        'allow' => true,
+                        'roles' => ['deleteLabor'],
                     ],
                 ],
             ],

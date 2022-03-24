@@ -15,7 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Work Order'), ['create'], ['id' => 'workorder-create','class' => 'btn btn-success']) ?>
+        <?php
+            if (Yii::$app->user->can('createWorkorder')) {
+                echo Html::a(Yii::t('app', 'Create Work Order'), ['create'], ['id' => 'workorder-create','class' => 'btn btn-success']);
+
+            }
+        ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -65,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view}{edit}{delete}',
+                'template' => '{edit}{delete}',
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->id], [
@@ -78,9 +83,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                     'delete' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
-                                    'title' => Yii::t('app', 'delete order'),
-                        ]);
+                        if (Yii::$app->user->can('deleteWorkorder')) {
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
+                                'title' => Yii::t('app', 'delete order'),
+                            ]);
+                        }
+                        else {
+                            return;
+                        }
+                        
                     }
                 ],
             ],

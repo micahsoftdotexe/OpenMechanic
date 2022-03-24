@@ -62,7 +62,7 @@ class Automobile extends \yii\db\ActiveRecord
      */
     public function getOwns()
     {
-        return $this->hasMany(Owns::className(), ['automobile_id' => 'id']);
+        return $this->hasMany(Owns::class, ['automobile_id' => 'id']);
     }
 
     /**
@@ -72,7 +72,7 @@ class Automobile extends \yii\db\ActiveRecord
      */
     public function getWorkorders()
     {
-        return $this->hasMany(Workorder::className(), ['automobile_id' => 'id']);
+        return $this->hasMany(Workorder::class, ['automobile_id' => 'id']);
     }
 
 
