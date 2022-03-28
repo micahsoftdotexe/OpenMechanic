@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\WorkorderSearch */
+/* @var $model app\models\OrderSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="workorder-search">
+<div class="order-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'tax') ?>
 
-    <?php // echo $form->field($model, 'workorder_notes') ?>
+    <?php // echo $form->field($model, 'order_notes') ?>
 
     <?php // echo $form->field($model, 'amount_paid') ?>
 

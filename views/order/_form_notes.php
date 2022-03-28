@@ -4,12 +4,12 @@ use yii\helpers\Html;
 ?>
 <br/>
 <div id="notes" class="container">
-    <?php foreach ($workorder->notes as $note): ?>
+    <?php foreach ($order->notes as $note) : ?>
         <?php $noteEditForm = ActiveForm::begin(['action' => ['/note/update', 'id' => $note->id]]); ?>
             <?= '<div id="note-'.$note->id.'" class="row">' ?>
                 <div class="col-md-2">
                     <?= $noteEditForm->field($note, 'text')->label(false)->textArea(['disabled' => true, 'id' => 'text-'.$note->id]); ?>
-                    <?= $noteEditForm->field($note, 'workorder_id')->hiddenInput(['value' => $workorder->id])->label(false) ?>
+                    <?= $noteEditForm->field($note, 'order_id')->hiddenInput(['value' => $order->id])->label(false) ?>
                 </div>
                 <div class="col-md-2">
                     <?php if (Yii::$app->user->can('editOwnNote', ['id' => $note->id])) :?>
@@ -54,7 +54,7 @@ use yii\helpers\Html;
             'id' => 'note-form'
         ]) ?>
         <?= $noteForm->field($model, 'text')->label(Yii::t('app', 'New Note'))->textArea(['rows'=>5]); ?>
-        <?= $noteForm->field($model, 'workorder_id')->hiddenInput(['value' => $workorder->id])->label(false) ?>
+        <?= $noteForm->field($model, 'order_id')->hiddenInput(['value' => $order->id])->label(false) ?>
         <?= Html::submitButton('<span class="fa fa-upload" aria-hidden="true"></span> ' . Yii::t('app', 'Save'), [
             'class'             => 'btn btn-success',
         ])?>

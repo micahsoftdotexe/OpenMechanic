@@ -3,9 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Workorder;
 use app\models\Automobile;
-use app\models\WorkorderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -66,7 +64,7 @@ class AutomobileController extends SafeController
         } else {
             Yii::$app->session->setFlash('error', 'Form Error');
         }
-        $this->redirect(\yii\helpers\Url::to(['/workorder/create']));
+        $this->redirect(\yii\helpers\Url::to(['/order/create']));
     }
 
     public function actionAjaxInitialCreate()

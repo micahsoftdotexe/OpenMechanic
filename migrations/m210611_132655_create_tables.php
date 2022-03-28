@@ -102,9 +102,9 @@ class m210611_132655_create_tables extends Migration
      /**
      * {@inheritdoc}
      */
-    private function workorder_up()
+    private function order_up()
     {
-        $this->createTable('workorder', [
+        $this->createTable('order', [
             'id' => $this->primaryKey(11),
             'customer_id' => $this->integer(11)->notNull(),
             'automobile_id' => $this->integer(11)->notNull(),
@@ -122,7 +122,7 @@ class m210611_132655_create_tables extends Migration
     {
         $this->createTable('note', [
             'id' => $this->primaryKey(11),
-            'workorder_id' => $this->integer(11)->notNull(),
+            'order_id' => $this->integer(11)->notNull(),
             'created_by' => $this->integer(11)->notNull(),
             'text' => $this->text(),
         ]);
@@ -133,10 +133,10 @@ class m210611_132655_create_tables extends Migration
         $this->dropTable('note');
     }
 
-    private function workorder_down(){
+    private function order_down(){
 
-        // $this->addForeignKey('fk_workorder_automobile', 'workorder');
-        $this->dropTable('workorder');
+        // $this->addForeignKey('fk_order_automobile', 'order');
+        $this->dropTable('order');
     }
 
     /**
@@ -227,7 +227,7 @@ class m210611_132655_create_tables extends Migration
     public function labor_up(){
         $this->createTable('labor', [
             'id' => $this->primaryKey(11),
-            'workorder_id' => $this->integer(11),
+            'order_id' => $this->integer(11),
             'description' => $this->text()->notNull(),
             'notes' => $this->text(),
             'price' => $this->decimal(10, 2)->notNull(),
@@ -249,7 +249,7 @@ class m210611_132655_create_tables extends Migration
     {
         $this->createTable('part', [
             'id' => $this->primaryKey(11),
-            'workorder_id' => $this->integer(11),
+            'order_id' => $this->integer(11),
             //'price' => $this->decimal(10,2)->notNull(),
             'price' => $this->decimal(10, 2)->notNull(),
             'margin' => $this->decimal(10, 2)->notNull(),
@@ -323,21 +323,21 @@ class m210611_132655_create_tables extends Migration
      */
     private function foreign_key_up()
     {
-        $this->addForeignKey('fk_part_workorder', 'part', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_note_workorder', 'note', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_part_order', 'part', 'order_id', 'order', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_note_order', 'note', 'order_id', 'order', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_note_user', 'note', 'created_by', 'user', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_labor_workorder', 'labor', 'workorder_id', 'workorder', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_labor_order', 'labor', 'order_id', 'order', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
         //$this->addForeignKey('fk_address_customer', 'address', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         //$this->addForeignKey('fk_address_address_type', 'address', 'address_type_id', 'address_type', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_workorder_customer', 'workorder', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_workorder_automobile', 'workorder', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_order_customer', 'order', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_order_automobile', 'order', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
         //$this->addForeignKey('fk_phone_phone_type', 'phone_number', 'phone_type_id', 'phone_type', 'id', 'CASCADE', 'CASCADE');
         //$this->addForeignKey('fk_phone_customer', 'phone_number', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         //$this->addForeignKey('fk_phone_type_phone', 'phone_type', 'id', 'phone_number', 'phone_type_id', 'CASCADE', 'CASCADE'); //hello
         //$this->addForeignKey('fk_phone_phone_type', 'phone_number', 'phone_type_id', 'phone_type', 'id',  'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_workorder_stage', 'workorder', 'stage_id', 'stage', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_order_stage', 'order', 'stage_id', 'stage', 'id', 'CASCADE', 'CASCADE');
         // $this->addForeignKey('fk_phone_type_customer', 'phone_type', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
     }
 
@@ -346,19 +346,19 @@ class m210611_132655_create_tables extends Migration
      */
     private function foreign_key_down()
     {
-        $this->dropForeignKey('fk_part_workorder', 'part');
-        $this->dropForeignKey('fk_labor_workorder', 'labor');
-        $this->dropForeignKey('fk_note_workorder', 'notes');
+        $this->dropForeignKey('fk_part_order', 'part');
+        $this->dropForeignKey('fk_labor_order', 'labor');
+        $this->dropForeignKey('fk_note_order', 'notes');
         $this->dropForeignKey('fk_owns_customer', 'owns');
         $this->dropForeignKey('fk_owns_automobile', 'owns');
         //$this->dropForeignKey('fk_address_customer', 'address');
         //$this->dropForeignKey('fk_address_address_type', 'address');
-        $this->dropForeignKey('fk_workorder_customer', 'workorder');
-        $this->dropForeignKey('fk_workorder_automobile', 'workorder');
+        $this->dropForeignKey('fk_order_customer', 'order');
+        $this->dropForeignKey('fk_order_automobile', 'order');
         //$this->dropForeignKey('fk_phone_phone_type', 'phone_number');
         //$this->dropForeignKey('fk_phone_customer', 'phone_number');
         //$this->dropForeignKey('fk_phone_type_phone', 'phone_type');
-        $this->dropForeignKey('fk_stage_workorder', 'stage');
+        $this->dropForeignKey('fk_stage_order', 'stage');
 
     }
     /**
@@ -374,7 +374,7 @@ class m210611_132655_create_tables extends Migration
         //$this->address_type_up();
         $this->owns_up();
         $this->automobile_up();
-        $this->workorder_up();
+        $this->order_up();
         $this->notes_up();
         $this->labor_up();
         $this->part_up();
@@ -401,7 +401,7 @@ class m210611_132655_create_tables extends Migration
         $this->owns_down();
         $this->automobile_down();
         $this->notes_down();
-        $this->workorder_down();
+        $this->order_down();
         $this->labor_down();
         $this->part_down();
         $this->stage_down();

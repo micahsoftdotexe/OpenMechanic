@@ -17,7 +17,7 @@ use Yii;
  * @property Labor[] $labors
  * @property Owns[] $owns
  * @property PhoneNumber[] $phoneNumbers
- * @property Workorder[] $workorders
+ * @property Order[] $orders
  */
 class Customer extends \yii\db\ActiveRecord
 {
@@ -124,7 +124,7 @@ class Customer extends \yii\db\ActiveRecord
      */
     public function getLabors()
     {
-        return $this->hasMany(Labor::class, ['workorder_id' => 'id']);
+        return $this->hasMany(Labor::class, ['order_id' => 'id']);
     }
 
     /**
@@ -138,13 +138,13 @@ class Customer extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Workorders]].
+     * Gets query for [[Orders]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getWorkorders()
+    public function getOrders()
     {
-        return $this->hasMany(Workorder::class, ['customer_id' => 'id']);
+        return $this->hasMany(Order::class, ['customer_id' => 'id']);
     }
 
     public function getAutomobiles()

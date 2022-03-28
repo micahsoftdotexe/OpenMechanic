@@ -54,18 +54,18 @@ class LaborController extends SafeController
     {
         $model = new Labor();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+            return $this->redirect(['/order/edit', 'id' => $model->order_id]);
         }
         Yii::$app->session->setFlash('error', $model->getErrors());
-        return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+        return $this->redirect(['/order/edit', 'id' => $model->order_id]);
     }
 
     public function actionDeleteEdit($id)
     {
         $model = $this->findModel($id);
-        $workorder_id = $model->workorder_id;
+        $order_id = $model->order_id;
         $model->delete();
-        return $this->redirect(['/workorder/edit', 'id' => $workorder_id]);
+        return $this->redirect(['/order/edit', 'id' => $order_id]);
     }
 
     public function actionUpdate($id)
@@ -73,10 +73,10 @@ class LaborController extends SafeController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/workorder/edit', 'id' => $model->workorder_id]);
+            return $this->redirect(['/order/edit', 'id' => $model->order_id]);
         }
         return $this->render('_form', [
-            'workorder_id' => $model->workorder_id,
+            'order_id' => $model->order_id,
             'model' => $model,
             'edit' => true,
         ]);

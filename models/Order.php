@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%workorder}}".
+ * This is the model class for table "{{%order}}".
  *
  * @property int $id
  * @property int $customer_id
@@ -22,7 +22,7 @@ use Yii;
  * @property Automobile $automobile
  * @property Customer $customer
  */
-class Workorder extends \yii\db\ActiveRecord
+class Order extends \yii\db\ActiveRecord
 {
     public $make;
     public $model;
@@ -32,7 +32,7 @@ class Workorder extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%workorder}}';
+        return '{{%order}}';
     }
 
     /**
@@ -63,7 +63,7 @@ class Workorder extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Date'),
             'tax' => Yii::t('app', 'Tax'),
             'make' => Yii::t('app', 'Make'),
-            'workorder_notes' => Yii::t('app', 'Workorder Notes'),
+            'order_notes' => Yii::t('app', 'Order Notes'),
             'amount_paid' => Yii::t('app', 'Amount Paid'),
             'paid_in_full' => Yii::t('app', 'Paid In Full'),
         ];
@@ -88,7 +88,7 @@ class Workorder extends \yii\db\ActiveRecord
      */
     public function getLabors()
     {
-        return $this->hasMany(Labor::class, ['workorder_id' => 'id']);
+        return $this->hasMany(Labor::class, ['order_id' => 'id']);
     }
 
     /**
@@ -98,7 +98,7 @@ class Workorder extends \yii\db\ActiveRecord
      */
     public function getParts()
     {
-        return $this->hasMany(Part::class, ['workorder_id' => 'id']);
+        return $this->hasMany(Part::class, ['order_id' => 'id']);
     }
 
     /**
@@ -138,7 +138,7 @@ class Workorder extends \yii\db\ActiveRecord
 
     public function getNotes()
     {
-        return $this->hasMany(Note::class, ['workorder_id' => 'id']);
+        return $this->hasMany(Note::class, ['order_id' => 'id']);
     }
 
     public function getSubtotal()

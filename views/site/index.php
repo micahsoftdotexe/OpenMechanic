@@ -7,14 +7,14 @@ $this->title = Yii::$app->params['applicationName'];
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Welcome to the Workorder System</h1>
+        <h1>Welcome to the OpenMechanic System</h1>
 
         <!-- <p class="lead">You have successfully created your Yii-powered application.</p> -->
-        <!-- yii\helpers\Url::base(true).'/web/workorder' -->
-        <!-- yii\helpers\Url::base(true).'/workorder' -->
-        <p><?=Html::a('Work Order', ['workorder/index'], [
+        <!-- yii\helpers\Url::base(true).'/web/order' -->
+        <!-- yii\helpers\Url::base(true).'/order' -->
+        <p><?=Html::a('Work Order', ['order/index'], [
             'class' => 'btn btn-lg btn-success',
-            'id' => 'workorder-button',
+            'id' => 'order-button',
         ]) ?></p>
     </div>
 
