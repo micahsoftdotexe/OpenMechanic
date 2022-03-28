@@ -2,7 +2,7 @@
 
 return [
     'adminEmail'      => 'admin@example.com',
-    'applicationName' => 'OpenMechanic',
+    // 'applicationName' => 'TuneUp',
     'companyName'     => 'Company Name',
     'senderEmail'     => 'noreply@example.com',
     'senderName'      => 'Example.com mailer',

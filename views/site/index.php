@@ -2,23 +2,23 @@
 // use Yii;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
-$this->title = Yii::$app->params['applicationName'];
+$this->title = Yii::$app->name;
 ?>
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Welcome to the OpenMechanic System</h1>
+        <h1>Welcome to the <?= Yii::$app->name ?> <br/>Order System</h1>
 
         <!-- <p class="lead">You have successfully created your Yii-powered application.</p> -->
         <!-- yii\helpers\Url::base(true).'/web/order' -->
         <!-- yii\helpers\Url::base(true).'/order' -->
-        <p><?=Html::a('Work Order', ['order/index'], [
+        <p><?=Html::a('Orders', ['order/index'], [
             'class' => 'btn btn-lg btn-success',
             'id' => 'order-button',
         ]) ?></p>
     </div>
 
-    <div class="body-content">
+    <!-- <div class="body-content">
 
         <div class="row">
             <div class="col-lg-4">
@@ -53,5 +53,5 @@ $this->title = Yii::$app->params['applicationName'];
             </div>
         </div>
 
-    </div>
+    </div> -->
 </div>
