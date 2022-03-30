@@ -19,8 +19,8 @@ class OrderSearch extends Order
     public function rules()
     {
         return [
-            [['id', 'automobile_id', 'paid_in_full'], 'integer'],
-            [['date',  'customer_id','make','model', 'fullName'], 'safe'],
+            [['id', 'automobile_id', 'paid_in_full', 'stage'], 'integer'],
+            [['date',  'customer_id','make','model', 'fullName', 'stage'], 'safe'],
             [[ 'tax', 'amount_paid'], 'number'],
         ];
     }
@@ -77,6 +77,7 @@ class OrderSearch extends Order
             'automobile_id' => $this->automobile_id,
             //'date' => $this->date,
             //'subtotal' => $this->subtotal,
+            'stage' => $this->stage,
             'tax' => $this->tax,
             'amount_paid' => $this->amount_paid,
             'paid_in_full' => $this->paid_in_full,

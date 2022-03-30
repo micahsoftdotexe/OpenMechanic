@@ -54,6 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $searchModel,
                     'attribute' => 'date',
                     'dateFormat' => 'yyyy-MM-dd',
+                    'options' => [
+                        'class'=>'form-control'
+                    ],
                 ]),
                 'format' => 'html',
             ],
@@ -62,6 +65,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model) {
                     return '$' . $model->subtotal;
                 }
+            ],
+            [
+                'attribute' => 'stage',
+                'value' => function($model) {
+                    return \app\models\Order::$stages[$model->stage];
+                },
+                'filter' => \app\models\Order::$stages,
             ],
             //'tax',
             //'order_notes:ntext',
