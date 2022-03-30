@@ -8,10 +8,7 @@ $this->title = Yii::$app->name;
 
     <div class="jumbotron">
         <h1>Welcome to the <?= Yii::$app->name ?> <br/>Order System</h1>
-
-        <!-- <p class="lead">You have successfully created your Yii-powered application.</p> -->
-        <!-- yii\helpers\Url::base(true).'/web/order' -->
-        <!-- yii\helpers\Url::base(true).'/order' -->
+        
         <p><?=Html::a('Orders', ['order/index'], [
             'class' => 'btn btn-lg btn-success',
             'id' => 'order-button',

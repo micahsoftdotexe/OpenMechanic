@@ -54,6 +54,12 @@ class OrderController extends SafeController
                         'allow' => true,
                         'roles' => ['editOrder'],
                     ],
+                    [
+                        'actions' => ['change-stage'],
+                        'allow' => true,
+                        'roles' => ['changeStage'],
+                        'roleParams' => ['id' => Yii::$app->request->get('id'), 'increment' => Yii::$app->request->get('increment')],
+                    ],
 
                 ],
             ],
@@ -134,21 +140,18 @@ class OrderController extends SafeController
     public function actionCreateTemplate()
     {
         $model = new Order();
-        //Yii::debug(Yii::$app->request->post(), 'dev');
         if ($model->load(Yii::$app->request->post()) && Yii::$app->request->post('taxable')) {
-            $model->stage_id = \app\models\Stage::find()->where(['title' => 'Created'])->one()->id;
+            $model->stage = 1;
             if (intval(Yii::$app->request->post('taxable')) == 1) {
                 $model->tax = Yii::$app->params['sales_tax'];
             } else {
                 $model->tax = 0;
             }
-            //$model->notes = "Replace Text Here";
             if ($model->save()) {
                 $this->redirect(['edit', 'id' => $model->id, 'tab' => 'tabCustomerAutomobileLink']);
             } else {
                 Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Order Save Error'));
                 return $this->redirect(Url::base(true).'/order');
-
             }
         } else {
             Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Order Save Error'));
@@ -234,9 +237,6 @@ class OrderController extends SafeController
 
     public static function actionGetAutomobiles()
     {
-        // \Yii::debug("before id",
-        //     'dev'  // devlog file.  See components->log->dev defined in /config/web.php
-        //     );
         if ($id = Yii::$app->request->post('id')) {
             return json_encode(\app\models\Automobile::getIds($id));
         } else {
@@ -244,6 +244,23 @@ class OrderController extends SafeController
                 'status' => 'error',
                 'details' => 'No customer_id',
             ]);
+        }
+    }
+
+    public function actionChangeStage($id, $increment)
+    {
+        $model = Order::findOne($id);
+        if ($model->canChangeStage($increment)) {
+            $model->stage += $increment;
+            if ($model->save()) {
+                return $this->redirect(['edit', 'id' => $model->id]);
+            } else {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Could not change stage'));
+                return $this->redirect(['edit', 'id' => $model->id]);
+            }
+        } else {
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Could not change stage'));
+            return $this->redirect(['edit', 'id' => $model->id]);
         }
     }
 }

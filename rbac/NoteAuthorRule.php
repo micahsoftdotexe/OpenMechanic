@@ -20,6 +20,6 @@ class NoteAuthorRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-        return Note::findOne(['id' => $params['id']])->created_by == $user || Yii::$app->user->can('admin');
+        return (Note::findOne(['id' => $params['id']])->created_by == $user) || (Yii::$app->user->can('admin'));
     }
 }
