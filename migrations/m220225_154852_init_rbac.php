@@ -44,6 +44,7 @@ class m220225_154852_init_rbac extends Migration
         // create user permission
         // edit user permission
         //! edit own user permission
+        //! change stage permission
         // edit user roles permission
         // create labor permission
         // edit labor permission
@@ -60,6 +61,8 @@ class m220225_154852_init_rbac extends Migration
         $auth->add($noteAuthor);
         $userEdit = new \app\rbac\UserEditRule;
         $auth->add($userEdit);
+        $stageChange = new \app\rbac\StageChangeRule;
+        $auth->add($stageChange);
 
         //permissions
         $createOrder = $auth->createPermission('createOrder');
@@ -157,6 +160,11 @@ class m220225_154852_init_rbac extends Migration
         $viewOrder->description = 'View Order';
         $auth->add($viewOrder);
 
+        $changeStage = $auth->createPermission('changeStage');
+        $changeStage->description = 'Change Stage';
+        $changeStage->ruleName = $stageChange->name;
+        $auth->add($changeStage);
+
         //create employee role
         $employee = $auth->createRole('employee');
         $auth->add($employee);
@@ -165,6 +173,7 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($employee, $editNote);
         $auth->addChild($employee, $deleteNote);
         $auth->addChild($employee, $viewOrder);
+        $auth->addChild($employee, $changeStage);
 
         //create shop manager role
         $shopManager = $auth->createRole('shopManager');

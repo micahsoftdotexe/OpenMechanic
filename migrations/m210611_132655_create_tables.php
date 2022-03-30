@@ -73,32 +73,32 @@ class m210611_132655_create_tables extends Migration
     /**
      * {@inheritdoc}
      */
-    private function stage_up()
-    {
-        $this->createTable('stage', [
-            'id' => $this->primaryKey(11),
-            'title' => $this->string(15),
-            //'description' => $this->string(20),
-        ]);
-        $this->batchInsert('stage',
-        [
-            'id','title'
-        ],
-        [
-            [1, 'Created'],
-            [2, 'Working On'],
-            [3, 'Finished'],
-            [4, 'Paid']
-        ]);
-    }
-      /**
-     * {@inheritdoc}
-     */
-    private function stage_down()
-    {
-        //$this->addForeignKey('fk_phone_type_phone', 'phone_type');
-        $this->dropTable('stage');
-    }
+    // private function stage_up()
+    // {
+    //     $this->createTable('stage', [
+    //         'id' => $this->primaryKey(11),
+    //         'title' => $this->string(15),
+    //         //'description' => $this->string(20),
+    //     ]);
+    //     $this->batchInsert('stage',
+    //     [
+    //         'id','title'
+    //     ],
+    //     [
+    //         [1, 'Created'],
+    //         [2, 'Working On'],
+    //         [3, 'Finished'],
+    //         [4, 'Paid']
+    //     ]);
+    // }
+    //   /**
+    //  * {@inheritdoc}
+    //  */
+    // private function stage_down()
+    // {
+    //     //$this->addForeignKey('fk_phone_type_phone', 'phone_type');
+    //     $this->dropTable('stage');
+    // }
      /**
      * {@inheritdoc}
      */
@@ -109,7 +109,7 @@ class m210611_132655_create_tables extends Migration
             'customer_id' => $this->integer(11)->notNull(),
             'automobile_id' => $this->integer(11)->notNull(),
             'odometer_reading' => $this->integer(25)->notNull(),
-            'stage_id' => $this->integer(11)->notNull(),
+            'stage' => $this->integer(11)->notNull(),
             'date' => $this->datetime(),
             //'subtotal' => $this->decimal(10, 2),
             'tax' => $this->decimal(10, 2),
@@ -337,7 +337,6 @@ class m210611_132655_create_tables extends Migration
         //$this->addForeignKey('fk_phone_customer', 'phone_number', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         //$this->addForeignKey('fk_phone_type_phone', 'phone_type', 'id', 'phone_number', 'phone_type_id', 'CASCADE', 'CASCADE'); //hello
         //$this->addForeignKey('fk_phone_phone_type', 'phone_number', 'phone_type_id', 'phone_type', 'id',  'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_order_stage', 'order', 'stage_id', 'stage', 'id', 'CASCADE', 'CASCADE');
         // $this->addForeignKey('fk_phone_type_customer', 'phone_type', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
     }
 
@@ -358,9 +357,8 @@ class m210611_132655_create_tables extends Migration
         //$this->dropForeignKey('fk_phone_phone_type', 'phone_number');
         //$this->dropForeignKey('fk_phone_customer', 'phone_number');
         //$this->dropForeignKey('fk_phone_type_phone', 'phone_type');
-        $this->dropForeignKey('fk_stage_order', 'stage');
-
     }
+
     /**
      * {@inheritdoc}
      */
@@ -378,7 +376,7 @@ class m210611_132655_create_tables extends Migration
         $this->notes_up();
         $this->labor_up();
         $this->part_up();
-        $this->stage_up();
+        //$this->stage_up();
         $this->foreign_key_up();
         $this->quantity_type_up();
     }
@@ -404,7 +402,7 @@ class m210611_132655_create_tables extends Migration
         $this->order_down();
         $this->labor_down();
         $this->part_down();
-        $this->stage_down();
+        //$this->stage_down();
         $this->quantity_type_down();
         $this->foreign_key_down();
     }

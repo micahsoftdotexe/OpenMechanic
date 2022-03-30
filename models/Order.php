@@ -26,6 +26,13 @@ class Order extends \yii\db\ActiveRecord
 {
     public $make;
     public $model;
+    public static $stages =
+    [
+        1 => 'Created',
+        2 => 'In Progress',
+        3 => 'Completed',
+        4 => 'Paid',
+    ];
 
     /**
      * {@inheritdoc}
@@ -41,7 +48,7 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'automobile_id', 'odometer_reading', 'stage_id'], 'required'],
+            [['customer_id', 'automobile_id', 'odometer_reading', 'stage'], 'required'],
             [['customer_id', 'automobile_id', 'paid_in_full'], 'integer'],
             [['date'], 'safe'],
             [['tax', 'amount_paid', 'odometer_reading'], 'number'],
@@ -124,11 +131,11 @@ class Order extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Stage]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return string
      */
-    public function getStage()
+    public function getStageName()
     {
-        return $this->hasOne(Customer::class, ['id' => 'stage_id']);
+        return self::$stages[$this->stage];
     }
 
     public function getFullName()
@@ -152,5 +159,13 @@ class Order extends \yii\db\ActiveRecord
             $subtotal += $labor->price;
         }
         return round($subtotal, 2);
+    }
+
+    public function canChangeStage($increment)
+    {
+        if (($this->stage + $increment > count(self::$stages)) || ($this->stage + $increment < 1)) {
+            return false;
+        }
+        return true;
     }
 }

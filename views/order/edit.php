@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 //webtoucher\cookie\AssetBundle::register($this);
 ?>
 
@@ -12,7 +12,10 @@ $this->title = Yii::t('app', 'Update Order: {name}', [
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->customer_id])->one()->last_name.' - '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->make.' '.\app\models\Automobile::find()->where(['id'=> $model->automobile_id])->one()->model, 'url' => ['edit', 'id' => $model->id]];
 ?>
- <h1><?= Html::encode($this->title) ?></h1>
+<h1><?= Html::encode($this->title) ?></h1>
+<h3><?= Yii::t('app', 'Stage: "'.$model->stageName.'"' ) ?></h3>
+<?= Yii::$app->user->can('changeStage', ['id' => $model->id, 'increment' => -1]) ? Html::a('<span class="glyphicon glyphicon-arrow-left"></span> '.Yii::t('app', 'Previous'), Url::to(['/order/change-stage', 'id' => $model->id, 'increment' => -1]), ['class' => 'btn']):'' ?>
+<?= Yii::$app->user->can('changeStage', ['id' => $model->id, 'increment' => 1]) ? Html::a('<span class="glyphicon glyphicon-arrow-right"></span> '.Yii::t('app', 'Next'), Url::to(['/order/change-stage', 'id' => $model->id, 'increment' => 1]), ['class' => 'btn']):'' ?>
 <?= \yii\bootstrap\Tabs::widget([
     'options' => ['id' => 'tabUpdate'],
     'items' => [
