@@ -14,12 +14,11 @@ class UserEditRule extends Rule
     /**
      * @param string|int $user the user ID.
      * @param Item $item the role or permission that this rule is associated with
-     * @param array $params parameters passed to ManagerInterface::checkAccess().
+     * @param array $params parameters passed to ManagerInterface::checkAccess(). Should give the id of the user that is to be edited.
      * @return bool a value indicating whether the rule permits the role or permission it is associated with.
      */
     public function execute($user, $item, $params)
     {
-        \Yii::trace('id' . $params['id'], 'dev');
         return $params['id'] == Yii::$app->user->id || Yii::$app->user->can('admin');
     }
 }

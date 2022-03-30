@@ -22,15 +22,13 @@ class StageChangeRule extends Rule
     /**
      * @param string|int $user the user ID.
      * @param Item $item the role or permission that this rule is associated with
-     * @param array $params parameters passed to ManagerInterface::checkAccess().
+     * @param array $params parameters passed to ManagerInterface::checkAccess(). This should include increment and id.
      * @return bool a value indicating whether the rule permits the role or permission it is associated with.
      */
     public function execute($user, $item, $params)
     {
         if (isset($params['id']) && isset($params['increment'])) {
             $model = Order::findOne(['id' => $params['id']]);
-            //Yii::debug($model->stage + $params['increment'], 'dev');
-            //Yii::debug(($this->associations[$model->stage + $params['increment']]), 'dev');
             return (($model) && ($model->canChangeStage($params['increment'])) && (Yii::$app->user->can($this->associations[$model->stage + $params['increment']])));
         }
         return false;
