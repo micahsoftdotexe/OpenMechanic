@@ -62,4 +62,9 @@ class Labor extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Order::class, ['id' => 'order_id']);
     }
+
+    public function getTotal()
+    {
+        return $this->price;
+    }
 }

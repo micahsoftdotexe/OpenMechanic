@@ -210,10 +210,19 @@ class m220225_154852_init_rbac extends Migration
     public function safeDown()
     {
         $success = false;
+        $authManager = Yii::$app->authManager;
         $performLocalDowngrade = true;  // Specify whether to perform downgrade here.  If not here, delegate that to @yii/rbac/migrations migration script to avoid duplication.
         if ($performLocalDowngrade) {
             echo "\nDropping RBAC tables\n";
-            \app\helpers\DbHelper::dropRbacTables();
+            $this->dropTable($authManager->assignmentTable);
+            $this->dropTable($authManager->itemChildTable);
+            $this->dropTable($authManager->itemTable);
+            $this->dropTable($authManager->ruleTable);
+            Yii::$app->db->createCommand()->delete('migration', ['version' => 'm200409_110543_rbac_update_mssql_trigger'])->execute();
+            Yii::$app->db->createCommand()->delete('migration', ['version' => 'm180523_151638_rbac_updates_indexes_without_prefix'])->execute();
+            Yii::$app->db->createCommand()->delete('migration', ['version' => 'm170907_052038_rbac_add_index_on_auth_assignment_user_id'])->execute();
+            Yii::$app->db->createCommand()->delete('migration', ['version' => 'm140506_102106_rbac_init'])->execute();
+            Yii::$app->db->createCommand()->delete('migration', ['version' => 'm180409_110000_init_rbac'])->execute();
 
             $success = true;
         } else {

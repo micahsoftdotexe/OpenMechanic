@@ -52,7 +52,6 @@ class Order extends \yii\db\ActiveRecord
             [['customer_id', 'automobile_id', 'paid_in_full'], 'integer'],
             [['date'], 'safe'],
             [['tax', 'amount_paid', 'odometer_reading'], 'number'],
-            [['notes'], 'string'],
             [['automobile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Automobile::class, 'targetAttribute' => ['automobile_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['customer_id' => 'id']],
         ];
@@ -159,6 +158,13 @@ class Order extends \yii\db\ActiveRecord
             $subtotal += $labor->price;
         }
         return round($subtotal, 2);
+    }
+
+    public function getTotal()
+    {
+        $total = $this->subtotal;
+        $total += $this->subtotal*$this->tax;
+        return round($total, 2);
     }
 
     public function canChangeStage($increment)

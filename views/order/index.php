@@ -48,7 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                //'label' => 'Date',
                 'attribute' => 'date',
                 'filter' => \yii\jui\DatePicker::widget([
                     'model' => $searchModel,
@@ -61,17 +60,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
             ],
             [
-                'attribute' => 'subtotal',
-                'value' => function($model) {
-                    return '$' . $model->subtotal;
-                }
-            ],
-            [
                 'attribute' => 'stage',
                 'value' => function($model) {
                     return \app\models\Order::$stages[$model->stage];
                 },
                 'filter' => \app\models\Order::$stages,
+            ],
+            [
+                'attribute' => 'subtotal',
+                'value' => function($model) {
+                    return '$' . $model->subtotal;
+                }
             ],
             //'tax',
             //'order_notes:ntext',
@@ -97,11 +96,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
                                 'title' => Yii::t('app', 'delete order'),
                             ]);
-                        }
-                        else {
+                        } else {
                             return;
                         }
-                        
                     }
                 ],
             ],
