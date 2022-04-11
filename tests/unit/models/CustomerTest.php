@@ -133,4 +133,14 @@ class CustomerTest extends \Codeception\Test\Unit
         $customer->last_name = 'Smith';
         $this->assertTrue($customer->validate());
     }
+
+    public function testGetIds()
+    {
+        $customers = Customer::find()->orderBy(['id'=> SORT_ASC])->all();
+        $testArray = [];
+        foreach ($customers as $customer) {
+            $testArray[$customer->id] = $customer->fullName;
+        }
+        $this->assertEquals($testArray, Customer::getIds());
+    }
 }

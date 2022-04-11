@@ -57,24 +57,24 @@ class OrderTest extends \Codeception\Test\Unit
         $order = new Order();
         $order->automobile_id = 1;
         $order->odometer_reading = 1;
-        $order->stage_id = 1;
+        $order->stage = 1;
         $this->tester->assertFalse($order->validate());
 
         //without automobile_id
         $order = new Order();
         $order->customer_id = 1;
         $order->odometer_reading = 1;
-        $order->stage_id = 1;
+        $order->stage = 1;
         $this->tester->assertFalse($order->validate());
 
         //without odometer_reading
         $order = new Order();
         $order->customer_id = 1;
         $order->automobile_id = 1;
-        $order->stage_id = 1;
+        $order->stage = 1;
         $this->tester->assertFalse($order->validate());
 
-        //without stage_id
+        //without stage
         $order = new Order();
         $order->customer_id = 1;
         $order->automobile_id = 1;
@@ -86,7 +86,7 @@ class OrderTest extends \Codeception\Test\Unit
         $order->customer_id = 'a';
         $order->automobile_id = 1;
         $order->odometer_reading = 1;
-        $order->stage_id = 1;
+        $order->stage = 1;
         $this->tester->assertFalse($order->validate());
 
         //automobile_id is not an integer
@@ -94,7 +94,7 @@ class OrderTest extends \Codeception\Test\Unit
         $order->customer_id = 1;
         $order->automobile_id = 'a';
         $order->odometer_reading = 1;
-        $order->stage_id = 1;
+        $order->stage = 1;
         $this->tester->assertFalse($order->validate());
 
         //paid_in_full is not an integer
@@ -103,7 +103,7 @@ class OrderTest extends \Codeception\Test\Unit
         $order->automobile_id = 1;
         $order->odometer_reading = 1;
         $order->paid_in_full = 'a';
-        $order->stage_id = 1;
+        $order->stage = 1;
         $this->tester->assertFalse($order->validate());
 
         //tax is not a number
@@ -112,7 +112,7 @@ class OrderTest extends \Codeception\Test\Unit
         $order->automobile_id = 1;
         $order->odometer_reading = 1;
         $order->tax = 'a';
-        $order->stage_id = 1;
+        $order->stage = 1;
         $this->tester->assertFalse($order->validate());
 
         //amount_paid is not a number
@@ -121,7 +121,7 @@ class OrderTest extends \Codeception\Test\Unit
         $order->automobile_id = 1;
         $order->odometer_reading = 1;
         $order->amount_paid = 'a';
-        $order->stage_id = 1;
+        $order->stage = 1;
         $this->tester->assertFalse($order->validate());
 
         //odometer_reading is not an integer
@@ -129,7 +129,7 @@ class OrderTest extends \Codeception\Test\Unit
         $order->customer_id = 1;
         $order->automobile_id = 1;
         $order->odometer_reading = 'a';
-        $order->stage_id = 1;
+        $order->stage = 1;
         $this->tester->assertFalse($order->validate());
     }
 
@@ -137,7 +137,7 @@ class OrderTest extends \Codeception\Test\Unit
     {
         $order = new Order();
         $order->customer_id = 2;
-        $order->stage_id = 1;
+        $order->stage = 1;
         $order->automobile_id = 3;
         $order->odometer_reading = 1;
         $order->paid_in_full = 1;
@@ -151,5 +151,35 @@ class OrderTest extends \Codeception\Test\Unit
     {
         $order = Order::findOne(1);
         $this->tester->assertEquals('Customer 1', $order->fullName);
+    }
+
+    public function testSubtotal()
+    {
+        $order = Order::findOne(2);
+        $this->tester->assertEquals(100, $order->subtotal);
+        $order = Order::findOne(1);
+        $this->tester->assertEquals(111, $order->subtotal);
+    }
+
+    public function testTotal()
+    {
+        $this->tester->assertEquals(Order::findOne(1)->subtotal+(Order::findOne(1)->subtotal*\Yii::$app->params['sales_tax']), Order::findOne(1)->total);
+        $this->tester->assertEquals(Order::findOne(2)->subtotal+(Order::findOne(2)->subtotal*\Yii::$app->params['sales_tax']), Order::findOne(2)->total);
+    }
+
+    public function testChangeStage()
+    {
+        $order = Order::findOne(1);
+        $this->tester->assertTrue($order->canChangeStage(1));
+        $this->tester->assertFalse($order->canChangeStage(-1));
+
+        $order = Order::findOne(2);
+        $this->tester->assertFalse($order->canChangeStage(1));
+        $this->tester->assertTrue($order->canChangeStage(-1));
+
+        $order->stage = 2;
+        $this->tester->assertTrue($order->save());
+        $this->tester->assertTrue($order->canChangeStage(1));
+        $this->tester->assertTrue($order->canChangeStage(-1));
     }
 }

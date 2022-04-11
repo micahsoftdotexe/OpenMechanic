@@ -1,5 +1,6 @@
 <?php
 use \app\models\Order;
+use \app\models\QuantityType;
 ?>
 
 <div id="company_info">
@@ -41,9 +42,13 @@ use \app\models\Order;
     <?php foreach ($order->parts as $part) : ?>
     <tr>
       <td><?= $part->description ?></td>
-      <td><?= $part->quantity ?></td>
-      <td><?= '$'.$part->getVerbalizedPrice()?></td>
-      <td><?= '$'.round($part->total, 2) ?></td>
+        <?php if ($part->quantity_type_id) : ?>
+          <td><?= $part->quantity . ' (' . QuantityType::findOne($part->quantity_type_id)->description . ')' ?></td>
+        <?php else : ?>
+          <td><?= $part->quantity?></td>
+        <?php endif; ?>
+      <td><?= '$' . round($part->price, 2)?></td>
+      <td><?= '$' . round($part->total, 2) ?></td>
     </tr>
     <?php endforeach; ?>
   </table>

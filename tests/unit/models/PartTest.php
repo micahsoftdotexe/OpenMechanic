@@ -192,4 +192,12 @@ class PartTest extends \Codeception\Test\Unit
         $part->order_id = 1;
         $this->tester->assertTrue($part->validate());
     }
+
+    public function testGetTotal()
+    {
+        $part = Part::findOne(1);
+        $this->tester->assertEquals(110, $part->getTotal());
+        $part = Part::findOne(2);
+        $this->tester->assertEquals(50, $part->getTotal());
+    }
 }

@@ -107,4 +107,12 @@ class LaborTest extends \Codeception\Test\Unit
         $labor->price = 1.2;
         $this->assertTrue($labor->validate());
     }
+
+    public function testGetTotal()
+    {
+        $labor = Labor::findOne(1);
+        $this->assertEquals($labor->price, $labor->getTotal());
+        $labor = Labor::findOne(2);
+        $this->assertEquals($labor->price, $labor->getTotal());
+    }
 }

@@ -34,7 +34,7 @@ class Part extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['price', 'margin', 'description', 'part_number', 'quantity', 'order_id'], 'required'],
+            [['price', 'margin', 'description', 'part_number', 'quantity', 'order_id','quantity_type_id'], 'required'],
             [['order_id','quantity_type_id'], 'integer'],
             [['price', 'margin', 'quantity'], 'number'],
             [['description'], 'string'],
@@ -77,16 +77,18 @@ class Part extends \yii\db\ActiveRecord
     public function getVerbalizedPrice()
     {
         $return_string = $this->price + ($this->price * ($this->margin / 100));
-        $quantity_type = QuantityType::findOne($this->quantity_type_id);
-        if ($quantity_type->description != 'Each') {
-            $return_string .= ' per ';
-        } else {
-            $return_string .= ' ';
-        }
-        if ($this->quantity > 1 && $quantity_type->description != 'Each') {
-            $return_string .= \yii\helpers\Inflector::pluralize($quantity_type->description);
-        } else {
-            $return_string .= $quantity_type->description;
+        if ($this->quantity_type_id) {
+            $quantity_type = QuantityType::findOne($this->quantity_type_id);
+            if ($quantity_type->description != 'Each') {
+                $return_string .= ' per ';
+            } else {
+                $return_string .= ' ';
+            }
+            if ($this->quantity > 1 && $quantity_type->description != 'Each') {
+                $return_string .= \yii\helpers\Inflector::pluralize($quantity_type->description);
+            } else {
+                $return_string .= $quantity_type->description;
+            }
         }
         return round($return_string, 2);
     }
