@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%workorder}}".
+ * This is the model class for table "{{%order}}".
  *
  * @property int $id
  * @property int $customer_id
@@ -22,17 +22,24 @@ use Yii;
  * @property Automobile $automobile
  * @property Customer $customer
  */
-class Workorder extends \yii\db\ActiveRecord
+class Order extends \yii\db\ActiveRecord
 {
     public $make;
     public $model;
+    public static $stages =
+    [
+        1 => 'Created',
+        2 => 'In Progress',
+        3 => 'Completed',
+        4 => 'Paid',
+    ];
 
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%workorder}}';
+        return '{{%order}}';
     }
 
     /**
@@ -41,11 +48,10 @@ class Workorder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'automobile_id', 'odometer_reading', 'stage_id'], 'required'],
+            [['customer_id', 'automobile_id', 'odometer_reading', 'stage'], 'required'],
             [['customer_id', 'automobile_id', 'paid_in_full'], 'integer'],
             [['date'], 'safe'],
             [['tax', 'amount_paid', 'odometer_reading'], 'number'],
-            [['notes'], 'string'],
             [['automobile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Automobile::class, 'targetAttribute' => ['automobile_id' => 'id']],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['customer_id' => 'id']],
         ];
@@ -63,7 +69,7 @@ class Workorder extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Date'),
             'tax' => Yii::t('app', 'Tax'),
             'make' => Yii::t('app', 'Make'),
-            'workorder_notes' => Yii::t('app', 'Workorder Notes'),
+            'order_notes' => Yii::t('app', 'Order Notes'),
             'amount_paid' => Yii::t('app', 'Amount Paid'),
             'paid_in_full' => Yii::t('app', 'Paid In Full'),
         ];
@@ -88,7 +94,7 @@ class Workorder extends \yii\db\ActiveRecord
      */
     public function getLabors()
     {
-        return $this->hasMany(Labor::class, ['workorder_id' => 'id']);
+        return $this->hasMany(Labor::class, ['order_id' => 'id']);
     }
 
     /**
@@ -98,7 +104,7 @@ class Workorder extends \yii\db\ActiveRecord
      */
     public function getParts()
     {
-        return $this->hasMany(Part::class, ['workorder_id' => 'id']);
+        return $this->hasMany(Part::class, ['order_id' => 'id']);
     }
 
     /**
@@ -124,11 +130,11 @@ class Workorder extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Stage]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return string
      */
-    public function getStage()
+    public function getStageName()
     {
-        return $this->hasOne(Customer::class, ['id' => 'stage_id']);
+        return self::$stages[$this->stage];
     }
 
     public function getFullName()
@@ -138,7 +144,7 @@ class Workorder extends \yii\db\ActiveRecord
 
     public function getNotes()
     {
-        return $this->hasMany(Note::class, ['workorder_id' => 'id']);
+        return $this->hasMany(Note::class, ['order_id' => 'id']);
     }
 
     public function getSubtotal()
@@ -152,5 +158,20 @@ class Workorder extends \yii\db\ActiveRecord
             $subtotal += $labor->price;
         }
         return round($subtotal, 2);
+    }
+
+    public function getTotal()
+    {
+        $total = $this->subtotal;
+        $total += $this->subtotal*$this->tax;
+        return round($total, 2);
+    }
+
+    public function canChangeStage($increment)
+    {
+        if (($this->stage + $increment > count(self::$stages)) || ($this->stage + $increment < 1)) {
+            return false;
+        }
+        return true;
     }
 }

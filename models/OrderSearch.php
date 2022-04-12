@@ -4,13 +4,13 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Workorder;
+use app\models\Order;
 use DateTime;
 
 /**
- * WorkorderSearch represents the model behind the search form of `app\models\Workorder`.
+ * OrderSearch represents the model behind the search form of `app\models\Order`.
  */
-class WorkorderSearch extends Workorder
+class OrderSearch extends Order
 {
     public $fullName;
     /**
@@ -19,8 +19,8 @@ class WorkorderSearch extends Workorder
     public function rules()
     {
         return [
-            [['id', 'automobile_id', 'paid_in_full'], 'integer'],
-            [['date',  'customer_id','make','model', 'fullName'], 'safe'],
+            [['id', 'automobile_id', 'paid_in_full', 'stage'], 'integer'],
+            [['date',  'customer_id','make','model', 'fullName', 'stage'], 'safe'],
             [[ 'tax', 'amount_paid'], 'number'],
         ];
     }
@@ -43,9 +43,9 @@ class WorkorderSearch extends Workorder
      */
     public function search($params)
     {
-        $query = Workorder::find();
-        $query->leftJoin('customer', 'customer.id=workorder.customer_id');
-        $query->leftJoin('automobile', 'automobile.id=workorder.automobile_id');
+        $query = Order::find();
+        $query->leftJoin('customer', 'customer.id=order.customer_id');
+        $query->leftJoin('automobile', 'automobile.id=order.automobile_id');
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -67,14 +67,8 @@ class WorkorderSearch extends Workorder
         ]);
         if (!($this->load($params) && $this->validate())) {
             // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
-        // $newDate = new DateTime($this->date);
-        // $newDate = date_modify($newDate, '+1 day');
-        // $newDate = $newDate->format('Y-m-d');
-        //\Yii::debug('newDate: ' . $newDate, 'dev');
-        \Yii::debug('date: ' . $this->date, 'dev');
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -83,6 +77,7 @@ class WorkorderSearch extends Workorder
             'automobile_id' => $this->automobile_id,
             //'date' => $this->date,
             //'subtotal' => $this->subtotal,
+            'stage' => $this->stage,
             'tax' => $this->tax,
             'amount_paid' => $this->amount_paid,
             'paid_in_full' => $this->paid_in_full,

@@ -10,14 +10,14 @@ class QuantityTypeTest extends \Codeception\Test\Unit
 
     public function _fixtures()
     {   return [
-            'Workorders' => [
-                'class' => \app\tests\fixtures\WorkorderFixture::class,
-                'dataFile' => codecept_data_dir() . 'workorder.php',
+            'Orders' => [
+                'class' => \app\tests\fixtures\OrderFixture::class,
+                'dataFile' => codecept_data_dir() . 'order.php',
             ],
             'Parts' => [
                 'class' => \app\tests\fixtures\PartFixture::class,
                 'dataFile' => codecept_data_dir() . 'part.php',
-                //'depends' => ['Workorders'],
+                //'depends' => ['Orders'],
             ],
             'Labor' => [
                 'class' => \app\tests\fixtures\LaborFixture::class,

@@ -12,31 +12,31 @@ class PartTest extends \Codeception\Test\Unit
 
     public function _fixtures()
     {   return [
-            'Workorders' => [
-                'class' => \app\tests\fixtures\WorkorderFixture::className(),
-                'dataFile' => codecept_data_dir() . 'workorder.php',
+            'Orders' => [
+                'class' => \app\tests\fixtures\OrderFixture::class,
+                'dataFile' => codecept_data_dir() . 'order.php',
             ],
             'Parts' => [
-                'class' => \app\tests\fixtures\PartFixture::className(),
+                'class' => \app\tests\fixtures\PartFixture::class,
                 'dataFile' => codecept_data_dir() . 'part.php',
-                //'depends' => ['Workorders'],
+                //'depends' => ['Orders'],
             ],
             'Labor' => [
-                'class' => \app\tests\fixtures\LaborFixture::className(),
+                'class' => \app\tests\fixtures\LaborFixture::class,
                 'dataFile' => codecept_data_dir() . 'labor.php',
             ],
             'Owns' => [
-                'class' => \app\tests\fixtures\OwnFixture::className(),
+                'class' => \app\tests\fixtures\OwnFixture::class,
                 'dataFile' => codecept_data_dir() . 'owns.php',
                 //'depends' => ['Parts'],
             ],
             'Customers' => [
-                'class' => \app\tests\fixtures\CustomerFixture::className(),
+                'class' => \app\tests\fixtures\CustomerFixture::class,
                 'dataFile' => codecept_data_dir() . 'customer.php',
                 //'depends' => ['Owns'],
             ],
             'Automobiles' => [
-                'class' => \app\tests\fixtures\AutomobileFixture::className(),
+                'class' => \app\tests\fixtures\AutomobileFixture::class,
                 'dataFile' => codecept_data_dir() . 'automobile.php',
                 //'depends' => ['Owns'],
             ],
@@ -52,7 +52,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->description = 'test';
         $part->part_number = 'test';
         $part->quantity = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
         // without description
@@ -61,7 +61,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->price = 1;
         $part->part_number = 'test';
         $part->quantity = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
         // without margin
@@ -70,7 +70,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->description = 'test';
         $part->part_number = 'test';
         $part->quantity = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
         // without part_number
@@ -79,7 +79,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->description = 'test';
         $part->price = 1;
         $part->quantity = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
         // without quantity
@@ -88,10 +88,10 @@ class PartTest extends \Codeception\Test\Unit
         $part->description = 'test';
         $part->part_number = 'test';
         $part->price = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
-        // without workorder_id
+        // without order_id
         $part = new Part();
         $part->margin = 1;
         $part->description = 'test';
@@ -100,24 +100,24 @@ class PartTest extends \Codeception\Test\Unit
         $part->price = 1;
         $this->tester->assertFalse($part->validate());
 
-        // workorder_id not found
+        // order_id not found
         $part = new Part();
         $part->margin = 1;
         $part->description = 'test';
         $part->part_number = 'test';
         $part->quantity = 1;
         $part->price = 1;
-        $part->workorder_id = 999;
+        $part->order_id = 999;
         $this->tester->assertFalse($part->validate());
 
-        // workorder_id not integer
+        // order_id not integer
         $part = new Part();
         $part->margin = 1;
         $part->description = 'test';
         $part->part_number = 'test';
         $part->quantity = 1;
         $part->price = 1;
-        $part->workorder_id = 'test';
+        $part->order_id = 'test';
         $this->tester->assertFalse($part->validate());
 
         // quantity_type_id not integer
@@ -127,7 +127,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->part_number = 'test';
         $part->quantity = 'test';
         $part->price = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $part->quantity_type_id = 'test';
         $this->tester->assertFalse($part->validate());
 
@@ -138,7 +138,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->part_number = 'test';
         $part->quantity = 1;
         $part->price = 'test';
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
         // margin not number
@@ -148,7 +148,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->part_number = 'test';
         $part->quantity = 1;
         $part->price = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
         // quantity not a number
@@ -158,7 +158,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->part_number = 'test';
         $part->quantity = 1;
         $part->price = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
         // part_number not a string
@@ -168,7 +168,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->part_number = 1;
         $part->quantity = 1;
         $part->price = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
         // description not a string
@@ -178,7 +178,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->part_number = 'test';
         $part->quantity = 1;
         $part->price = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
         $this->tester->assertFalse($part->validate());
 
 
@@ -189,8 +189,16 @@ class PartTest extends \Codeception\Test\Unit
         $part->part_number = 'test';
         $part->quantity = 1;
         $part->price = 1;
-        $part->workorder_id = 1;
+        $part->order_id = 1;
+        $part->quantity_type_id = 1;
         $this->tester->assertTrue($part->validate());
+    }
 
+    public function testGetTotal()
+    {
+        $part = Part::findOne(1);
+        $this->tester->assertEquals(110, $part->getTotal());
+        $part = Part::findOne(2);
+        $this->tester->assertEquals(50, $part->getTotal());
     }
 }

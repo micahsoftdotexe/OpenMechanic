@@ -12,14 +12,14 @@ class CustomerTest extends \Codeception\Test\Unit
 
     public function _fixtures()
     {   return [
-            'Workorders' => [
-                'class' => \app\tests\fixtures\WorkorderFixture::class,
-                'dataFile' => codecept_data_dir() . 'workorder.php',
+            'Orders' => [
+                'class' => \app\tests\fixtures\OrderFixture::class,
+                'dataFile' => codecept_data_dir() . 'order.php',
             ],
             'Parts' => [
                 'class' => \app\tests\fixtures\PartFixture::class,
                 'dataFile' => codecept_data_dir() . 'part.php',
-                //'depends' => ['Workorders'],
+                //'depends' => ['Orders'],
             ],
             'Labor' => [
                 'class' => \app\tests\fixtures\LaborFixture::class,
@@ -132,5 +132,15 @@ class CustomerTest extends \Codeception\Test\Unit
         $customer->first_name = 'John';
         $customer->last_name = 'Smith';
         $this->assertTrue($customer->validate());
+    }
+
+    public function testGetIds()
+    {
+        $customers = Customer::find()->orderBy(['id'=> SORT_ASC])->all();
+        $testArray = [];
+        foreach ($customers as $customer) {
+            $testArray[$customer->id] = $customer->fullName;
+        }
+        $this->assertEquals($testArray, Customer::getIds());
     }
 }

@@ -8,10 +8,10 @@ use Yii;
  * This is the model class for table "note".
  *
  * @property int $id
- * @property int $workorder_id
+ * @property int $order_id
  * @property string|null $text
  *
- * @property Workorder $workorder
+ * @property Order $order
  */
 class Note extends \yii\db\ActiveRecord
 {
@@ -40,10 +40,10 @@ class Note extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['workorder_id'], 'required'],
-            [['workorder_id'], 'integer'],
+            [['order_id'], 'required'],
+            [['order_id'], 'integer'],
             [['text'], 'string'],
-            [['workorder_id'], 'exist', 'skipOnError' => true, 'targetClass' => Workorder::className(), 'targetAttribute' => ['workorder_id' => 'id']],
+            [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::class, 'targetAttribute' => ['order_id' => 'id']],
         ];
     }
 
@@ -54,18 +54,18 @@ class Note extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'workorder_id' => Yii::t('app', 'Workorder ID'),
+            'order_id' => Yii::t('app', 'Order ID'),
             'text' => Yii::t('app', 'Text'),
         ];
     }
 
     /**
-     * Gets query for [[Workorder]].
+     * Gets query for [[Order]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getWorkorder()
+    public function getOrder()
     {
-        return $this->hasOne(Workorder::className(), ['id' => 'workorder_id']);
+        return $this->hasOne(Order::class, ['id' => 'order_id']);
     }
 }

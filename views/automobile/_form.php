@@ -12,7 +12,7 @@ use borales\extensions\phoneInput\PhoneInput;
 <div class="automobile-form">
     <?php $automobileForm = ActiveForm::begin([
         'id' => 'initial-automobile-form',
-        'action' => \yii\helpers\Url::to(['/automobile/initial-create']),
+        'action' => \yii\helpers\Url::to(['/automobile/ajax-initial-create']),
     ]) ?>
     <?= $automobileForm->field($model, 'make')->label(Yii::t('app', 'Make'))->textInput()?>
     <?= $automobileForm->field($model, 'model')->label(Yii::t('app', 'Model'))->textInput()?>

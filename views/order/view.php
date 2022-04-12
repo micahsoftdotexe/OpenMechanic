@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Workorder */
+/* @var $model app\models\Order */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Workorders'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="workorder-view">
+<div class="order-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date',
             'subtotal',
             'tax',
-            'workorder_notes:ntext',
+            'order_notes:ntext',
             'amount_paid',
             'paid_in_full',
         ],

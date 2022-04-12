@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use app\models\User;
 
 /**
- * WorkorderSearch represents the model behind the search form of `app\models\Workorder`.
+ * OrderSearch represents the model behind the search form of `app\models\Order`.
  */
 class UserSearch extends User
 {

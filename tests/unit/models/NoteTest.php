@@ -12,14 +12,14 @@ class NoteTest extends \Codeception\Test\Unit
 
     public function _fixtures()
     {   return [
-            'Workorders' => [
-                'class' => \app\tests\fixtures\WorkorderFixture::class,
-                'dataFile' => codecept_data_dir() . 'workorder.php',
+            'Orders' => [
+                'class' => \app\tests\fixtures\OrderFixture::class,
+                'dataFile' => codecept_data_dir() . 'order.php',
             ],
             'Parts' => [
                 'class' => \app\tests\fixtures\PartFixture::class,
                 'dataFile' => codecept_data_dir() . 'part.php',
-                //'depends' => ['Workorders'],
+                //'depends' => ['Orders'],
             ],
             'Labor' => [
                 'class' => \app\tests\fixtures\LaborFixture::class,
@@ -46,32 +46,32 @@ class NoteTest extends \Codeception\Test\Unit
     // tests
     public function testValidation()
     {
-        //workorder_id not added
+        //order_id not added
         $note = new Note();
         $note->text = 'test';
         $this->assertFalse($note->validate());
 
-        //workorder_id not integer
+        //order_id not integer
         $note = new Note();
-        $note->workorder_id = 'a';
+        $note->order_id = 'a';
         $note->text = 'test';
         $this->assertFalse($note->validate());
 
         //text not string
         $note = new Note();
-        $note->workorder_id = 1;
+        $note->order_id = 1;
         $note->text = 1;
         $this->assertFalse($note->validate());
 
-        //workorder_id does not exist
+        //order_id does not exist
         $note = new Note();
-        $note->workorder_id = 9;
+        $note->order_id = 9;
         $note->text = 'test';
         $this->assertFalse($note->validate());
 
         //valid
         $note = new Note();
-        $note->workorder_id = 1;
+        $note->order_id = 1;
         $note->text = 'test';
         $this->assertTrue($note->validate());
     }

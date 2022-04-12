@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string|null $title
  *
- * @property Workorder[] $workorders
+ * @property Order[] $orders
  */
 class Stage extends \yii\db\ActiveRecord
 {
@@ -44,12 +44,12 @@ class Stage extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Workorders]].
+     * Gets query for [[Orders]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getWorkorders()
+    public function getOrders()
     {
-        return $this->hasMany(Workorder::class, ['stage_id' => 'id']);
+        return $this->hasMany(Order::class, ['stage_id' => 'id']);
     }
 }

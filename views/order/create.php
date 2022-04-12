@@ -1,17 +1,17 @@
 <?php
 
-use app\models\Workorder;
+use app\models\Order;
 use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Workorder */
+/* @var $model app\models\Order */
 
-$this->title = Yii::t('app', 'Create Workorder');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Workorders'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Create Order');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="workorder-create">
+<div class="order-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
     

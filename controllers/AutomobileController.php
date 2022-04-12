@@ -3,9 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Workorder;
 use app\models\Automobile;
-use app\models\WorkorderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -22,18 +20,18 @@ class AutomobileController extends SafeController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['initial-create', 'ajax-initial-create'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['createAuto'],
                     ],
                 ],
             ],
@@ -66,15 +64,12 @@ class AutomobileController extends SafeController
         } else {
             Yii::$app->session->setFlash('error', 'Form Error');
         }
-        $this->redirect(\yii\helpers\Url::to(['/workorder/create']));
+        $this->redirect(\yii\helpers\Url::to(['/order/create']));
     }
 
     public function actionAjaxInitialCreate()
     {
         $model = new \app\models\AutomobileForm();
-        // if (!$model->load(Yii::$app->request->post()) || !$model->save()) {
-        //     Yii::$app->session->setFlash('error', 'Automobile Error');
-        // }
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $autoModel = new Automobile();
             $ownModel = new \app\models\Owns();
@@ -87,21 +82,15 @@ class AutomobileController extends SafeController
                 $ownModel->customer_id = $model->customer_id;
                 $ownModel->automobile_id = $autoModel->id;
                 if (!$ownModel->save()) {
-                    Yii::$app->session->setFlash('error', 'Own Error');
                     $autoModel->delete();
-                    return 400;
+                    return json_encode(['status' => 400, 'message' => $model->getErrors()]); ;
                 }
                 return json_encode(['id' => $autoModel->id, 'text' => $model->make.' '.$model->model.' '.$model->year]);
             } else {
-                Yii::$app->session->setFlash('error', 'Automotive Error');
-                return 400;
+                return json_encode(['status' => 400, 'message' => $model->getErrors()]);
             }
         } else {
-            Yii::$app->session->setFlash('error', 'Form Error');
-            return 400;
+            return json_encode(['status' => 400, 'message' => $model->getErrors()]);
         }
     }
-    // public function actionGetAutomobile() {
-    //     return 200;
-    // }
 }

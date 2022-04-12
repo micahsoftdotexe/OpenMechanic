@@ -22,19 +22,20 @@ class CustomerController extends SafeController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['initial-create', 'ajax-initial-create'],
+                        'actions' => ['ajax-initial-create'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['createCustomer'],
                     ],
+
                 ],
             ],
         ];
@@ -89,56 +90,6 @@ class CustomerController extends SafeController
         ]);
     }
 
-    public function actionInitialCreate()
-    {
-        
-        // $model = new \app\models\CustomerForm();
-        // if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-        //     $customerModel = new Customer();
-        //     $addressModel = new \app\models\Address();
-        //     $phoneModel = new \app\models\PhoneNumber();
-        //     $customerModel->firstName = $model->firstName;
-        //     $customerModel->lastName = $model->lastName;
-        //     if ($customerModel->save()) {
-        //         $phoneModel->phone_number = $model->phoneNumber;
-        //         $phoneModel->customer_id = $customerModel->id;
-
-        //         $addressModel->street_address_1 = $model->streetAddress;
-        //         $addressModel->city = $model->city;
-        //         $addressModel->zip = $model->zip;
-        //         $addressModel->state = $model->state;
-        //         $addressModel->customer_id = $customerModel->id;
-
-        //         if (!$phoneModel->save()) {
-        //             Yii::$app->session->setFlash('error', 'Phone Number Error');
-        //             $customerModel->delete();
-        //         }
-        //         if (!$addressModel->save()) {
-        //             Yii::$app->session->setFlash('error', 'Address Error');
-        //             $customerModel->delete();
-        //             $phoneModel->delete();
-        //         }
-        //     } else {
-        //         Yii::$app->session->setFlash('error', 'Customer Error');
-        //     }
-        //     $this->redirect(\yii\helpers\Url::to(['/workorder/create']));
-        // }
-        // if (Yii::$app->request->post('firstName') && Yii::$app->request->post('lastName') && Yii::$app->request->post('phoneNumber')) {
-        //     $model = new Customer();
-        //     $model->firstName = Yii::$app->request->post('firstName');
-        //     $model->lastName = Yii::$app->request->post('lastName');
-        //     //$model->fullName = $model->firstName.' '.$model->lastName;
-        //     $model->save();
-        //     $phoneModel = new \app\models\PhoneNumber();
-        //     $phoneModel->phone_number = Yii::$app->request->post('phoneNumber');
-        //     $phoneModel->customer_id = $model->id;
-        //     $phoneModel->save();
-        //     return 200;
-        // }
-        // return 300;
-        return "Hello";
-    }
-
     public function actionAjaxInitialCreate()
     {
         $model = new \app\models\Customer();
@@ -146,19 +97,6 @@ class CustomerController extends SafeController
             return json_encode(['id' => $model->id, 'text' => $model->first_name. ' '. $model->last_name]);
         }
         return json_encode(['status' => 400, 'message' => $model->getErrors()]);
-        // if (Yii::$app->request->post('firstName') && Yii::$app->request->post('lastName') && Yii::$app->request->post('phoneNumber')) {
-        //     $model = new Customer();
-        //     $model->firstName = Yii::$app->request->post('firstName');
-        //     $model->lastName = Yii::$app->request->post('lastName');
-        //     //$model->fullName = $model->firstName.' '.$model->lastName;
-        //     $model->save();
-        //     $phoneModel = new \app\models\PhoneNumber();
-        //     $phoneModel->phone_number = Yii::$app->request->post('phoneNumber');
-        //     $phoneModel->customer_id = $model->id;
-        //     $phoneModel->save();
-        //     return 200;
-        // }
-        // return 300;
     }
 
     /**

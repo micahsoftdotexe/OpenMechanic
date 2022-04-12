@@ -12,19 +12,32 @@ class UserController extends SafeController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['deactivate', 'activate', 'create', 'edit'],
+                        'actions' => ['deactivate', 'activate'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
                     ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['createUser'],
+                    ],
+                    [
+                        'actions' => ['edit'],
+                        'allow' => true,
+                        'roles' => ['editOwnUser'],
+                        'roleParams' => function() {
+                            return ['id' => Yii::$app->request->get('id')];
+                        }
+                    ]
                 ],
             ],
         ];
@@ -98,11 +111,10 @@ class UserController extends SafeController
             }
             if ($user->save()) {
                 Yii::$app->session->setFlash('success', 'User Updated');
-                return $this->redirect(['/admin/view']);
             } else {
                 Yii::$app->session->setFlash('error', 'User Not Updated');
-                return $this->redirect(['/admin/view']);
             }
+            return Yii::$app->user->can('admin') ? $this->redirect(['/admin/view']) : $this->redirect(['/site/index']);
         } else {
             return $this->render('/admin/_user_sign_up', [
                 'model' => $model,
