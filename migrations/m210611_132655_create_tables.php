@@ -70,35 +70,6 @@ class m210611_132655_create_tables extends Migration
         //$this->addForeignKey('fk_phone_type_phone', 'phone_type');
         $this->dropTable('phone_type');
     }
-    /**
-     * {@inheritdoc}
-     */
-    // private function stage_up()
-    // {
-    //     $this->createTable('stage', [
-    //         'id' => $this->primaryKey(11),
-    //         'title' => $this->string(15),
-    //         //'description' => $this->string(20),
-    //     ]);
-    //     $this->batchInsert('stage',
-    //     [
-    //         'id','title'
-    //     ],
-    //     [
-    //         [1, 'Created'],
-    //         [2, 'Working On'],
-    //         [3, 'Finished'],
-    //         [4, 'Paid']
-    //     ]);
-    // }
-    //   /**
-    //  * {@inheritdoc}
-    //  */
-    // private function stage_down()
-    // {
-    //     //$this->addForeignKey('fk_phone_type_phone', 'phone_type');
-    //     $this->dropTable('stage');
-    // }
      /**
      * {@inheritdoc}
      */
@@ -146,9 +117,7 @@ class m210611_132655_create_tables extends Migration
         $this->createTable('address', [
             'id' => $this->primaryKey(11),
             'customer_id' => $this->integer(11)->notNull(),
-            //'address_type_id' => $this->integer(11)->notNull(),
             'street_address_1' => $this->string(250)->notNull(),
-            //'street_address_2' => $this->string(250),
             'city' => $this->string(100)->notNull(),
             'zip' => $this->string(5)->notNull(),
             'state' => $this->string(2)->notNull(),
@@ -250,7 +219,6 @@ class m210611_132655_create_tables extends Migration
         $this->createTable('part', [
             'id' => $this->primaryKey(11),
             'order_id' => $this->integer(11),
-            //'price' => $this->decimal(10,2)->notNull(),
             'price' => $this->decimal(10, 2)->notNull(),
             'margin' => $this->decimal(10, 2)->notNull(),
             'quantity' => $this->decimal(10, 2),
@@ -329,15 +297,8 @@ class m210611_132655_create_tables extends Migration
         $this->addForeignKey('fk_labor_order', 'labor', 'order_id', 'order', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
-        //$this->addForeignKey('fk_address_customer', 'address', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
-        //$this->addForeignKey('fk_address_address_type', 'address', 'address_type_id', 'address_type', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_order_customer', 'order', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_order_automobile', 'order', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
-        //$this->addForeignKey('fk_phone_phone_type', 'phone_number', 'phone_type_id', 'phone_type', 'id', 'CASCADE', 'CASCADE');
-        //$this->addForeignKey('fk_phone_customer', 'phone_number', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
-        //$this->addForeignKey('fk_phone_type_phone', 'phone_type', 'id', 'phone_number', 'phone_type_id', 'CASCADE', 'CASCADE'); //hello
-        //$this->addForeignKey('fk_phone_phone_type', 'phone_number', 'phone_type_id', 'phone_type', 'id',  'CASCADE', 'CASCADE');
-        // $this->addForeignKey('fk_phone_type_customer', 'phone_type', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
     }
 
      /**
@@ -345,18 +306,14 @@ class m210611_132655_create_tables extends Migration
      */
     private function foreign_key_down()
     {
-        $this->dropForeignKey('fk_part_order', 'part');
-        $this->dropForeignKey('fk_labor_order', 'labor');
-        $this->dropForeignKey('fk_note_order', 'notes');
-        $this->dropForeignKey('fk_owns_customer', 'owns');
-        $this->dropForeignKey('fk_owns_automobile', 'owns');
-        //$this->dropForeignKey('fk_address_customer', 'address');
-        //$this->dropForeignKey('fk_address_address_type', 'address');
-        $this->dropForeignKey('fk_order_customer', 'order');
-        $this->dropForeignKey('fk_order_automobile', 'order');
-        //$this->dropForeignKey('fk_phone_phone_type', 'phone_number');
-        //$this->dropForeignKey('fk_phone_customer', 'phone_number');
-        //$this->dropForeignKey('fk_phone_type_phone', 'phone_type');
+        $this->dropForeignKey('fk_part_order', 'part', 'order_id', 'order', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_note_order', 'note', 'order_id', 'order', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_note_user', 'note', 'created_by', 'user', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_labor_order', 'labor', 'order_id', 'order', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_order_customer', 'order', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_order_automobile', 'order', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
     }
 
     /**
@@ -391,20 +348,14 @@ class m210611_132655_create_tables extends Migration
         // return false;
         $this->foreign_key_down();
         $this->user_down();
-        //$this->phone_number_down();
-        //$this->phone_type_down();
         $this->customer_down();
-        //$this->address_type_down();
-        //$this->address_down();
         $this->owns_down();
         $this->automobile_down();
         $this->notes_down();
         $this->order_down();
         $this->labor_down();
         $this->part_down();
-        //$this->stage_down();
         $this->quantity_type_down();
-        $this->foreign_key_down();
     }
 
     /*

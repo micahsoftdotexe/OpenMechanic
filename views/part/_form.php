@@ -40,8 +40,9 @@ use kartik\money\MaskMoney;
                 'data' => \app\models\QuantityType::getIds(),
                 'options' => [
                     'id'   => 'quantity_id',
-                    'placeholder' => '--'.Yii::t('app', 'Select One').'--',
+                    //'placeholder' => '--'.Yii::t('app', 'Select One').'--',
                 ],
+                'value' => 1,
                 'pluginOptions' => [
                     'allowClear' => true
                 ],

@@ -35,7 +35,7 @@ class OrderController extends SafeController
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['get-automobiles', 'index', 'edit'],
+                        'actions' => ['get-automobiles', 'index', 'edit', 'generate-order'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -255,12 +255,35 @@ class OrderController extends SafeController
             if ($model->save()) {
                 return $this->redirect(['edit', 'id' => $model->id]);
             } else {
+                Yii::debug($model->getErrors(), 'dev');
                 Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Could not change stage'));
                 return $this->redirect(['edit', 'id' => $model->id]);
             }
         } else {
+            Yii::debug('here', 'dev');
             Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Could not change stage'));
             return $this->redirect(['edit', 'id' => $model->id]);
         }
+    }
+
+    public function actionGenerateOrder($id)
+    {
+        $model = Order::findOne($id);
+        $content = $this->renderPartial('_order_template', ['order' => $model]);
+        $pdf = new \kartik\mpdf\Pdf([
+            'content' => $content,
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+            'destination' => "I",
+            'filename' => 'Order-'.$model->customer->fullName.'-'.$model->date,
+            'options' => ['title' => 'Order-'.$model->customer->fullName.'-'.$model->date],
+            'methods' => [
+                'SetTitle' => 'Order-'.$model->customer->fullName.'-'.$model->date
+            ]
+        ]);
+        //$pdf->SetTitle('Order-'.$model->customer->fullName.'-'.$model->date);
+        return $pdf->render();
+        // return $this->render('_order_template', [
+        //     'order' => $model,
+        // ]);
     }
 }
