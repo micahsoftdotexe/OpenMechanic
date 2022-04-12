@@ -190,6 +190,7 @@ class PartTest extends \Codeception\Test\Unit
         $part->quantity = 1;
         $part->price = 1;
         $part->order_id = 1;
+        $part->quantity_type_id = 1;
         $this->tester->assertTrue($part->validate());
     }
 
