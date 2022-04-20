@@ -24,7 +24,7 @@ use \app\models\QuantityType;
     <?php endif; ?>
     <?php if ($order->customer->phone_number_2) : ?>
     <tr id="number2">
-      <th scope="row">Phone Number 1: </th>
+      <th scope="row">Phone Number 2: </th>
       <td> <?= $order->customer->phone_number_2 ?> </td>
     </tr>
     <?php endif; ?>
@@ -47,8 +47,9 @@ use \app\models\QuantityType;
         <?php else : ?>
           <td><?= $part->quantity?></td>
         <?php endif; ?>
-      <td><?= '$' . round($part->price, 2)?></td>
-      <td><?= '$' . round($part->total, 2) ?></td>
+      <td class="text-right"><?= '$' . number_format(round($part->price, 2), 2)?></td>
+      <td class="text-right"><?= '$' . number_format(round($part->total, 2), 2) ?></td>
+      <!-- class="text-right" -->
     </tr>
     <?php endforeach; ?>
   </table>
@@ -81,19 +82,19 @@ use \app\models\QuantityType;
   </table>
 <?php endif; ?>
 <div id="total">
-  <table class="table table-bordered">
+  <table class="table table-bordered" style="width: 30%">
     <caption style="font-weight: 1000">Total</caption>
     <tr>
       <th scope="col">Subtotal</th>
-      <td><?= '$'.$order->subtotal ?></td>
+      <td class="text-right"><?= '$'. number_format(round($order->subtotal, 2), 2) ?></td>
     </tr>
     <tr>
       <th scope="col">Tax</th>
-      <td><?= round($order->tax * 100). '%' ?></td>
+      <td class="text-right"><?= '$'. number_format(round($order->taxAmount, 2), 2) ?></td>
     </tr>
     <tr>
       <th scope="col">Total</th>
-      <td><?= '$'.$order->total ?></td>
+      <td class="text-right"><?= '$'.number_format(round($order->total, 2), 2) ?></td>
     </tr>
   </table>
 </div>

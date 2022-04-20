@@ -298,6 +298,7 @@ class m210611_132655_create_tables extends Migration
         $this->addForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_order_customer', 'order', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_part_quantity_type', 'part', 'quantity_type_id', 'quantity_type', 'id', 'NO ACTION', 'CASCADE');
         $this->addForeignKey('fk_order_automobile', 'order', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
     }
 
@@ -314,6 +315,7 @@ class m210611_132655_create_tables extends Migration
         $this->dropForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
         $this->dropForeignKey('fk_order_customer', 'order', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->dropForeignKey('fk_order_automobile', 'order', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_part_quantity_type', 'part', 'quantity_type_id', 'quantity_type', 'id', 'CASCADE', 'CASCADE');
     }
 
     /**
@@ -334,8 +336,8 @@ class m210611_132655_create_tables extends Migration
         $this->labor_up();
         $this->part_up();
         //$this->stage_up();
-        $this->foreign_key_up();
         $this->quantity_type_up();
+        $this->foreign_key_up();
     }
 
     /**

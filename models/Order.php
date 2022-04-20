@@ -147,6 +147,16 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasMany(Note::class, ['order_id' => 'id']);
     }
 
+    public function getTaxAmount()
+    {
+        $total_parts = 0;
+        foreach ($this->parts as $part) {
+            $part_with_margin = $part->price + ($part->price * ($part->margin / 100));
+            $total_parts += $part_with_margin*$part->quantity;
+        }
+        return $total_parts * $this->tax;
+    }
+
     public function getSubtotal()
     {
         $subtotal = 0;
@@ -162,8 +172,7 @@ class Order extends \yii\db\ActiveRecord
 
     public function getTotal()
     {
-        $total = $this->subtotal;
-        $total += $this->subtotal*$this->tax;
+        $total = $this->subtotal + $this->taxAmount;
         return round($total, 2);
     }
 
