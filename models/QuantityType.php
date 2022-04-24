@@ -33,7 +33,7 @@ class QuantityType extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     */
+    */
     public function attributeLabels()
     {
         return [
@@ -41,6 +41,11 @@ class QuantityType extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
         ];
     }
+
+    /**
+     * Returns an array that maps the quantity type id to the quantity type description.
+     * @return array
+    */
 
     public static function getIds()
     {

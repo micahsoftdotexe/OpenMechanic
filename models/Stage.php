@@ -11,7 +11,7 @@ use Yii;
  * @property string|null $title
  *
  * @property Order[] $orders
- */
+*/
 class Stage extends \yii\db\ActiveRecord
 {
     /**
@@ -24,7 +24,7 @@ class Stage extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     */
+    */
     public function rules()
     {
         return [
@@ -34,7 +34,7 @@ class Stage extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     */
+    */
     public function attributeLabels()
     {
         return [

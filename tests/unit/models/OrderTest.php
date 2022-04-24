@@ -153,6 +153,24 @@ class OrderTest extends \Codeception\Test\Unit
         $this->tester->assertEquals('Customer 1', $order->fullName);
     }
 
+    public function testTaxAmount()
+    {
+        $order = Order::findOne(1);
+        $total_parts = 0;
+        foreach ($order->parts as $part) {
+            $part_with_margin = $part->price + ($part->price * ($part->margin / 100));
+            $total_parts += $part_with_margin*$part->quantity;
+        }
+        $this->tester->assertEquals($total_parts * $order->tax, $order->taxAmount);
+        $order = Order::findOne(2);
+        $total_parts = 0;
+        foreach ($order->parts as $part) {
+            $part_with_margin = $part->price + ($part->price * ($part->margin / 100));
+            $total_parts += $part_with_margin*$part->quantity;
+        }
+        $this->tester->assertEquals($total_parts * $order->tax, $order->taxAmount);
+    }
+
     public function testSubtotal()
     {
         $order = Order::findOne(2);
@@ -163,8 +181,8 @@ class OrderTest extends \Codeception\Test\Unit
 
     public function testTotal()
     {
-        $this->tester->assertEquals(Order::findOne(1)->subtotal+(Order::findOne(1)->subtotal*\Yii::$app->params['sales_tax']), Order::findOne(1)->total);
-        $this->tester->assertEquals(Order::findOne(2)->subtotal+(Order::findOne(2)->subtotal*\Yii::$app->params['sales_tax']), Order::findOne(2)->total);
+        $this->tester->assertEquals(Order::findOne(1)->subtotal+Order::findOne(1)->taxAmount, Order::findOne(1)->total);
+        $this->tester->assertEquals(Order::findOne(2)->subtotal+Order::findOne(2)->taxAmount, Order::findOne(2)->total);
     }
 
     public function testChangeStage()
