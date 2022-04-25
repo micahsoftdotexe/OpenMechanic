@@ -55,12 +55,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return static::findOne($id);
     }
 
-
-
     /**
      * @inheritdoc
      */
-/* modified */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return static::findOne(['access_token' => $token]);
@@ -84,27 +81,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public static function findByUsername($username)
     {
         return static::findOne(['username' => $username]);
-    }
-
-    /**
-     * Finds user by password reset token
-     *
-     * @param  string      $token password reset token
-     * @return static|null
-     */
-    public static function findByPasswordResetToken($token)
-    {
-        $expire = \Yii::$app->params['user.passwordResetTokenExpire'];
-        $parts = explode('_', $token);
-        $timestamp = (int) end($parts);
-        if ($timestamp + $expire < time()) {
-            // token expired
-            return null;
-        }
-
-        return static::findOne([
-            'password_reset_token' => $token
-        ]);
     }
 
     /**
@@ -169,21 +145,4 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         $this->auth_key = \Yii::$app->security->generateRandomString();
     }
-
-    /**
-     * Generates new password reset token
-     */
-    public function generatePasswordResetToken()
-    {
-        $this->password_reset_token = Yii::$app->security->generateRandomKey() . '_' . time();
-    }
-
-    /**
-     * Removes password reset token
-     */
-    public function removePasswordResetToken()
-    {
-        $this->password_reset_token = null;
-    }
-    /** EXTENSION MOVIE **/
 }

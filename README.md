@@ -24,8 +24,15 @@
 
 ### Migrate Database
 
-- To get all the tables that you need in your database, run command: `$ php yii migrate`
+- To get all the tables that you need in your database, run command: 
+    - Production: `$ php7 yii migrate/up 2` (This will initialize the database and rbac)
+    - Development/Testing: `$ php7 yii migrate/fresh` (This will initialize the database, rbac, and seeds with testing users).
+
+## Setup Admin User DO THIS IN ORDER TO SECURE YOUR INSTALL
+- After logged in as admin (username: admin password: admin), go to Admin Tools.
+- Edit the admin user and change the password.
 
 ## Run the project
 
-- To run the project, run the command `php yii serve`
+- To run the project, run the command `php7 yii serve`
+
