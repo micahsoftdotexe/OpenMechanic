@@ -29,7 +29,7 @@
     - Development/Testing: `$ php7 yii migrate/fresh` (This will initialize the database, rbac, and seeds with testing users).
 
 ## Setup Admin User DO THIS IN ORDER TO SECURE YOUR INSTALL
-- After logged in as admin (username: admin password: admin), go to Admin Tools.
+- After logging in as admin (username: admin password: admin), go to Admin Tools.
 - Edit the admin user and change the password.
 
 ## Run the project
