@@ -7,5 +7,7 @@ return [
     'companyPhoneNumber' => 'Company Phone Number',
     'senderEmail'        => 'noreply@example.com',
     'sales_tax'          => 0.07,
-    'timezone'           => 'America/New_York'
+    'timezone'           => 'America/New_York',
+    'adminEmail'         => 'admin@email.com',
+    'senderName'         => 'Admin',
 ];
