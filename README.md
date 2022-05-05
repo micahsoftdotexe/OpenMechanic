@@ -57,7 +57,7 @@ The following is an example of how to link the project in your apache server
     Require all granted
 </Directory>
 ```
-Don't forget to turn on rewrite engine module in apache.
+Don't forget to turn on rewrite engine module in apache and to give the right permissions to the project folder so that Apache can access it.
 
 ## Run Tests
 In order to run both unit tests and acceptance tests created for this project, one must follow the following steps
