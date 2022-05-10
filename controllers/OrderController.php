@@ -106,6 +106,8 @@ class OrderController extends SafeController
         //      'dev'  // devlog file.  See components->log->dev defined in /config/web.php
         // );
         $model = new Order();
+        date_default_timezone_set(!empty(Yii::$app->params['timezone']) ? Yii::$app->params['timezone'] : 'America/New_York');
+        $model->date = date('Y-m-d');
 
         return $this->render('create', [
             'model' => $model,

@@ -80,6 +80,13 @@ $canEditOrder = $update ? Yii::$app->user->can('editOrder'):Yii::$app->user->can
         <?= $form->field($model, 'odometer_reading')->label(Yii::t('app', 'Odometer Reading'))->textInput(['id' => 'odometer_reading_input','disabled' => !$update || !$canEditOrder])?>
     </div> 
     <div class="input-group">
+        <?= $form->field($model, 'date')->label(Yii::t('app', 'Date'))->widget(\yii\jui\DatePicker::class,[
+            'options' => [
+                'class' => 'form-control',
+            ],
+        ])?>
+    </div>
+    <div class="input-group">
         <?= Html::checkbox('taxable', $update ? ($model->tax != 0 ? true : false) : true, ['label' => 'Taxable', 'disabled' => !$canEditOrder])?>
     </div> 
     <div class="form-group">
