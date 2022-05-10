@@ -177,7 +177,7 @@ class m210611_132655_create_tables extends Migration
             'vin' => $this->string(17)->notNull(),
             'make' => $this->string(128)->notNull(),
             'model' => $this->string(128)->notNull(),
-            'year' => $this->smallInteger()->notNull(),
+            'year' => $this->string(20)->notNull(),
             'motor_number' => $this->decimal(10, 2)->notNull()
         ]);
     }
