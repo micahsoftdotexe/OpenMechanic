@@ -25,7 +25,7 @@ $canEditOrder = $update ? Yii::$app->user->can('editOrder'):Yii::$app->user->can
         <?php $form = ActiveForm::begin([
             'id' => 'order-form',
             'action' => ['create-template']
-        ]); ?>   
+        ]); ?>
     <?php else : ?>
         <?php $form = ActiveForm::begin([
             'id' => 'order-form',
@@ -51,11 +51,11 @@ $canEditOrder = $update ? Yii::$app->user->can('editOrder'):Yii::$app->user->can
                                 'data' => [
                                     'toggle' => 'modal',
                                     'target' => '#modalNewCustomer',
-                                ],]) ?>             
+                                ],]) ?>
         </span>
-        
+
     </div>
-    <div class="input-group">                               
+    <div class="input-group">
         <?= $form->field($model, 'automobile_id')->label(Yii::t('app', 'Automobile'))->widget(Select2::class, [
                     'data' => ($update) ? \app\models\Automobile::getIds($model->customer_id) : [],
                     'options' => [
@@ -73,30 +73,35 @@ $canEditOrder = $update ? Yii::$app->user->can('editOrder'):Yii::$app->user->can
                                 'data' => [
                                     'toggle' => 'modal',
                                     'target' => '#modalNewAutomobile',
-                                ],]) ?>             
+                                ],]) ?>
         </div>
     </div>
     <div class="input-group">
         <?= $form->field($model, 'odometer_reading')->label(Yii::t('app', 'Odometer Reading'))->textInput(['id' => 'odometer_reading_input','disabled' => !$update || !$canEditOrder])?>
-    </div> 
+    </div>
     <div class="input-group">
         <?= $form->field($model, 'date')->label(Yii::t('app', 'Date'))->widget(\yii\jui\DatePicker::class,[
             'options' => [
                 'class' => 'form-control',
+
             ],
+            'clientOptions' => [
+                'changeMonth'=>true,
+                'changeYear'=>true,
+            ]
         ])?>
     </div>
     <div class="input-group">
         <?= Html::checkbox('taxable', $update ? ($model->tax != 0 ? true : false) : true, ['label' => 'Taxable', 'disabled' => !$canEditOrder])?>
-    </div> 
+    </div>
     <div class="form-group">
         <?= !$update ? Html::a('Cancel', 'index', ['class' => 'btn btn-default btn-outline-secondary']): '' ?>
         <?php if ($canEditOrder) : ?>
             <?= Html::submitButton('Save', ['id'=> 'save_order', 'class' => 'btn btn-primary btn-success']) ?>
         <?php endif ?>
     </div>
-                 
-   
+
+
 
     <?php ActiveForm::end(); ?>
 </div>
@@ -171,13 +176,13 @@ $('#customer_id').on('select2:select', function (e) {
     // console.log($('#part_id').value);
     // console.log(e.params.data.id);
     updateAutomobiles();
-    
+
 
 });
 
 
 function updateAutomobiles() {
-    let selectValue = $('#customer_id').val(); 
+    let selectValue = $('#customer_id').val();
     $('#automobile_id').empty();
     //getting automobiles
     $.ajax({
@@ -188,6 +193,10 @@ function updateAutomobiles() {
         {
             data = JSON.parse(data);
             for(let key in data) {
+                if(key == 'error') {
+                    alert(data[key]);
+                    return;
+                }
                 let newOption = new Option(data[key], key);
                 $('#automobile_id').append(newOption);
             }
@@ -196,8 +205,8 @@ function updateAutomobiles() {
             $('#odometer_reading_input').attr('disabled',false);
 
         },
-        
-        error: function( xhr, status, errorThrown ) 
+
+        error: function( xhr, status, errorThrown )
         {
             console.log('Error: ' + errorThrown );
             console.log('Status: ' + status );
