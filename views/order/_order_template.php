@@ -11,7 +11,7 @@ use \app\models\QuantityType;
 
 <div id="customer_info">
   <table class="table table-bordered">
-    <caption style="font-weight: 1000">Customer Information</caption>
+    <caption style="font-weight: 1000">Customer/Automobile Information</caption>
     <tr id="name">
       <th scope="row"> Name: </th>
       <td> <?= $order->customer->fullName ?> </td>
@@ -28,6 +28,22 @@ use \app\models\QuantityType;
       <td> <?= $order->customer->phone_number_2 ?> </td>
     </tr>
     <?php endif; ?>
+    <tr id="make">
+      <th scope="row"> Make: </th>
+      <td> <?= $order->automobile->make ?> </td>
+    </tr>
+    <tr id="model">
+      <th scope="row"> Model: </th>
+      <td> <?= $order->automobile->model ?> </td>
+    </tr>
+    <tr id="year">
+      <th scope="row"> Year: </th>
+      <td> <?= $order->automobile->year ?> </td>
+    </tr>
+    <tr id="odometer_reading">
+      <th scope="row"> Odometer Reading: </th>
+      <td> <?= $order->odometer_reading ?> </td>
+    </tr>
   </table>
 </div>
 <div id="parts">
