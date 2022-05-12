@@ -37,7 +37,6 @@ use \app\models\QuantityType;
       <th scope="col">Part</th>
       <th scope="col">Quantity</th>
       <th scope="col">Price</th>
-      <th scope="col">Total</th>
     </tr>
     <?php foreach ($order->parts as $part) : ?>
     <tr>
@@ -47,7 +46,6 @@ use \app\models\QuantityType;
         <?php else : ?>
           <td><?= $part->quantity?></td>
         <?php endif; ?>
-      <td class="text-right"><?= '$' . number_format(round($part->price, 2), 2)?></td>
       <td class="text-right"><?= '$' . number_format(round($part->total, 2), 2) ?></td>
       <!-- class="text-right" -->
     </tr>

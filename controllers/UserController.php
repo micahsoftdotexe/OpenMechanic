@@ -55,7 +55,6 @@ class UserController extends SafeController
         }
 
         return $this->redirect(['/admin/view']);
-
     }
 
     public function actionActivate($id)
