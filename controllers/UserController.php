@@ -100,7 +100,9 @@ class UserController extends SafeController
         $model->first_name = $user->first_name;
         $model->last_name = $user->last_name;
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $model->roles = Yii::$app->request->post('UserEditForm')['roles'];
+            if (array_key_exists('roles', Yii::$app->request->post('UserEditForm'))) {
+                $model->roles = Yii::$app->request->post('UserEditForm')['roles'];
+            }
             $user->username = $model->username;
             $user->first_name = $model->first_name;
             $user->last_name = $model->last_name;
