@@ -177,7 +177,7 @@ class m210611_132655_create_tables extends Migration
             'vin' => $this->string(17)->notNull(),
             'make' => $this->string(128)->notNull(),
             'model' => $this->string(128)->notNull(),
-            'year' => $this->smallInteger()->notNull(),
+            'year' => $this->string(20)->notNull(),
             'motor_number' => $this->decimal(10, 2)->notNull()
         ]);
     }
@@ -238,16 +238,9 @@ class m210611_132655_create_tables extends Migration
             'password' => $this->string()->notNull(),
             'auth_key' => $this->string(255)->notNull(),
             'status' => $this->smallInteger()->notNull(),
-            'password_reset_token' => $this->string(),
         ]);
         $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key', 'status'], [
             ['admin', 'admin', 'admin', Yii::$app->security->generatePasswordHash('admin'), 'admin', 1],
-        ]);
-        $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key', 'status'], [
-            ['manager', 'manager', 'manager', Yii::$app->security->generatePasswordHash('manager'), 'manager', 1],
-        ]);
-        $this->batchInsert('user', ['first_name', 'last_name', 'username', 'password', 'auth_key', 'status'], [
-            ['demo', 'demo', 'demo', Yii::$app->security->generatePasswordHash('demo'), 'demo', 1],
         ]);
     }
 
@@ -298,6 +291,7 @@ class m210611_132655_create_tables extends Migration
         $this->addForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_order_customer', 'order', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_part_quantity_type', 'part', 'quantity_type_id', 'quantity_type', 'id', 'NO ACTION', 'CASCADE');
         $this->addForeignKey('fk_order_automobile', 'order', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
     }
 
@@ -314,6 +308,7 @@ class m210611_132655_create_tables extends Migration
         $this->dropForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
         $this->dropForeignKey('fk_order_customer', 'order', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->dropForeignKey('fk_order_automobile', 'order', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_part_quantity_type', 'part', 'quantity_type_id', 'quantity_type', 'id', 'CASCADE', 'CASCADE');
     }
 
     /**
@@ -334,8 +329,8 @@ class m210611_132655_create_tables extends Migration
         $this->labor_up();
         $this->part_up();
         //$this->stage_up();
-        $this->foreign_key_up();
         $this->quantity_type_up();
+        $this->foreign_key_up();
     }
 
     /**

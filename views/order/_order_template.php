@@ -11,7 +11,7 @@ use \app\models\QuantityType;
 
 <div id="customer_info">
   <table class="table table-bordered">
-    <caption style="font-weight: 1000">Customer Information</caption>
+    <caption style="font-weight: 1000">Customer/Automobile Information</caption>
     <tr id="name">
       <th scope="row"> Name: </th>
       <td> <?= $order->customer->fullName ?> </td>
@@ -24,10 +24,26 @@ use \app\models\QuantityType;
     <?php endif; ?>
     <?php if ($order->customer->phone_number_2) : ?>
     <tr id="number2">
-      <th scope="row">Phone Number 1: </th>
+      <th scope="row">Phone Number 2: </th>
       <td> <?= $order->customer->phone_number_2 ?> </td>
     </tr>
     <?php endif; ?>
+    <tr id="make">
+      <th scope="row"> Make: </th>
+      <td> <?= $order->automobile->make ?> </td>
+    </tr>
+    <tr id="model">
+      <th scope="row"> Model: </th>
+      <td> <?= $order->automobile->model ?> </td>
+    </tr>
+    <tr id="year">
+      <th scope="row"> Year: </th>
+      <td> <?= $order->automobile->year ?> </td>
+    </tr>
+    <tr id="odometer_reading">
+      <th scope="row"> Odometer Reading: </th>
+      <td> <?= $order->odometer_reading ?> </td>
+    </tr>
   </table>
 </div>
 <div id="parts">
@@ -37,7 +53,6 @@ use \app\models\QuantityType;
       <th scope="col">Part</th>
       <th scope="col">Quantity</th>
       <th scope="col">Price</th>
-      <th scope="col">Total</th>
     </tr>
     <?php foreach ($order->parts as $part) : ?>
     <tr>
@@ -47,10 +62,15 @@ use \app\models\QuantityType;
         <?php else : ?>
           <td><?= $part->quantity?></td>
         <?php endif; ?>
-      <td><?= '$' . round($part->price, 2)?></td>
-      <td><?= '$' . round($part->total, 2) ?></td>
+      <td class="text-right"><?= '$' . number_format(round($part->total, 2), 2) ?></td>
+      <!-- class="text-right" -->
     </tr>
     <?php endforeach; ?>
+    <tr>
+      <th scope="row">Total</th>
+      <td></td>
+      <td class="text-right"><?= '$' . number_format(round($order->partTotal, 2), 2) ?> </td>
+    </tr>
   </table>
 </div>
 <div id="labor">
@@ -68,6 +88,11 @@ use \app\models\QuantityType;
       <td><?= $labor->notes ?></td>
     </tr>
     <?php endforeach; ?>
+    <tr>
+      <th scope="row">Total</th>
+      <td><?= '$' . number_format(round($order->laborTotal, 2), 2) ?> </td>
+      <td></td>
+    </tr>
   </table>
 </div>
 <?php if ($order->notes) : ?>
@@ -81,19 +106,19 @@ use \app\models\QuantityType;
   </table>
 <?php endif; ?>
 <div id="total">
-  <table class="table table-bordered">
+  <table class="table table-bordered" style="width: 30%">
     <caption style="font-weight: 1000">Total</caption>
     <tr>
       <th scope="col">Subtotal</th>
-      <td><?= '$'.$order->subtotal ?></td>
+      <td class="text-right"><?= '$'. number_format(round($order->subtotal, 2), 2) ?></td>
     </tr>
     <tr>
       <th scope="col">Tax</th>
-      <td><?= round($order->tax * 100). '%' ?></td>
+      <td class="text-right"><?= '$'. number_format(round($order->taxAmount, 2), 2) ?></td>
     </tr>
     <tr>
       <th scope="col">Total</th>
-      <td><?= '$'.$order->total ?></td>
+      <td class="text-right"><?= '$'.number_format(round($order->total, 2), 2) ?></td>
     </tr>
   </table>
 </div>

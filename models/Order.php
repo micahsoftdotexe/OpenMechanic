@@ -48,7 +48,7 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'automobile_id', 'odometer_reading', 'stage'], 'required'],
+            [['customer_id', 'automobile_id', 'odometer_reading', 'stage', 'date'], 'required'],
             [['customer_id', 'automobile_id', 'paid_in_full'], 'integer'],
             [['date'], 'safe'],
             [['tax', 'amount_paid', 'odometer_reading'], 'number'],
@@ -77,14 +77,9 @@ class Order extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        if (parent::beforeSave($insert)) {
-            if ($this->isNewRecord) {
-                date_default_timezone_set(!empty(Yii::$app->params['timezone']) ? Yii::$app->params['timezone'] : 'America/New_York');
-                $this->date = new \yii\db\Expression('NOW()');
-            }
-            return true;
-        }
-        return false;
+        // Need to do this logic to convert jui/date object to sql datetime object
+        $this->date = date('Y-m-d', strtotime($this->date));
+        return true;
     }
 
     /**
@@ -147,6 +142,16 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasMany(Note::class, ['order_id' => 'id']);
     }
 
+    public function getTaxAmount()
+    {
+        $total_parts = 0;
+        foreach ($this->parts as $part) {
+            $part_with_margin = $part->price + ($part->price * ($part->margin / 100));
+            $total_parts += $part_with_margin*$part->quantity;
+        }
+        return $total_parts * $this->tax;
+    }
+
     public function getSubtotal()
     {
         $subtotal = 0;
@@ -162,8 +167,25 @@ class Order extends \yii\db\ActiveRecord
 
     public function getTotal()
     {
-        $total = $this->subtotal;
-        $total += $this->subtotal*$this->tax;
+        $total = $this->subtotal + $this->taxAmount;
+        return round($total, 2);
+    }
+
+    public function getPartTotal()
+    {
+        $total = 0;
+        foreach ($this->parts as $part) {
+            $total += $part->price + ($part->price * ($part->margin / 100));
+        }
+        return round($total, 2);
+    }
+
+    public function getLaborTotal()
+    {
+        $total = 0;
+        foreach ($this->labors as $labor) {
+            $total += $labor->price;
+        }
         return round($total, 2);
     }
 

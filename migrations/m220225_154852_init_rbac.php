@@ -7,20 +7,12 @@ use app\models\User;
  */
 class m220225_154852_init_rbac extends Migration
 {
-    private function assignSeededUserToRoles()
+    private function assignAdminUserToRoles()
     {
         $auth = Yii::$app->authManager;
         if (User::findOne(['username' => 'admin'])) {
             $admin = $auth->getRole('admin');
             $auth->assign($admin, User::findOne(['username' => 'admin'])->id);
-        }
-        if (User::findOne(['username' => 'manager'])) {
-            $manager = $auth->getRole('shopManager');
-            $auth->assign($manager, User::findOne(['username' => 'manager'])->id);
-        }
-        if (User::findOne(['username' => 'demo'])) {
-            $employee = $auth->getRole('employee');
-            $auth->assign($employee, User::findOne(['username' => 'demo'])->id);
         }
         return true;
     }
@@ -201,7 +193,7 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($admin, $editUserRoles);
         $auth->addChild($admin, $deleteOrder);
 
-        $this->assignSeededUserToRoles();
+        $this->assignAdminUserToRoles();
     }
 
     /**

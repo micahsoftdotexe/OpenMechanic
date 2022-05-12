@@ -55,7 +55,6 @@ class UserController extends SafeController
         }
 
         return $this->redirect(['/admin/view']);
-
     }
 
     public function actionActivate($id)
@@ -100,14 +99,21 @@ class UserController extends SafeController
         $model->username = $user->username;
         $model->first_name = $user->first_name;
         $model->last_name = $user->last_name;
-
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            // $user = User::findOne(Yii::$app->user->id);
+            if (array_key_exists('roles', Yii::$app->request->post('UserEditForm'))) {
+                $model->roles = Yii::$app->request->post('UserEditForm')['roles'];
+            }
             $user->username = $model->username;
             $user->first_name = $model->first_name;
             $user->last_name = $model->last_name;
             if ($model->password != '' && $model->password == $model->password_repeat) {
                 $user->setPassword($model->password);
+            }
+            // redo roles
+            $auth = Yii::$app->authManager;
+            $auth->revokeAll($user->id);
+            foreach ($model->roles as $role) {
+                $auth->assign($auth->getRole($role), $user->id);
             }
             if ($user->save()) {
                 Yii::$app->session->setFlash('success', 'User Updated');

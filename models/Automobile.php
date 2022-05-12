@@ -33,7 +33,7 @@ class Automobile extends \yii\db\ActiveRecord
     {
         return [
             [['vin', 'make', 'model', 'year', 'motor_number'], 'required'],
-            [['year'], 'integer'],
+            [['year'], 'string', 'max' => 20],
             [['motor_number'], 'number'],
             [['vin'], 'string', 'max' => 17],
             [['make', 'model'], 'string', 'max' => 128],

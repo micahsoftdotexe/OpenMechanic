@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'subtotal',
                 'value' => function($model) {
-                    return '$' . $model->subtotal;
+                    return '$' . number_format(round($model->subtotal, 2), 2);
                 }
             ],
             //'tax',

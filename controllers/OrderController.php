@@ -106,6 +106,8 @@ class OrderController extends SafeController
         //      'dev'  // devlog file.  See components->log->dev defined in /config/web.php
         // );
         $model = new Order();
+        date_default_timezone_set(!empty(Yii::$app->params['timezone']) ? Yii::$app->params['timezone'] : 'America/New_York');
+        $model->date = date('Y-m-d');
 
         return $this->render('create', [
             'model' => $model,
@@ -255,12 +257,10 @@ class OrderController extends SafeController
             if ($model->save()) {
                 return $this->redirect(['edit', 'id' => $model->id]);
             } else {
-                Yii::debug($model->getErrors(), 'dev');
                 Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Could not change stage'));
                 return $this->redirect(['edit', 'id' => $model->id]);
             }
         } else {
-            Yii::debug('here', 'dev');
             Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Could not change stage'));
             return $this->redirect(['edit', 'id' => $model->id]);
         }

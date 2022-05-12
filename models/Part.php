@@ -67,29 +67,14 @@ class Part extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Order::class, ['id' => 'order_id']);
     }
-
+    /**
+     * Returns the total price of the part with part price, margin and quantity 
+     *
+     * @return float
+     */
     public function getTotal()
     {
         $part_with_margin = $this->price + ($this->price * ($this->margin / 100));
         return $part_with_margin * $this->quantity;
-    }
-
-    public function getVerbalizedPrice()
-    {
-        $return_string = $this->price + ($this->price * ($this->margin / 100));
-        if ($this->quantity_type_id) {
-            $quantity_type = QuantityType::findOne($this->quantity_type_id);
-            if ($quantity_type->description != 'Each') {
-                $return_string .= ' per ';
-            } else {
-                $return_string .= ' ';
-            }
-            if ($this->quantity > 1 && $quantity_type->description != 'Each') {
-                $return_string .= \yii\helpers\Inflector::pluralize($quantity_type->description);
-            } else {
-                $return_string .= $quantity_type->description;
-            }
-        }
-        return round($return_string, 2);
     }
 }
