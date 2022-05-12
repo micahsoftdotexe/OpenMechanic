@@ -257,12 +257,10 @@ class OrderController extends SafeController
             if ($model->save()) {
                 return $this->redirect(['edit', 'id' => $model->id]);
             } else {
-                Yii::debug($model->getErrors(), 'dev');
                 Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Could not change stage'));
                 return $this->redirect(['edit', 'id' => $model->id]);
             }
         } else {
-            Yii::debug('here', 'dev');
             Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Could not change stage'));
             return $this->redirect(['edit', 'id' => $model->id]);
         }

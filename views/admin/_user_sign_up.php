@@ -15,7 +15,6 @@ use kartik\select2\Select2;
     <?= $userForm->field($model, 'password')->label(Yii::t('app', 'Password'))->passwordInput()?>
     <?= $userForm->field($model, 'password_repeat')->label(Yii::t('app', 'Retype Your Password'))->passwordInput()?>
     <?php if ($edit && $model->id != Yii::$app->user->id) : ?>
-        <?php Yii::debug($model->id, 'dev'); ?>
         <?= $userForm->field($model, 'roles')->label(Yii::t('app', 'Roles'))->widget(Select2::class, [
             'data' => $model->getRoles(),
             'options' => ['placeholder' => Yii::t('app', 'Select user roles ...'), 'multiple' => true],

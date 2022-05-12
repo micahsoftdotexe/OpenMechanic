@@ -10,7 +10,7 @@ class UserEditForm extends yii\base\Model
     public $last_name;
     public $password;
     public $password_repeat;
-    public $roles;
+    public $roles = [];
 
 
     /**
