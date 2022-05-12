@@ -50,6 +50,11 @@ use \app\models\QuantityType;
       <!-- class="text-right" -->
     </tr>
     <?php endforeach; ?>
+    <tr>
+      <th scope="row">Total</th>
+      <td></td>
+      <td class="text-right"><?= '$' . number_format(round($order->partTotal, 2), 2) ?> </td>
+    </tr>
   </table>
 </div>
 <div id="labor">
@@ -67,6 +72,11 @@ use \app\models\QuantityType;
       <td><?= $labor->notes ?></td>
     </tr>
     <?php endforeach; ?>
+    <tr>
+      <th scope="row">Total</th>
+      <td><?= '$' . number_format(round($order->laborTotal, 2), 2) ?> </td>
+      <td></td>
+    </tr>
   </table>
 </div>
 <?php if ($order->notes) : ?>

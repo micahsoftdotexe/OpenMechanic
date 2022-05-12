@@ -171,6 +171,24 @@ class Order extends \yii\db\ActiveRecord
         return round($total, 2);
     }
 
+    public function getPartTotal()
+    {
+        $total = 0;
+        foreach ($this->parts as $part) {
+            $total += $part->price + ($part->price * ($part->margin / 100));
+        }
+        return round($total, 2);
+    }
+
+    public function getLaborTotal()
+    {
+        $total = 0;
+        foreach ($this->labors as $labor) {
+            $total += $labor->price;
+        }
+        return round($total, 2);
+    }
+
     public function canChangeStage($increment)
     {
         if (($this->stage + $increment > count(self::$stages)) || ($this->stage + $increment < 1)) {
