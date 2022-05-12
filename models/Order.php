@@ -175,7 +175,7 @@ class Order extends \yii\db\ActiveRecord
     {
         $total = 0;
         foreach ($this->parts as $part) {
-            $total += $part->price + ($part->price * ($part->margin / 100));
+            $total += ($part->price + ($part->price * ($part->margin / 100))) * $part->quantity;
         }
         return round($total, 2);
     }
