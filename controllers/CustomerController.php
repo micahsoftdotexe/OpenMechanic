@@ -108,7 +108,7 @@ class CustomerController extends SafeController
             $model->save();
         }
         $automobileDataProvider = new ActiveDataProvider([
-            'query' => \app\models\Automobile::find()->where(['customer_id' => $id]),
+            'query' => \app\models\Automobile::find()->viaTable('owns', ['customer_id' => $id]),
         ]);
         $orderDataProvider = new ActiveDataProvider([
             'query' => \app\models\Order::find()->where(['customer_id' => $model->id]),

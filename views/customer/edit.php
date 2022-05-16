@@ -18,28 +18,33 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
     'items' => [
         [
             'label' => Yii::t('app', 'Customer Info'),
+            'options'     => ['id' => 'tabCustomer'],
+            'linkOptions' => ['id' => 'tabCustomersLink'],
             'content' => $this->render('_form', [
                 'model' => $model,
-                'tab' => 'tabCustomersLink',
+                //'tab' => 'tabCustomersLink',
                 'change_form' => false
             ]),
             'active' => ($tab == 'tabCustomersLink'),
         ],
-        // [
-        //     'label' => Yii::t('app', 'Automobiles'),
-        //     'content' => $this->render('_edit', [
-        //         'model' => $model,
-        //         'tab' => 'tabAutomobilesLink',
-        //     ]),
-        //     'active' => ($tab == 'tabAutomobilesLink'),
-        // ],
-        // [
-        //     'label' => Yii::t('app', 'Orders'),
-        //     'content' => $this->render('_edit', [
-        //         'model' => $model,
-        //         'tab' => 'tabOrdersLink',
-        //     ]),
-        //     'active' => ($tab == 'tabOrdersLink'),
-        // ],
+        [
+            'label' => Yii::t('app', 'Automobiles'),
+            'options'     => ['id' => 'tabAutomobiles'],
+            'linkOptions' => ['id' => 'tabAutomobilesLink'],
+            'content' => $this->render('_automobile_index', [
+                'dataProvider' => $automobileDataProvider,
+                //'tab' => 'tabAutomobilesLink',
+            ]),
+            'active' => ($tab == 'tabAutomobilesLink'),
+        ],
+        [
+            'label' => Yii::t('app', 'Orders'),
+            'options'     => ['id' => 'tabOrders'],
+            'linkOptions' => ['id' => 'tabOrdersLink'],
+            'content' => $this->render('_order_index', [
+                'dataProvider' => $orderDataProvider,
+            ]),
+            'active' => ($tab == 'tabOrdersLink'),
+        ],
     ],
 ]);
