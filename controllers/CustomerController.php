@@ -35,6 +35,11 @@ class CustomerController extends SafeController
                         'allow' => true,
                         'roles' => ['createCustomer'],
                     ],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ]
 
                 ],
             ],
