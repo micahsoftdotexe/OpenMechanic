@@ -68,7 +68,7 @@ use kartik\select2\Select2;
 <div class="customer-form">
     <?php $customerForm = ActiveForm::begin([
         'id' => 'initial-customer-form',
-        'action' => \yii\helpers\Url::to(['/customer/initial-create']),
+        'action' => \yii\helpers\Url::to(['/customer/edit', 'id' => $model->id]),
     ]) ?>
     <?= $customerForm->field($model, 'first_name')->label(Yii::t('app', 'First Name'))->textInput()?>
     <?= $customerForm->field($model, 'last_name')->label(Yii::t('app', 'Last Name'))->textInput()?>
@@ -88,14 +88,25 @@ use kartik\select2\Select2;
         ])?>
     <?= $customerForm->field($model, 'street_address')->label(Yii::t('app', 'Street Address'))->textInput()?>
     <?= $customerForm->field($model, 'city')->label(Yii::t('app', 'City'))->textInput()?>
-    <?= $customerForm->field($model, 'state')->label(Yii::t('app', 'State'))->widget(Select2::class, [
-        'data' => $states,
-        'options' => ['placeholder' => Yii::t('app', 'Select a state ...')],
-        'pluginOptions' => [
-            'allowClear' => true,
-            'dropdownParent' => '#modalNewCustomer'
-        ],
-    ])?>
+    <?php if ($change_form) : ?>
+        <?= $customerForm->field($model, 'state')->label(Yii::t('app', 'State'))->widget(Select2::class, [
+            'data' => $states,
+            'options' => ['placeholder' => Yii::t('app', 'Select a state ...')],
+            'pluginOptions' => [
+                'allowClear' => true,
+                'dropdownParent' => '#modalNewCustomer'
+            ],
+        ])?>
+    <?php else : ?> 
+        <?= $customerForm->field($model, 'state')->label(Yii::t('app', 'State'))->widget(Select2::class, [
+            'data' => $states,
+            'options' => ['placeholder' => Yii::t('app', 'Select a state ...')],
+            'pluginOptions' => [
+                'allowClear' => true,
+            ],
+        ])?>
+    <?php endif; ?>
+    
     <?= $customerForm->field($model, 'zip')->label(Yii::t('app', 'Zip'))->textInput(['style' => 'width:8%'])?>
     <?= Html::submitButton(Yii::t('app', 'Save'), [
         'class'             => 'btn btn-success',

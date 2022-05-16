@@ -192,6 +192,7 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($admin, $createUser);
         $auth->addChild($admin, $editUserRoles);
         $auth->addChild($admin, $deleteOrder);
+        $auth->addChild($admin, $deleteCustomer);
 
         $this->assignAdminUserToRoles();
     }

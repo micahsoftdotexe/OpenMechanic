@@ -6,6 +6,7 @@ use Yii;
 use app\models\Customer;
 use yii\filters\AccessControl;
 use app\models\CustomerSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,7 +37,7 @@ class CustomerController extends SafeController
                         'roles' => ['createCustomer'],
                     ],
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'edit'],
                         'allow' => true,
                         'roles' => ['@'],
                     ]
@@ -92,6 +93,31 @@ class CustomerController extends SafeController
 
         return $this->render('create', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionEdit($id, $tab = null)
+    {
+        if ($tab) {
+            setcookie('customerTab', $tab, 0, '/');
+            return $this->redirect(['edit', 'id' => $id]);
+        }
+        $tab = Yii::$app->request->cookies->getValue('customerTab', (isset($_COOKIE['customerTab']))? $_COOKIE['customerTab']:'tabCustomersLink');
+        $model = Customer::findOne($id);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->save();
+        }
+        $automobileDataProvider = new ActiveDataProvider([
+            'query' => \app\models\Automobile::find()->where(['customer_id' => $id]),
+        ]);
+        $orderDataProvider = new ActiveDataProvider([
+            'query' => \app\models\Order::find()->where(['customer_id' => $model->id]),
+        ]);
+        return $this->render('edit', [
+            'model' => $model,
+            'automobileDataProvider' => $automobileDataProvider,
+            'orderDataProvider' => $orderDataProvider,
+            'tab' => $tab,
         ]);
     }
 

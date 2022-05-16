@@ -30,7 +30,26 @@ $this->params['breadcrumbs'][] = $this->title;
             //'firstName',
             'fullName',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{edit} {delete}',
+                'buttons' => [
+                    'edit' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                            'title' => Yii::t('app', 'Edit Customer'),
+                        ]);
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        if (Yii::$app->user->can('deleteCustomer')) {
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
+                                'title' => Yii::t('app', 'Delete Order'),
+                            ]);
+                        } else {
+                            return;
+                        }
+                    }
+                ]
+            ],
         ],
     ]); ?>
 
