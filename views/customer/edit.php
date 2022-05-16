@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
 ?>
 
 <?= \yii\bootstrap\Tabs::widget([
+    'options' => ['id' => 'tabCustomer'],
     'items' => [
         [
             'label' => Yii::t('app', 'Customer Info'),
@@ -47,4 +48,20 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
             'active' => ($tab == 'tabOrdersLink'),
         ],
     ],
-]);
+]);?>
+
+
+<?php
+    $jsBlock = <<< JS
+        $('#tabCustomer a').click(function (e) {
+            //5console.log('tabUpdate a clicked');
+            Cookies.remove('customerTab');
+            Cookies.set('customerTab', e.target.id); //,{ secure: true, domain:null } , {sameSite: 'strict'}
+            // var tab = browser.cookies.set({
+            //     name:'edittab',
+            //     value:e.target.id,
+            //     sameSite: 'lax'});
+            //console.log(document.cookie)
+        });
+    JS;
+    $this->registerJs($jsBlock, yii\web\View::POS_END);
