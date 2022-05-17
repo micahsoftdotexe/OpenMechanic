@@ -21,7 +21,13 @@ class m220425_210155_update_rbac1 extends Migration
         $deleteCustomer->description = 'Delete Customer';
         $auth->add($deleteCustomer);
 
+        $deleteAuto = $auth->createPermission('deleteAuto');
+        $deleteAuto->description = 'Delete Automobile';
+        $auth->add($deleteAuto);
+
+
         $auth->addChild($admin, $deleteCustomer);
+        $auth->addChild($admin, $deleteAuto);
     }
 
     /**

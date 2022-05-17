@@ -39,6 +39,11 @@ class AutomobileController extends SafeController
                         'allow' => true,
                         'roles' => ['editAuto'],
                     ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['deleteAuto'],
+                    ]
                 ],
             ],
         ];
@@ -138,5 +143,17 @@ class AutomobileController extends SafeController
         // return $this->render('edit', [
         //     'model' => $model,
         // ]);
+    }
+
+    public function actionDelete($id) {
+        $model = Automobile::findOne($id);
+        $customer_id = \app\models\Owns::findOne(['automobile_id' => $id])->customer_id;
+        if (\app\models\Order::find()->where(['automobile_id' => $id])->exists()) {
+            Yii::$app->session->setFlash('error', 'Automobile is in use');
+        } else {
+            $model->delete();
+            Yii::$app->session->setFlash('success', 'Automobile Deleted');
+        }
+        return $this->redirect(['/customer/edit', 'id' => $customer_id]);
     }
 }

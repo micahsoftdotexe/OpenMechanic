@@ -85,10 +85,6 @@ class m220225_154852_init_rbac extends Migration
         $editAuto->description = 'Edit Automobile';
         $auth->add($editAuto);
 
-        $deleteAuto = $auth->createPermission('deleteAuto');
-        $deleteAuto->description = 'Delete Automobile';
-        $auth->add($deleteAuto);
-
         $createNote = $auth->createPermission('createNote');
         $createNote->description = 'Create Note';
         $auth->add($createNote);

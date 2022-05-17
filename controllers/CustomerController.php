@@ -6,6 +6,7 @@ use Yii;
 use app\models\Customer;
 use yii\filters\AccessControl;
 use app\models\CustomerSearch;
+use app\models\Owns;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,12 +22,12 @@ class CustomerController extends SafeController
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
+            // 'verbs' => [
+            //     'class' => VerbFilter::class,
+            //     'actions' => [
+            //         'delete' => ['POST'],
+            //     ],
+            // ],
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
@@ -36,14 +37,24 @@ class CustomerController extends SafeController
                         'roles' => ['createCustomer'],
                     ],
                     [
-                        'actions' => ['index', 'edit'],
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['edit'],
+                        'allow' => true,
+                        'roles' => ['editCustomer'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
                         'roles' => ['createCustomer'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['deleteCustomer'],
                     ],
 
                 ],
@@ -165,7 +176,16 @@ class CustomerController extends SafeController
      */
     public function actionDelete($id)
     {
+        if (\app\models\Order::findOne(['customer_id' => $id])) {
+            Yii::$app->session->setFlash('error', 'Cannot Delete Customer, Orders Exist');
+            return $this->redirect(['index']);
+        }
+        $automobiles = \app\models\Automobile::find()->viaTable('owns', ['customer_id' => $id])->all();
+        foreach ($automobiles as $automobile) {
+            $automobile->delete();
+        }
         $this->findModel($id)->delete();
+        Yii::$app->session->setFlash('success', 'Customer Deleted');
 
         return $this->redirect(['index']);
     }
