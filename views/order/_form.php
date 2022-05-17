@@ -123,6 +123,7 @@ yii\bootstrap\Modal::begin([
         <?= Yii::$app->controller->renderPartial('/customer/_form', [
                 'model'=> new app\models\Customer(),
                 'change_form' => true,
+                'create' => true,
             ]) ?>
     </div>
 
@@ -148,6 +149,7 @@ yii\bootstrap\Modal::begin([
         <?= Yii::$app->controller->renderPartial('/automobile/_form', [
                 'model'=> new app\models\AutomobileForm(),
                 'change_form' => true,
+                'create' => false,
             ]) ?>
     </div>
 

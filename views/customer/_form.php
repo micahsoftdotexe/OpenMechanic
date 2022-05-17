@@ -68,7 +68,7 @@ use kartik\select2\Select2;
 <div class="customer-form">
     <?php $customerForm = ActiveForm::begin([
         'id' => 'initial-customer-form',
-        'action' => \yii\helpers\Url::to(['/customer/edit', 'id' => $model->id]),
+        'action' => $create ? \yii\helpers\Url::to(['/customer/create']) : \yii\helpers\Url::to(['/customer/edit', 'id' => $model->id]),
     ]) ?>
     <?= $customerForm->field($model, 'first_name')->label(Yii::t('app', 'First Name'))->textInput()?>
     <?= $customerForm->field($model, 'last_name')->label(Yii::t('app', 'Last Name'))->textInput()?>

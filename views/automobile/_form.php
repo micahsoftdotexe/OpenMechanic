@@ -9,10 +9,10 @@ use borales\extensions\phoneInput\PhoneInput;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="automobile-form">
+<div>
     <?php $automobileForm = ActiveForm::begin([
         'id' => 'initial-automobile-form',
-        'action' => \yii\helpers\Url::to(['/automobile/ajax-initial-create']),
+        'action' => $create ? \yii\helpers\Url::to(['/automobile/create', 'customer_id' => $model->customer_id]) : \yii\helpers\Url::to(['/automobile/customer-edit', 'id' => $model->customer_id]),
     ]) ?>
     <?= $automobileForm->field($model, 'make')->label(Yii::t('app', 'Make'))->textInput()?>
     <?= $automobileForm->field($model, 'model')->label(Yii::t('app', 'Model'))->textInput()?>
@@ -28,13 +28,13 @@ use borales\extensions\phoneInput\PhoneInput;
 </div>
 
 <?php
-    $jsBlock = <<< JS
-    $('#modalNewAutomobile').on('shown.bs.modal', function () {
-        document.getElementById('customer_id_field').value = $('#customer_id').val();
-    })
-    JS;
-    $this->registerJs($jsBlock, \yii\web\View::POS_END);
     if ($change_form) {
+        $jsBlock = <<< JS
+        $('#modalNewAutomobile').on('shown.bs.modal', function () {
+            document.getElementById('customer_id_field').value = $('#customer_id').val();
+        })
+        JS;
+        $this->registerJs($jsBlock, \yii\web\View::POS_END);
         $ajaxSubmitUrl = \yii\helpers\Url::to(['/automobile/ajax-initial-create']);
         $jsBlock2 = '
             $("#initial-automobile-form").on("beforeSubmit", function(){

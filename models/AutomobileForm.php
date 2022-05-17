@@ -24,4 +24,16 @@ class AutomobileForm extends yii\base\Model
             [['motor_number'], 'number'],
         ];
     }
+
+    public static function automobileToForm($automobile, $model)
+    {
+        //$model = new AutomobileForm();
+        $model->vin = $automobile->vin;
+        $model->make = $automobile->make;
+        $model->model = $automobile->model;
+        $model->year = $automobile->year;
+        $model->customer_id = Owns::find()->where(['automobile_id' => $automobile->id])->one()->customer_id;
+        $model->motor_number = $automobile->motor_number;
+        return $model;
+    }
 }

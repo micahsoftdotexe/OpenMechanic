@@ -7,7 +7,6 @@ use app\models\Customer;
 use yii\filters\AccessControl;
 use app\models\CustomerSearch;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -40,7 +39,12 @@ class CustomerController extends SafeController
                         'actions' => ['index', 'edit'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ]
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['createCustomer'],
+                    ],
 
                 ],
             ],
@@ -85,14 +89,16 @@ class CustomerController extends SafeController
         $model = new Customer();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->fullName = $model->firstName.' '.$model->lastName;
+            //$model->fullName = $model->firstName.' '.$model->lastName;
             if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         }
 
-        return $this->render('create', [
+        return $this->render('_form', [
             'model' => $model,
+            'change_form' => false,
+            'create' => true,
         ]);
     }
 

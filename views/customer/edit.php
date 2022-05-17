@@ -19,12 +19,13 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
     'items' => [
         [
             'label' => Yii::t('app', 'Customer Info'),
-            'options'     => ['id' => 'tabCustomer'],
+            'options'     => ['id' => 'tabCustomers'],
             'linkOptions' => ['id' => 'tabCustomersLink'],
             'content' => $this->render('_form', [
                 'model' => $model,
                 //'tab' => 'tabCustomersLink',
-                'change_form' => false
+                'change_form' => false,
+                'create' => false,
             ]),
             'active' => ($tab == 'tabCustomersLink'),
         ],
@@ -34,6 +35,7 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
             'linkOptions' => ['id' => 'tabAutomobilesLink'],
             'content' => $this->render('_automobile_index', [
                 'dataProvider' => $automobileDataProvider,
+                'customer_id' => $model->id,
                 //'tab' => 'tabAutomobilesLink',
             ]),
             'active' => ($tab == 'tabAutomobilesLink'),
@@ -57,6 +59,9 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
             //5console.log('tabUpdate a clicked');
             Cookies.remove('customerTab');
             Cookies.set('customerTab', e.target.id); //,{ secure: true, domain:null } , {sameSite: 'strict'}
+            // if (e.target.id == 'tabCustomersLink') {
+            //     $('#tabCustomer').addClass('active');
+            // }
             // var tab = browser.cookies.set({
             //     name:'edittab',
             //     value:e.target.id,

@@ -4,9 +4,9 @@ use yii\db\Migration;
 use app\models\User;
 
 /**
- * Class m220425_210155_seed_test_data
+ * Class m220517_143357_seed_test_data
  */
-class m220425_210155_seed_test_data extends Migration
+class m220517_143357_seed_test_data extends Migration
 {
     /**
      * {@inheritdoc}
@@ -38,19 +38,4 @@ class m220425_210155_seed_test_data extends Migration
         $this->delete('user', ['username' => 'manager']);
         $this->delete('user', ['username' => 'demo']);
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m220425_210155_seed_test_data cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
