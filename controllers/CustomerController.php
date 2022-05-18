@@ -37,7 +37,7 @@ class CustomerController extends SafeController
                         'roles' => ['createCustomer'],
                     ],
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -83,12 +83,12 @@ class CustomerController extends SafeController
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new Customer model.
@@ -110,6 +110,25 @@ class CustomerController extends SafeController
             'model' => $model,
             'change_form' => false,
             'create' => true,
+            'view' => false
+        ]);
+    }
+
+    public function actionView($id, $tab = null) {
+        $tab = Yii::$app->request->cookies->getValue('customerTab', (isset($_COOKIE['customerTab']))? $_COOKIE['customerTab']:'tabCustomersLink');
+        $model = Customer::findOne($id);
+        $automobileDataProvider = new ActiveDataProvider([
+            'query' => \app\models\Automobile::find()->viaTable('owns', ['customer_id' => $id]),
+        ]);
+        $orderDataProvider = new ActiveDataProvider([
+            'query' => \app\models\Order::find()->where(['customer_id' => $model->id]),
+        ]);
+        return $this->render('view', [
+            'model' => $model,
+            'automobileDataProvider' => $automobileDataProvider,
+            'orderDataProvider' => $orderDataProvider,
+            'tab' => $tab,
+            //'view' => false
         ]);
     }
 
@@ -135,6 +154,7 @@ class CustomerController extends SafeController
             'automobileDataProvider' => $automobileDataProvider,
             'orderDataProvider' => $orderDataProvider,
             'tab' => $tab,
+            'view' => false
         ]);
     }
 

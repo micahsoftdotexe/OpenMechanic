@@ -63,35 +63,41 @@ use kartik\select2\Select2;
         "WV"=>"WEST VIRGINIA",
         "WI"=>"WISCONSIN",
         "WY"=>"WYOMING" ,
-    ];?>
+    ];
+    $canEdit = !$view ? (! $create ? Yii::$app->user->can('editCustomer') : Yii::$app->user->can('createCustomer')) : false;
+    ?>
 
 <div class="customer-form">
     <?php $customerForm = ActiveForm::begin([
         'id' => 'initial-customer-form',
         'action' => $create ? \yii\helpers\Url::to(['/customer/create']) : \yii\helpers\Url::to(['/customer/edit', 'id' => $model->id]),
     ]) ?>
-    <?= $customerForm->field($model, 'first_name')->label(Yii::t('app', 'First Name'))->textInput()?>
-    <?= $customerForm->field($model, 'last_name')->label(Yii::t('app', 'Last Name'))->textInput()?>
+    <?= $customerForm->field($model, 'first_name')->label(Yii::t('app', 'First Name'))->textInput(['disabled' => !$canEdit])?>
+    <?= $customerForm->field($model, 'last_name')->label(Yii::t('app', 'Last Name'))->textInput(['disabled' => !$canEdit])?>
     <?= $customerForm->field($model, 'phone_number_1')->label(Yii::t('app', 'Phone Number 1'))->widget(PhoneInput::class, [
             'id' => 'customerPhonenumber',
             //'name' => 'Customer[phone_number]',
+            'options' => ['disabled' => !$canEdit],
             'jsOptions' => [
                 'allowExtensions' => true,
-            ]
+            ],
+            //'disabled'  => !$canEdit,
         ])?>
     <?= $customerForm->field($model, 'phone_number_2')->label(Yii::t('app', 'Phone Number 2'))->widget(PhoneInput::class, [
             'id' => 'customerPhonenumber',
             //'name' => 'Customer[phone_number]',
+            'options' => ['disabled' => !$canEdit],
             'jsOptions' => [
                 'allowExtensions' => true,
-            ]
+            ],
+            //'disabled'  => !$canEdit,
         ])?>
-    <?= $customerForm->field($model, 'street_address')->label(Yii::t('app', 'Street Address'))->textInput()?>
-    <?= $customerForm->field($model, 'city')->label(Yii::t('app', 'City'))->textInput()?>
+    <?= $customerForm->field($model, 'street_address')->label(Yii::t('app', 'Street Address'))->textInput(['disabled' => !$canEdit])?>
+    <?= $customerForm->field($model, 'city')->label(Yii::t('app', 'City'))->textInput(['disabled' => !$canEdit])?>
     <?php if ($change_form) : ?>
         <?= $customerForm->field($model, 'state')->label(Yii::t('app', 'State'))->widget(Select2::class, [
             'data' => $states,
-            'options' => ['placeholder' => Yii::t('app', 'Select a state ...')],
+            'options' => ['placeholder' => Yii::t('app', 'Select a state ...'), 'disabled' => !$canEdit],
             'pluginOptions' => [
                 'allowClear' => true,
                 'dropdownParent' => '#modalNewCustomer'
@@ -100,17 +106,18 @@ use kartik\select2\Select2;
     <?php else : ?> 
         <?= $customerForm->field($model, 'state')->label(Yii::t('app', 'State'))->widget(Select2::class, [
             'data' => $states,
-            'options' => ['placeholder' => Yii::t('app', 'Select a state ...')],
+            'options' => ['placeholder' => Yii::t('app', 'Select a state ...'), 'disabled' => !$canEdit],
             'pluginOptions' => [
                 'allowClear' => true,
             ],
         ])?>
     <?php endif; ?>
     
-    <?= $customerForm->field($model, 'zip')->label(Yii::t('app', 'Zip'))->textInput(['style' => 'width:8%'])?>
+    <?= $customerForm->field($model, 'zip')->label(Yii::t('app', 'Zip'))->textInput(['style' => 'width:8%', 'disabled' => !$canEdit])?>
     <?= Html::submitButton(Yii::t('app', 'Save'), [
         'class'             => 'btn btn-success',
         'id'               => 'save-customer',
+        'disabled' => !$canEdit,
     ])?>
     <?php $customerForm = ActiveForm::end() ?>   
 </div>

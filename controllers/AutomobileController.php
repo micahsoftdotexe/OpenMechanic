@@ -43,7 +43,12 @@ class AutomobileController extends SafeController
                         'actions' => ['delete'],
                         'allow' => true,
                         'roles' => ['deleteAuto'],
-                    ]
+                    ],
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -65,6 +70,7 @@ class AutomobileController extends SafeController
             'model' => $model,
             'change_form' => false,
             'create' => true,
+            'view' => false
         ]);
     }
     // public function actionInitialCreate()
@@ -135,7 +141,7 @@ class AutomobileController extends SafeController
             if (!$modelForm->validate()) {
                 Yii::$app->getSession()->setFlash('error', 'Could Not Save Automobile');
             } else {
-                return $this->render('_form', ['model' => $modelForm, 'change_form' => false, 'create' => false]);
+                return $this->render('_form', ['model' => $modelForm, 'change_form' => false, 'create' => false, 'view' => false]);
             }
         }
         return $this->redirect(['/customer/edit', 'id' => $modelForm->customer_id]);
@@ -155,5 +161,17 @@ class AutomobileController extends SafeController
             Yii::$app->session->setFlash('success', 'Automobile Deleted');
         }
         return $this->redirect(['/customer/edit', 'id' => $customer_id]);
+    }
+
+    public function actionView($id)
+    {
+        $model = Automobile::findOne($id);
+        $model = AutomobileForm::automobileToForm($model, new AutomobileForm());
+        return $this->render('_form', [
+            'model' => $model,
+            'change_form' => false,
+            'create' => false,
+            'view' => true
+        ]);
     }
 }

@@ -51,6 +51,30 @@ use yii\grid\GridView;
                 return '$' . number_format(round($model->subtotal, 2), 2);
             }
         ],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '{edit}{delete}',
+            'buttons' => [
+                'edit' => function ($url, $model, $key) {
+                    if (Yii::$app->user->can('editOrder')) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['order/edit', 'id' => $model->id], [
+                            'title' => Yii::t('app', 'Edit Order'),
+                        ]);
+                    } else {
+                        return;
+                    }
+                },
+                'delete' => function ($url, $model, $key) {
+                    if (Yii::$app->user->can('deleteOrder')) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['order/delete', 'id' => $model->id], [
+                            'title' => Yii::t('app', 'Delete Order'),
+                        ]);
+                    } else {
+                        return;
+                    }
+                }
+            ],
+        ],
 
     ]
-])?>
+    ]);

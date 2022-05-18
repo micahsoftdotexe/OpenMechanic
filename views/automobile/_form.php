@@ -14,15 +14,16 @@ use borales\extensions\phoneInput\PhoneInput;
         'id' => 'initial-automobile-form',
         'action' => $create ? \yii\helpers\Url::to(['/automobile/create', 'customer_id' => $model->customer_id]) : \yii\helpers\Url::to(['/automobile/customer-edit', 'id' => $model->customer_id]),
     ]) ?>
-    <?= $automobileForm->field($model, 'make')->label(Yii::t('app', 'Make'))->textInput()?>
-    <?= $automobileForm->field($model, 'model')->label(Yii::t('app', 'Model'))->textInput()?>
-    <?= $automobileForm->field($model, 'year')->label(Yii::t('app', 'Year'))->textInput()?>
-    <?= $automobileForm->field($model, 'motor_number')->label(Yii::t('app', 'Motor Number'))->textInput()?>
-    <?= $automobileForm->field($model, 'vin')->label(Yii::t('app', 'VIN'))->textInput()?>
+    <?= $automobileForm->field($model, 'make')->label(Yii::t('app', 'Make'))->textInput(['disabled' => $view])?>
+    <?= $automobileForm->field($model, 'model')->label(Yii::t('app', 'Model'))->textInput(['disabled' => $view])?>
+    <?= $automobileForm->field($model, 'year')->label(Yii::t('app', 'Year'))->textInput(['disabled' => $view])?>
+    <?= $automobileForm->field($model, 'motor_number')->label(Yii::t('app', 'Motor Number'))->textInput(['disabled' => $view])?>
+    <?= $automobileForm->field($model, 'vin')->label(Yii::t('app', 'VIN'))->textInput(['disabled' => $view])?>
     <?= $automobileForm->field($model, 'customer_id')->hiddenInput(['id' => 'customer_id_field'])->label(false)?>
     <?= Html::submitButton(Yii::t('app', 'Create'), [
         'id'                => 'create-automobile',
         'class'             => 'btn btn-success',
+        'disabled'          => $view,
     ])?>
     <?php $automobileForm = ActiveForm::end() ?>   
 </div>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 use yii\grid\GridView;
 use yii\helpers\Html;
 
@@ -17,15 +17,24 @@ use yii\helpers\Html;
         'vin',
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{edit}{delete}',
+            'template' => '{view}{edit}{delete}',
             'buttons' => [
                 'edit' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['automobile/customer-edit', 'id' => $model->id], [
-                                'title' => Yii::t('app', 'Edit Automobile'),
+                    if (Yii::$app->user->can('editAuto')) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['automobile/customer-edit', 'id' => $model->id], [
+                            'title' => Yii::t('app', 'Edit Automobile'),
+                        ]);
+                    } else {
+                        return;
+                    }
+                },
+                'view' => function ($url, $model, $key) {
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['automobile/view', 'id' => $model->id], [
+                        'title' => Yii::t('app', 'View Automobile'),
                     ]);
                 },
                 'delete' => function ($url, $model, $key) {
-                    if (Yii::$app->user->can('deleteOrder')) {
+                    if (Yii::$app->user->can('deleteAuto')) {
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['/automobile/delete', 'id' => $model->id], [
                             'title' => Yii::t('app', 'Delete Automobile'),
                         ]);

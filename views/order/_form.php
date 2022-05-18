@@ -86,8 +86,8 @@ $canEditOrder = $update ? Yii::$app->user->can('editOrder'):Yii::$app->user->can
 
             ],
             'clientOptions' => [
-                'changeMonth'=>true,
-                'changeYear'=>true,
+                'changeMonth' => true,
+                'changeYear'  => true,
             ]
         ])?>
     </div>
@@ -121,9 +121,10 @@ yii\bootstrap\Modal::begin([
     <!-- Some modal content here -->
     <div id="modalContent">
         <?= Yii::$app->controller->renderPartial('/customer/_form', [
-                'model'=> new app\models\Customer(),
+                'model'       => new app\models\Customer(),
                 'change_form' => true,
-                'create' => true,
+                'create'      => true,
+                'view'        => false,
             ]) ?>
     </div>
 
@@ -150,6 +151,7 @@ yii\bootstrap\Modal::begin([
                 'model'=> new app\models\AutomobileForm(),
                 'change_form' => true,
                 'create' => false,
+                'view' => false,
             ]) ?>
     </div>
 

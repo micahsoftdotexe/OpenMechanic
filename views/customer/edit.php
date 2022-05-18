@@ -9,7 +9,7 @@ $this->title = Yii::t('app', 'Update Customer: {name}', [
     'name' => \app\models\Customer::find()->where(['id'=> $model->id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->id])->one()->last_name,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Customers'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->id])->one()->last_name, 'url' => ['edit', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where(['id'=> $model->id])->one()->first_name.' '.\app\models\Customer::find()->where(['id'=> $model->id])->one()->last_name, 'url' => [$view ? 'view' : 'edit', 'id' => $model->id]];
 // $finalizeTabCheck = ($tab == 'tabFinalizeLink') && ((\app\models\Order::$stages[$model->stage] == 'Completed') || (\app\models\Order::$stages[$model->stage] == 'Paid'));
 // $finalizeCheck = ((\app\models\Order::$stages[$model->stage] == 'Completed') || (\app\models\Order::$stages[$model->stage] == 'Paid'));
 ?>
@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
                 //'tab' => 'tabCustomersLink',
                 'change_form' => false,
                 'create' => false,
+                'view' => $view,
             ]),
             'active' => ($tab == 'tabCustomersLink'),
         ],
@@ -36,6 +37,7 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
             'content' => $this->render('_automobile_index', [
                 'dataProvider' => $automobileDataProvider,
                 'customer_id' => $model->id,
+                'view' => $view,
                 //'tab' => 'tabAutomobilesLink',
             ]),
             'active' => ($tab == 'tabAutomobilesLink'),
@@ -46,6 +48,7 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
             'linkOptions' => ['id' => 'tabOrdersLink'],
             'content' => $this->render('_order_index', [
                 'dataProvider' => $orderDataProvider,
+                'view' => $view,
             ]),
             'active' => ($tab == 'tabOrdersLink'),
         ],

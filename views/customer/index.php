@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php
         if (Yii::$app->user->can('createCustomer')) {
-            echo Html::a(Yii::t('app', 'Create Customer'), ['create'], ['class' => 'btn btn-success']); 
+            echo Html::a(Yii::t('app', 'Create Customer'), ['create'], ['class' => 'btn btn-success']);
         }
         ?>
     </p>
@@ -36,11 +36,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{edit} {delete}',
+                'template' => '{view} {edit} {delete}',
                 'buttons' => [
                     'edit' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-                            'title' => Yii::t('app', 'Edit Customer'),
+                        if (Yii::$app->user->can('editCustomer')) {
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                                'title' => Yii::t('app', 'Edit Customer'),
+                            ]);
+                        } else {
+                            return;
+                        }
+                    },
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->id], [
+                            'title' => Yii::t('app', 'View Customer'),
                         ]);
                     },
                     'delete' => function ($url, $model, $key) {
