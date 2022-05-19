@@ -20,7 +20,7 @@ use borales\extensions\phoneInput\PhoneInput;
     <?= $automobileForm->field($model, 'motor_number')->label(Yii::t('app', 'Motor Number'))->textInput(['disabled' => $view])?>
     <?= $automobileForm->field($model, 'vin')->label(Yii::t('app', 'VIN'))->textInput(['disabled' => $view])?>
     <?= $automobileForm->field($model, 'customer_id')->hiddenInput(['id' => 'customer_id_field'])->label(false)?>
-    <?= Html::submitButton(Yii::t('app', 'Create'), [
+    <?= Html::submitButton($create ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), [
         'id'                => 'create-automobile',
         'class'             => 'btn btn-success',
         'disabled'          => $view,
