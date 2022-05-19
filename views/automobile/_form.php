@@ -12,7 +12,7 @@ use borales\extensions\phoneInput\PhoneInput;
 <div>
     <?php $automobileForm = ActiveForm::begin([
         'id' => 'initial-automobile-form',
-        'action' => $create ? \yii\helpers\Url::to(['/automobile/create', 'customer_id' => $model->customer_id]) : \yii\helpers\Url::to(['/automobile/customer-edit', 'id' => $model->customer_id]),
+        'action' => $create ? \yii\helpers\Url::to(['/automobile/create', 'customer_id' => $model->customer_id]) : \yii\helpers\Url::to(['/automobile/customer-edit', 'id' => $model->id]),
     ]) ?>
     <?= $automobileForm->field($model, 'make')->label(Yii::t('app', 'Make'))->textInput(['disabled' => $view])?>
     <?= $automobileForm->field($model, 'model')->label(Yii::t('app', 'Model'))->textInput(['disabled' => $view])?>
