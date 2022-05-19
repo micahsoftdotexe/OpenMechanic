@@ -140,7 +140,7 @@ yii\bootstrap\Modal::begin([
 yii\bootstrap\Modal::begin([
     'id'    => 'modalNewAutomobile',
     'header' => Yii::t('app', 'Create New Automobile'),
-    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
 ]);
 ?>
 

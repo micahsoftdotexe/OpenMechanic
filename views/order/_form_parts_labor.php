@@ -111,7 +111,7 @@ $createLabor = Yii::$app->user->can('createLabor');
 yii\bootstrap\Modal::begin([
     'id'    => 'modalNewPart',
     'header' => Yii::t('app', 'Create New Part'),
-    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
 ]);
 ?>
 
@@ -137,7 +137,7 @@ yii\bootstrap\Modal::begin([
 yii\bootstrap\Modal::begin([
     'id'    => 'modalNewLabor',
     'header' => Yii::t('app', 'Create New Labor Instance'),
-    'size'  => yii\bootstrap4\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
 ]);
 ?>
 
