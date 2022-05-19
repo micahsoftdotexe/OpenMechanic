@@ -77,10 +77,6 @@ class m220225_154852_init_rbac extends Migration
         $editCustomer->description = 'Edit Customer';
         $auth->add($editCustomer);
 
-        $deleteCustomer = $auth->createPermission('deleteCustomer');
-        $deleteCustomer->description = 'Delete Customer';
-        $auth->add($deleteCustomer);
-
         $createAuto = $auth->createPermission('createAuto');
         $createAuto->description = 'Create Automobile';
         $auth->add($createAuto);
@@ -88,10 +84,6 @@ class m220225_154852_init_rbac extends Migration
         $editAuto = $auth->createPermission('editAuto');
         $editAuto->description = 'Edit Automobile';
         $auth->add($editAuto);
-
-        $deleteAuto = $auth->createPermission('deleteAuto');
-        $deleteAuto->description = 'Delete Automobile';
-        $auth->add($deleteAuto);
 
         $createNote = $auth->createPermission('createNote');
         $createNote->description = 'Create Note';
@@ -177,6 +169,7 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($shopManager, $createCustomer);
         $auth->addChild($shopManager, $editAuto);
         $auth->addChild($shopManager, $editCustomer);
+        //$auth->addChild($shopManager, $editAuto);
         $auth->addChild($shopManager, $createLabor);
         $auth->addChild($shopManager, $editLabor);
         $auth->addChild($shopManager, $deleteLabor);
@@ -192,6 +185,7 @@ class m220225_154852_init_rbac extends Migration
         $auth->addChild($admin, $createUser);
         $auth->addChild($admin, $editUserRoles);
         $auth->addChild($admin, $deleteOrder);
+        //$auth->addChild($admin, $deleteCustomer);
 
         $this->assignAdminUserToRoles();
     }

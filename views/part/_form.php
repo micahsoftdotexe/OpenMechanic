@@ -34,7 +34,7 @@ use kartik\money\MaskMoney;
         'type'=>'number',
         'min'=>0,
         //'max'=> 100,
-        'step'=>1,
+        'step'=>0.01,
         ]) ?>
     <?= $partForm->field($model, 'quantity_type_id')->label(Yii::t('app', 'Quantity Type'))->widget(Select2::class, [
                 'data' => \app\models\QuantityType::getIds(),
