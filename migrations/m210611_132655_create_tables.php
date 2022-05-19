@@ -306,8 +306,8 @@ class m210611_132655_create_tables extends Migration
         $this->dropForeignKey('fk_labor_order', 'labor', 'order_id', 'order', 'id', 'CASCADE', 'CASCADE');
         $this->dropForeignKey('fk_owns_customer', 'owns', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
         $this->dropForeignKey('fk_owns_automobile', 'owns', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
-        $this->dropForeignKey('fk_order_customer', 'order', 'customer_id', 'customer', 'id', 'CASCADE', 'CASCADE');
-        $this->dropForeignKey('fk_order_automobile', 'order', 'automobile_id', 'automobile', 'id', 'CASCADE', 'CASCADE');
+        $this->dropForeignKey('fk_order_customer', 'order', 'customer_id', 'customer', 'id', 'NO ACTION', 'NO ACTION');
+        $this->dropForeignKey('fk_order_automobile', 'order', 'automobile_id', 'automobile', 'id', 'NO ACTION', 'NO ACTION');
         $this->dropForeignKey('fk_part_quantity_type', 'part', 'quantity_type_id', 'quantity_type', 'id', 'CASCADE', 'CASCADE');
     }
 

@@ -100,10 +100,14 @@ class CustomerController extends SafeController
         $model = new Customer();
 
         if ($model->load(Yii::$app->request->post())) {
-            //$model->fullName = $model->firstName.' '.$model->lastName;
-            if ($model->save()) {
-                return $this->redirect(['index']);
+            if (Customer::findOne(['first_name' => $model->first_name, 'last_name' => $model->last_name])) {
+                Yii::$app->session->setFlash('error', 'Customer already exists');
+            } else {
+                if ($model->save()) {
+                    return $this->redirect(['index']);
+                }
             }
+            //$model->fullName = $model->firstName.' '.$model->lastName;\
         }
 
         return $this->render('_form', [
@@ -161,9 +165,16 @@ class CustomerController extends SafeController
     public function actionAjaxInitialCreate()
     {
         $model = new \app\models\Customer();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return json_encode(['id' => $model->id, 'text' => $model->first_name. ' '. $model->last_name]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if (Customer::findOne(['first_name' => $model->first_name, 'last_name' => $model->last_name])) {
+                // Yii::debug('Here', 'dev');
+                return json_encode(['status' => 400, 'message' => 'Customer already exists']);
+            }
+            if ($model->save()) {
+                return json_encode(['status' => 200, 'id' => $model->id, 'text' => $model->first_name. ' '. $model->last_name]);
+            }
         }
+        Yii::debug('Out Here', 'dev');
         return json_encode(['status' => 400, 'message' => $model->getErrors()]);
     }
 
