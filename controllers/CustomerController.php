@@ -6,7 +6,8 @@ use Yii;
 use app\models\Customer;
 use yii\filters\AccessControl;
 use app\models\CustomerSearch;
-use yii\web\Controller;
+use app\models\Owns;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -21,12 +22,12 @@ class CustomerController extends SafeController
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
+            // 'verbs' => [
+            //     'class' => VerbFilter::class,
+            //     'actions' => [
+            //         'delete' => ['POST'],
+            //     ],
+            // ],
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
@@ -34,6 +35,26 @@ class CustomerController extends SafeController
                         'actions' => ['ajax-initial-create'],
                         'allow' => true,
                         'roles' => ['createCustomer'],
+                    ],
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['edit'],
+                        'allow' => true,
+                        'roles' => ['editCustomer'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['createCustomer'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['deleteCustomer'],
                     ],
 
                 ],
@@ -62,12 +83,12 @@ class CustomerController extends SafeController
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new Customer model.
@@ -79,14 +100,61 @@ class CustomerController extends SafeController
         $model = new Customer();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->fullName = $model->firstName.' '.$model->lastName;
+            //$model->fullName = $model->firstName.' '.$model->lastName;
             if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         }
 
-        return $this->render('create', [
+        return $this->render('_form', [
             'model' => $model,
+            'change_form' => false,
+            'create' => true,
+            'view' => false
+        ]);
+    }
+
+    public function actionView($id, $tab = null) {
+        $tab = Yii::$app->request->cookies->getValue('customerTab', (isset($_COOKIE['customerTab']))? $_COOKIE['customerTab']:'tabCustomersLink');
+        $model = Customer::findOne($id);
+        $automobileDataProvider = new ActiveDataProvider([
+            'query' => \app\models\Automobile::find()->viaTable('owns', ['customer_id' => $id]),
+        ]);
+        $orderDataProvider = new ActiveDataProvider([
+            'query' => \app\models\Order::find()->where(['customer_id' => $model->id]),
+        ]);
+        return $this->render('view', [
+            'model' => $model,
+            'automobileDataProvider' => $automobileDataProvider,
+            'orderDataProvider' => $orderDataProvider,
+            'tab' => $tab,
+            //'view' => false
+        ]);
+    }
+
+    public function actionEdit($id, $tab = null)
+    {
+        if ($tab) {
+            setcookie('customerTab', $tab, 0, '/');
+            return $this->redirect(['edit', 'id' => $id]);
+        }
+        $tab = Yii::$app->request->cookies->getValue('customerTab', (isset($_COOKIE['customerTab']))? $_COOKIE['customerTab']:'tabCustomersLink');
+        $model = Customer::findOne($id);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->save();
+        }
+        $automobileDataProvider = new ActiveDataProvider([
+            'query' => \app\models\Automobile::find()->viaTable('owns', ['customer_id' => $id]),
+        ]);
+        $orderDataProvider = new ActiveDataProvider([
+            'query' => \app\models\Order::find()->where(['customer_id' => $model->id]),
+        ]);
+        return $this->render('edit', [
+            'model' => $model,
+            'automobileDataProvider' => $automobileDataProvider,
+            'orderDataProvider' => $orderDataProvider,
+            'tab' => $tab,
+            'view' => false
         ]);
     }
 
@@ -128,7 +196,16 @@ class CustomerController extends SafeController
      */
     public function actionDelete($id)
     {
+        if (\app\models\Order::findOne(['customer_id' => $id])) {
+            Yii::$app->session->setFlash('error', 'Cannot Delete Customer, Orders Exist');
+            return $this->redirect(['index']);
+        }
+        $automobiles = \app\models\Automobile::find()->viaTable('owns', ['customer_id' => $id])->all();
+        foreach ($automobiles as $automobile) {
+            $automobile->delete();
+        }
         $this->findModel($id)->delete();
+        Yii::$app->session->setFlash('success', 'Customer Deleted');
 
         return $this->redirect(['index']);
     }

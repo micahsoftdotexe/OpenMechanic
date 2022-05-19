@@ -15,7 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Customer'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        if (Yii::$app->user->can('createCustomer')) {
+            echo Html::a(Yii::t('app', 'Create Customer'), ['create'], ['class' => 'btn btn-success']);
+        }
+        ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,11 +30,39 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'firstName',
-            'lastName',
+            //'id',
+            //'firstName',
+            'fullName',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {edit} {delete}',
+                'buttons' => [
+                    'edit' => function ($url, $model, $key) {
+                        if (Yii::$app->user->can('editCustomer')) {
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                                'title' => Yii::t('app', 'Edit Customer'),
+                            ]);
+                        } else {
+                            return;
+                        }
+                    },
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->id], [
+                            'title' => Yii::t('app', 'View Customer'),
+                        ]);
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        if (Yii::$app->user->can('deleteCustomer')) {
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
+                                'title' => Yii::t('app', 'Delete Order'),
+                            ]);
+                        } else {
+                            return;
+                        }
+                    }
+                ]
+            ],
         ],
     ]); ?>
 

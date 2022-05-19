@@ -11,14 +11,17 @@ use app\models\Customer;
  */
 class CustomerSearch extends Customer
 {
+    public $fullName;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['firstName', 'lastName', 'fullName'], 'safe'],
+            //[['id'], 'integer'],
+            [['fullName', 'phone_number_1', 'phone_number_2'], 'safe'],
+            [['phone_number_1', 'phone_number_2'],  \borales\extensions\phoneInput\PhoneInputValidator::class],
+            [['phone_number_1', 'phone_number_2'], 'string'],
         ];
     }
 
@@ -50,6 +53,19 @@ class CustomerSearch extends Customer
 
         $this->load($params);
 
+        $dataProvider->setSort([ //merge array
+            'attributes' => [
+                //'id',
+                'fullName' => [
+                    'asc' => ['customer.first_name' => SORT_ASC, 'customer.last_name' => SORT_ASC],
+                    'desc' => ['customer.first_name' => SORT_DESC, 'customer.last_name' => SORT_DESC],
+                    'label' => 'Full Name',
+                    'default' => SORT_ASC
+                ],
+                'date',
+            ]
+        ]);
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -57,12 +73,15 @@ class CustomerSearch extends Customer
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-        ]);
+        // $query->andFilterWhere([
+        //     'id' => $this->id,
+        // ]);
 
-        $query->andFilterWhere(['like', 'firstName', $this->firstName])
-            ->andFilterWhere(['like', 'lastName', $this->lastName]);
+        $query->andWhere('first_name LIKE "%' . $this->fullName . '%" ' .
+        'OR last_name LIKE "%' . $this->fullName . '%"'. 'OR Concat(customer.first_name, " ", customer.last_name) LIKE "%' . $this->fullName . '%"' );
+
+        // $query->andFilterWhere(['like', 'firstName', $this->firstName])
+        //     ->andFilterWhere(['like', 'lastName', $this->lastName]);
 
         return $dataProvider;
     }

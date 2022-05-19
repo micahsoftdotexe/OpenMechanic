@@ -9,32 +9,33 @@ use borales\extensions\phoneInput\PhoneInput;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="automobile-form">
+<div>
     <?php $automobileForm = ActiveForm::begin([
         'id' => 'initial-automobile-form',
-        'action' => \yii\helpers\Url::to(['/automobile/ajax-initial-create']),
+        'action' => $create ? \yii\helpers\Url::to(['/automobile/create', 'customer_id' => $model->customer_id]) : \yii\helpers\Url::to(['/automobile/customer-edit', 'id' => $model->id]),
     ]) ?>
-    <?= $automobileForm->field($model, 'make')->label(Yii::t('app', 'Make'))->textInput()?>
-    <?= $automobileForm->field($model, 'model')->label(Yii::t('app', 'Model'))->textInput()?>
-    <?= $automobileForm->field($model, 'year')->label(Yii::t('app', 'Year'))->textInput()?>
-    <?= $automobileForm->field($model, 'motor_number')->label(Yii::t('app', 'Motor Number'))->textInput()?>
-    <?= $automobileForm->field($model, 'vin')->label(Yii::t('app', 'VIN'))->textInput()?>
+    <?= $automobileForm->field($model, 'make')->label(Yii::t('app', 'Make'))->textInput(['disabled' => $view])?>
+    <?= $automobileForm->field($model, 'model')->label(Yii::t('app', 'Model'))->textInput(['disabled' => $view])?>
+    <?= $automobileForm->field($model, 'year')->label(Yii::t('app', 'Year'))->textInput(['disabled' => $view])?>
+    <?= $automobileForm->field($model, 'motor_number')->label(Yii::t('app', 'Motor Number'))->textInput(['disabled' => $view])?>
+    <?= $automobileForm->field($model, 'vin')->label(Yii::t('app', 'VIN'))->textInput(['disabled' => $view])?>
     <?= $automobileForm->field($model, 'customer_id')->hiddenInput(['id' => 'customer_id_field'])->label(false)?>
-    <?= Html::submitButton(Yii::t('app', 'Create'), [
+    <?= Html::submitButton($create ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), [
         'id'                => 'create-automobile',
         'class'             => 'btn btn-success',
+        'disabled'          => $view,
     ])?>
     <?php $automobileForm = ActiveForm::end() ?>   
 </div>
 
 <?php
-    $jsBlock = <<< JS
-    $('#modalNewAutomobile').on('shown.bs.modal', function () {
-        document.getElementById('customer_id_field').value = $('#customer_id').val();
-    })
-    JS;
-    $this->registerJs($jsBlock, \yii\web\View::POS_END);
     if ($change_form) {
+        $jsBlock = <<< JS
+        $('#modalNewAutomobile').on('shown.bs.modal', function () {
+            document.getElementById('customer_id_field').value = $('#customer_id').val();
+        })
+        JS;
+        $this->registerJs($jsBlock, \yii\web\View::POS_END);
         $ajaxSubmitUrl = \yii\helpers\Url::to(['/automobile/ajax-initial-create']);
         $jsBlock2 = '
             $("#initial-automobile-form").on("beforeSubmit", function(){

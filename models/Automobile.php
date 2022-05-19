@@ -86,4 +86,15 @@ class Automobile extends \yii\db\ActiveRecord
         }
         return $results;
     }
+
+    public static function formToAutomobile($model, $automobile)
+    {
+        //$automobile = new Automobile();
+        $automobile->vin = $model->vin;
+        $automobile->make = $model->make;
+        $automobile->model = $model->model;
+        $automobile->year = $model->year;
+        $automobile->motor_number = $model->motor_number;
+        return $automobile;
+    }
 }

@@ -124,16 +124,16 @@ class OrderController extends SafeController
         }
         $tab = Yii::$app->request->cookies->getValue('edittab', (isset($_COOKIE['edittab']))? $_COOKIE['edittab']:'tabCustomerAutomobileLink');
         $model = Order::find()->where(['id' => $id])->one();
-        $partDataprovider = new ActiveDataProvider([
+        $partDataProvider = new ActiveDataProvider([
             'query' => \app\models\Part::find()->where(['order_id' => $model->id]),
         ]);
-        $laborDataprovider = new ActiveDataProvider([
+        $laborDataProvider = new ActiveDataProvider([
             'query' => \app\models\Labor::find()->where(['order_id' => $model->id]),
         ]);
         return $this->render('edit', [
             'model' => $model,
-            'partDataProvider' => $partDataprovider,
-            'laborDataProvider' => $laborDataprovider,
+            'partDataProvider' => $partDataProvider,
+            'laborDataProvider' => $laborDataProvider,
             'tab' => $tab,
         ]);
     }
