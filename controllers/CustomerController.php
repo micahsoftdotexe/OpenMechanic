@@ -118,7 +118,7 @@ class CustomerController extends SafeController
         $tab = Yii::$app->request->cookies->getValue('customerTab', (isset($_COOKIE['customerTab']))? $_COOKIE['customerTab']:'tabCustomersLink');
         $model = Customer::findOne($id);
         $automobileDataProvider = new ActiveDataProvider([
-            'query' => \app\models\Automobile::find()->viaTable('owns', ['customer_id' => $id]),
+            'query' => Customer::findOne(['id' => $id])->getAutomobiles(),
         ]);
         $orderDataProvider = new ActiveDataProvider([
             'query' => \app\models\Order::find()->where(['customer_id' => $model->id]),
@@ -144,7 +144,7 @@ class CustomerController extends SafeController
             $model->save();
         }
         $automobileDataProvider = new ActiveDataProvider([
-            'query' => \app\models\Automobile::find()->viaTable('owns', ['customer_id' => $id]),
+            'query' => Customer::findOne(['id' => $id])->getAutomobiles(),
         ]);
         $orderDataProvider = new ActiveDataProvider([
             'query' => \app\models\Order::find()->where(['customer_id' => $model->id]),
@@ -200,11 +200,14 @@ class CustomerController extends SafeController
             Yii::$app->session->setFlash('error', 'Cannot Delete Customer, Orders Exist');
             return $this->redirect(['index']);
         }
-        $automobiles = \app\models\Automobile::find()->viaTable('owns', ['customer_id' => $id])->all();
+        $customer = Customer::findOne($id);
+        $automobiles = $customer->automobiles;
         foreach ($automobiles as $automobile) {
             $automobile->delete();
         }
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
+        Customer::findOne($id)->delete();
+
         Yii::$app->session->setFlash('success', 'Customer Deleted');
 
         return $this->redirect(['index']);
