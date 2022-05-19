@@ -135,9 +135,13 @@ if ($change_form) {
                 type: "POST",
                 data: data,
                 success: function (returnData) {
-                    //console.log(returnData);
+                    console.log(returnData);
+                    console.log(returnData['status'])
+                    //console.log(returnData.id);
+                    //returnData = JSON.parse(returnData);
+                    // returnData = JSON.parse(returnData);
+                    returnData = JSON.parse(returnData);
                     if(returnData.status != 400) {
-                        returnData = JSON.parse(returnData);
                         let newOption = new Option(returnData.text, returnData.id, false, false);
                         //change the forms
                         $("#customer_id").append(newOption).trigger("change");
@@ -148,8 +152,7 @@ if ($change_form) {
                         //updateAutomobiles();
                         
                     } else {
-                        console.log(returnData.message);
-                        console.log("Error")
+                        swal("Error", returnData.message, "error");
                     }
 
                 }, error: function( xhr, status, errorThrown ) {
