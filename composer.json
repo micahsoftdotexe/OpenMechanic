@@ -78,6 +78,10 @@
     },
     "repositories": [
         {
+            "type": "vcs",
+            "url": "https://github.com/micahsoftdotexe/yii2-mpdf"
+        },
+        {
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
