@@ -44,6 +44,10 @@ use \app\models\QuantityType;
       <th scope="row"> Odometer Reading: </th>
       <td> <?= $order->odometer_reading ?> </td>
     </tr>
+    <tr id="order_date">
+      <th scope="row"> Date Order Created: </th>
+      <td> <?= date_format(date_create($order->date), "M-d-Y") ?> </td>
+    </tr>
   </table>
 </div>
 <div id="parts">
@@ -118,7 +122,7 @@ use \app\models\QuantityType;
     </tr>
     <tr>
       <th scope="col">Total</th>
-      <td class="text-right"><?= '$'.number_format(round($order->total, 2), 2) ?></td>
+      <td class="text-right" style="background:limegreen"><?= '$'.number_format(round($order->total, 2), 2) ?></td>
     </tr>
   </table>
 </div>
