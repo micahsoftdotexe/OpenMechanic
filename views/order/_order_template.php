@@ -122,7 +122,7 @@ use \app\models\QuantityType;
     </tr>
     <tr>
       <th scope="col">Total</th>
-      <td class="text-right" style="background:limegreen"><?= '$'.number_format(round($order->total, 2), 2) ?></td>
+      <td class="text-right" style="background:moccasin"><?= '$'.number_format(round($order->total, 2), 2) ?></td>
     </tr>
   </table>
 </div>
