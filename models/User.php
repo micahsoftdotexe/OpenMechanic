@@ -7,6 +7,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public const STATUS_INACTIVE = 0;
     public const STATUS_ACTIVE   = 1;
 
+    public function afterSave($isInsert, $changedOldAttributes) {
+		// Purge the user tokens when the password is changed
+		if (array_key_exists('usr_password', $changedOldAttributes)) {
+			\app\models\UserRefreshToken::deleteAll(['urf_userID' => $this->userID]);
+		}
+
+		return parent::afterSave($isInsert, $changedOldAttributes);
+	}
+
     public static function getStatusList()
     {
         return [
@@ -58,9 +67,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        return static::findOne(['access_token' => $token]);
+    public static function findIdentityByAccessToken($token, $type = null) {
+		$claims = \Yii::$app->jwt->parse($token)->claims();
+        $uid = $claims->get('uid');
+        if (!is_numeric($uid)) {
+            throw new ForbiddenHttpException('Invalid token provided');
+        }
+
+        return static::findOne(['id' => $uid]);
     }
 
     public static function getActiveUsers()
@@ -99,6 +113,26 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getIsActive()
     {
         return $this->status == self::STATUS_ACTIVE;
+    }
+
+    public function generateJwt()
+    {
+        $now = new \DateTimeImmutable('now', new \DateTimeZone(\Yii::$app->timeZone));
+        $token = \Yii::$app->jwt->getBuilder()
+            // Configures the time that the token was issued
+            ->issuedAt($now)
+            // Configures the time that the token can be used
+            ->canOnlyBeUsedAfter($now)
+            // Configures the expiration time of the token
+            ->expiresAt($now->modify('+1 hour'))
+            // Configures a new claim, called "uid", with user ID, assuming $user is the authenticated user object
+            ->withClaim('uid', $this->id)
+            // Builds a new token
+            ->getToken(
+                \Yii::$app->jwt->getConfiguration()->signer(),
+                \Yii::$app->jwt->getConfiguration()->signingKey()
+            );
+        return $tokenString = $token->toString();
     }
 
     /**

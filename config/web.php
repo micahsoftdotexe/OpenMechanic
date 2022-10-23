@@ -9,16 +9,42 @@ $config = [
     'homeUrl' => $baseUrl . "/",
     'name' => "TuneUp",
     'basePath' => dirname(__DIR__),
+    'timeZone' => $params['timezone'],
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'jwt' => [
+            'class' => \bizley\jwt\Jwt::class,
+            'signer' => \bizley\jwt\Jwt::HS256,
+            'signingKey' => [
+                'key' => 'SECRET-KEY' //typically a long random string
+            ],
+            //'key' => 'SECRET-KEY',  //typically a long random string
+            'validationConstraints' => static function (\bizley\jwt\Jwt $jwt) {
+                $config = $jwt->getConfiguration();
+                Yii::debug(new \Lcobucci\Clock\SystemClock(new \DateTimeZone(\Yii::$app->timeZone)), 'dev');
+                return [
+                    new \Lcobucci\JWT\Validation\Constraint\SignedWith($config->signer(), $config->signingKey()),
+                    new \Lcobucci\JWT\Validation\Constraint\ValidAt(
+                        new \Lcobucci\Clock\SystemClock(new \DateTimeZone(\Yii::$app->timeZone))
+                    ),
+                ];
+            }
+        ],
         'request' => [
-            'baseUrl' => $baseUrl,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
+            //'baseUrl' => $baseUrl,
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'enableCsrfValidation' => false,
             'cookieValidationKey' => 'hzJV8U73FbLMy1AWITd5rWYwHE1sCDRd',
+        ],
+        'response' => [
+            'format' => yii\web\Response::FORMAT_JSON
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -57,10 +83,21 @@ $config = [
         ],
         'db' => $db,
         'urlManager' => [
-            'baseUrl'         => $baseUrl,
+            //'baseUrl'         => $baseUrl,
+            'enableStrictParsing' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            //'pluralize' => false,
             'rules' => [
+                // 'GET user/list' => 'user/listUser'
+                [
+                    'pattern' => 'user/list-user',
+                    'route' => 'user/list-current-user'
+                ],
+                [
+                    'pattern' => 'auth/login',
+                    'route' => 'user/login'
+                ],
             ],
         ],
         'authManager' => [
