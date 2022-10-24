@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$urlRules = require __DIR__ . '/urlRules.php';
 
 $baseUrl = str_replace('/web', '', (new \yii\web\Request)->getBaseUrl());
 $config = [
@@ -88,17 +89,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             //'pluralize' => false,
-            'rules' => [
-                // 'GET user/list' => 'user/listUser'
-                [
-                    'pattern' => 'user/list-user',
-                    'route' => 'user/list-current-user'
-                ],
-                [
-                    'pattern' => 'auth/login',
-                    'route' => 'user/login'
-                ],
-            ],
+            'rules' => $urlRules,
         ],
         'authManager' => [
             // Using DbManager
