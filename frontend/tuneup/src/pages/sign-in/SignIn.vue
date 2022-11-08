@@ -25,13 +25,17 @@
     import { Ref, ref } from 'vue';
     import { useSignIn } from './_store/signInStore';
     const store = useSignIn()
-    function login(username, password){
-        if (!store.logIn(username, password)) {
+    
+    const username:Ref<String> = ref("")
+    const password:Ref<String> = ref("")
+
+    async function login(uname, pword){
+    //console.log(store.logIn(username, password))
+        if (!await store.logIn(uname, pword)) {
+            console.log("here")
             username.value = ''
             password.value = ''
         }
     }
-    const username:Ref<String> = ref("")
-    const password:Ref<String> = ref("")
 </script>
 

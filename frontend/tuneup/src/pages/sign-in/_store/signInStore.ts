@@ -11,16 +11,6 @@ export const useSignIn = defineStore('signin-store', {
                 router.push('/')
             }
             return false
-            // const response = await fetch(`${url}/auth/login`, {
-            //     method: 'POST',
-            //     //mode: 'no-cors',
-            //     body: JSON.stringify({username: username, password: password}),
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     }
-            // })
-            console.log(response)
-        // onsole.log('ehllo', response.body)
         }
     }
 })
