@@ -1,9 +1,10 @@
 import { useGlobalStore } from "../_store/globalStore"
+import { useMessageStore } from "../_store/messageStore"
 
 const url = "http://localhost:8080"
 
 function handleError(response: Response, json: any) {
-    const store = useGlobalStore()
+    const store = useMessageStore()
 
     store.setError(`${response.status}`, json.message)
     return true

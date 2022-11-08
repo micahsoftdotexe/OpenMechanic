@@ -7,8 +7,8 @@
 <script setup lang="ts">
   import Message from './components/Message.vue';
   import TopNavbar from './components/TopNavbar.vue';
-  import { useGlobalStore } from './_store/globalStore';
-  const globalStore = useGlobalStore()
+  import { useMessageStore } from './_store/messageStore';
+  const globalStore = useMessageStore()
   navigator.serviceWorker.register('/serviceWorker.js')
 
 </script>
