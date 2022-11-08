@@ -26,7 +26,7 @@ $config = [
             //'key' => 'SECRET-KEY',  //typically a long random string
             'validationConstraints' => static function (\bizley\jwt\Jwt $jwt) {
                 $config = $jwt->getConfiguration();
-                Yii::debug(new \Lcobucci\Clock\SystemClock(new \DateTimeZone(\Yii::$app->timeZone)), 'dev');
+                // Yii::debug(new \Lcobucci\Clock\SystemClock(new \DateTimeZone(\Yii::$app->timeZone)), 'dev');
                 return [
                     new \Lcobucci\JWT\Validation\Constraint\SignedWith($config->signer(), $config->signingKey()),
                     new \Lcobucci\JWT\Validation\Constraint\ValidAt(

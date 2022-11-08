@@ -10,11 +10,15 @@ class UserController extends ActiveController
     public $modelClass = 'app\models\User';
     public function behaviors() {
         $behaviors = parent::behaviors();
+		unset($behaviors['authenticator']);
+		$behaviors['corsFilter'] = [
+			'class' => \yii\filters\Cors::class,
+		];
         $behaviors['authenticator'] = [
             'class' =>  \bizley\jwt\JwtHttpBearerAuth::class,
             'except' => [
                 'login',
-                //'refresh-token',
+                'refresh-token',
                 //'options',
             ],
         ];
@@ -58,14 +62,6 @@ class UserController extends ActiveController
 	// 	}
 
 	// 	// Send the refresh-token to the user in a HttpOnly cookie that Javascript can never read and that's limited by path
-	// 	// Yii::$app->response->cookies->add(new \yii\web\Cookie([
-	// 	// 	'name' => 'refresh-token',
-	// 	// 	'value' => $refreshToken,
-	// 	// 	'httpOnly' => true,
-	// 	// 	'sameSite' => 'none',
-	// 	// 	'secure' => true,
-	// 	// 	'path' => '/users/refresh-token',  //endpoint URI for renewing the JWT token using this refresh-token, or deleting refresh-token
-	// 	// ]));
 
 	// 	return $userRefreshToken;
 	// }
@@ -73,11 +69,29 @@ class UserController extends ActiveController
     public function actionLogin() {
 		$model = new \app\models\LoginForm();
         $params = Yii::$app->request->getBodyParams();
-        $model->username = $params['username'];
-        $model->password = $params['password'];
+		Yii::debug($params, 'dev');
+		$username = $params['username'];
+		$password = $params['password'];
+        $model->username = $username;
+        $model->password = $password;
+		$model->rememberMe = false;
+		//$model->login();
+		//$user = Yii::$app->user->identity;
 		if ($model->login()) {
 			$user = Yii::$app->user->identity;
 
+			if($model->rememberMe) {
+				$refreshToken = $user->generateRefreshJwt();
+				Yii::$app->response->cookies->add(new \yii\web\Cookie([
+					'name' => 'refresh-token',
+					'value' => $refreshToken,
+					'httpOnly' => true,
+					'sameSite' => 'none',
+					//'secure' => true,
+					'path' => '/auth/refresh',  //endpoint URI for renewing the JWT token using this refresh-token, or deleting refresh-token
+				]));
+
+			}
 			// $token = $this->generateJwt($user);
 
 			// $this->generateRefreshToken($user);
@@ -87,54 +101,66 @@ class UserController extends ActiveController
 				'token' => $user->generateJwt(),
 			]);
 		} else {
-			return $this->asJson($model->getErrors());
+			throw new \yii\web\UnauthorizedHttpException('Wrong username or password');
 		}
 	}
     public function actionListCurrentUser() {
         return Yii::$app->user->identity;
     }
 
-    // public function actionRefreshToken() {
-	// 	$refreshToken = Yii::$app->request->cookies->getValue('refresh-token', false);
-	// 	if (!$refreshToken) {
-	// 		return new \yii\web\UnauthorizedHttpException('No refresh token found.');
-	// 	}
+    public function actionRefreshToken() {
+		//Yii::debug(Yii::$app->request->cookies,'dev');
+		$refreshToken = Yii::$app->request->cookies->getValue('refresh-token', false);
+		if (!$refreshToken) {
+			//Yii::debug('no refresh token', 'dev');
+			throw new \yii\web\UnauthorizedHttpException('No refresh token found.');
+		}
+		if (Yii::$app->jwt->validate($refreshToken) && \app\models\User::findIdentityByAccessToken($refreshToken)) {
+			$user = \app\models\User::findIdentityByAccessToken($refreshToken);
+			return [
+				'jwt' => (string) $user->generateJwt($user)
+			];
+			//$token = $this->generateJwt($user);
 
-	// 	$userRefreshToken = \app\models\UserRefreshToken::findOne(['urf_token' => $refreshToken]);
+		} else {
+			throw new \yii\web\UnauthorizedHttpException('The user is inactive.');
+		}
 
-	// 	if (Yii::$app->request->getMethod() == 'POST') {
-	// 		// Getting new JWT after it has expired
-	// 		if (!$userRefreshToken) {
-	// 			return new \yii\web\UnauthorizedHttpException('The refresh token no longer exists.');
-	// 		}
+		//$userRefreshToken = \app\models\UserRefreshToken::findOne(['urf_token' => $refreshToken]);
 
-	// 		$user = \app\models\User::find()  //adapt this to your needs
-	// 			->where(['userID' => $userRefreshToken->urf_userID])
-	// 			->andWhere(['not', ['usr_status' => 'inactive']])
-	// 			->one();
-	// 		if (!$user) {
-	// 			$userRefreshToken->delete();
-	// 			return new \yii\web\UnauthorizedHttpException('The user is inactive.');
-	// 		}
+		// 	if (Yii::$app->request->getMethod() == 'POST') {
+		// 		// Getting new JWT after it has expired
+		// 		if (!$userRefreshToken) {
+		// 			return new \yii\web\UnauthorizedHttpException('The refresh token no longer exists.');
+		// 		}
 
-	// 		$token = $this->generateJwt($user);
+		// 		$user = \app\models\User::find()  //adapt this to your needs
+		// 			->where(['userID' => $userRefreshToken->urf_userID])
+		// 			->andWhere(['not', ['usr_status' => 'inactive']])
+		// 			->one();
+		// 		if (!$user) {
+		// 			$userRefreshToken->delete();
+		// 			return new \yii\web\UnauthorizedHttpException('The user is inactive.');
+		// 		}
 
-	// 		return [
-	// 			'status' => 'ok',
-	// 			'token' => (string) $token,
-	// 		];
+		// 		$token = $this->generateJwt($user);
 
-	// 	} elseif (Yii::$app->request->getMethod() == 'DELETE') {
-	// 		// Logging out
-	// 		if ($userRefreshToken && !$userRefreshToken->delete()) {
-	// 			return new \yii\web\ServerErrorHttpException('Failed to delete the refresh token.');
-	// 		}
+		// 		return [
+		// 			'status' => 'ok',
+		// 			'token' => (string) $token,
+		// 		];
 
-	// 		return ['status' => 'ok'];
-	// 	} else {
-	// 		return new \yii\web\UnauthorizedHttpException('The user is inactive.');
-	// 	}
-	// }
+		// 	} elseif (Yii::$app->request->getMethod() == 'DELETE') {
+		// 		// Logging out
+		// 		if ($userRefreshToken && !$userRefreshToken->delete()) {
+		// 			return new \yii\web\ServerErrorHttpException('Failed to delete the refresh token.');
+		// 		}
+
+		// 		return ['status' => 'ok'];
+		// 	} else {
+		// 		return new \yii\web\UnauthorizedHttpException('The user is inactive.');
+		// 	}
+	}
 }
 
 // use Yii;

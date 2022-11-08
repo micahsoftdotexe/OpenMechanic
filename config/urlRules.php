@@ -9,4 +9,8 @@ return [
         'pattern' => 'auth/login',
         'route' => 'user/login'
     ],
+    [
+        'pattern' => 'auth/refresh',
+        'route' => 'user/refresh-token'
+    ],
 ];

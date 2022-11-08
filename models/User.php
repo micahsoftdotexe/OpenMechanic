@@ -135,6 +135,26 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $tokenString = $token->toString();
     }
 
+    public function generateRefreshJwt()
+    {
+        $now = new \DateTimeImmutable('now', new \DateTimeZone(\Yii::$app->timeZone));
+        $refreshToken = \Yii::$app->jwt->getBuilder()
+            // Configures the time that the token was issued
+            ->issuedAt($now)
+            // Configures the time that the token can be used
+            ->canOnlyBeUsedAfter($now)
+            // Configures the expiration time of the token
+            ->expiresAt($now->modify('+1 day'))
+            // Configures a new claim, called "uid", with user ID, assuming $user is the authenticated user object
+            ->withClaim('uid', $this->id)
+            // Builds a new token
+            ->getToken(
+                \Yii::$app->jwt->getConfiguration()->signer(),
+                \Yii::$app->jwt->getConfiguration()->signingKey()
+            );
+        return $tokenString = $refreshToken->toString();
+    }
+
     /**
      * @inheritdoc
      */
