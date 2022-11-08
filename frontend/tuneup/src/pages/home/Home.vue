@@ -1,5 +1,5 @@
 <template>
-    <TopNavbar/>
+    <!-- <TopNavbar/> -->
 </template>
 
 <script setup lang="ts">

@@ -5,7 +5,7 @@ const hostUrl = "http://localhost:8080"
 
 isAuthenticated = async (request) => {
     const apiResponse = await fetch(request)
-    let json = apiResponse
+    let json = await apiResponse.json()
     if (json.status == 401 && json.message && json.message == "Your request was made with invalid or expired JSON Web Token.") {
         console.log(json.status)
         const refreshResponse = await (await fetch(`${url}/auth/refresh`)).json()
@@ -17,7 +17,7 @@ isAuthenticated = async (request) => {
             return refreshResponse
         }
 
-        return apiResponse
+        //return apiResponse
     }
 }
 
@@ -25,16 +25,24 @@ const storeJwt = async (request) => {
     const apiResponse = await fetch(request)
     console.log(apiResponse)
     let json = await apiResponse.json()
-    if (json.token) {
+    console.log(json)
+    if (apiResponse.status == 200 && json.token) {
         jwt = json.token
         delete json.token
+        
     }
     return new Response(JSON.stringify(json), {
         headers: apiResponse.headers
     })
+    //return new Response(JSON.stringify(json))
+    
 }
+self.addEventListener('activate', (event) => {
+    event.waitUntil(self.clients.claim())
+})
 
 self.addEventListener("fetch", async (event) => {
+    //console.log("Here")
     const url = new URL(event.request.url)
     //console.log(url)
     if (url.origin == hostUrl) {
@@ -44,20 +52,14 @@ self.addEventListener("fetch", async (event) => {
             const jwtResponse = storeJwt(event.request)
             event.respondWith(jwtResponse)
             return
+        } else {
+            const newRequest = new Request(event.request, {
+                headers: {"Authorization": `Bearer ${jwt}`},
+                //mode: "no-cors"
+            });
+            event.respondWith(new Response(JSON.stringify(isAuthenticated(newRequest))))
         }
     } else {
         event.respondWith(fetch(event.request))
     }
-    
-    // } else {
-    //     const newRequest = new Request(event.request, {
-    //         headers: {"Authorization": `Bearer ${jwt}`},
-    //         mode: "no-cors"
-    //     });
-    //     event.respondWith(new Response(JSON.stringify(isAuthenticated(newRequest))))
-    //     return
-    // }
-    
-    //return fetch(newRequest);
 })
-//export{}
