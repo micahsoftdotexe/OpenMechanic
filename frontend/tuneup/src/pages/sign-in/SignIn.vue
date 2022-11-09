@@ -32,7 +32,6 @@
     async function login(uname, pword){
     //console.log(store.logIn(username, password))
         if (!await store.logIn(uname, pword)) {
-            console.log("here")
             username.value = ''
             password.value = ''
         }

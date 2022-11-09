@@ -9,7 +9,6 @@
   import TopNavbar from './components/TopNavbar.vue';
   import { useMessageStore } from './_store/messageStore';
   const globalStore = useMessageStore()
-  navigator.serviceWorker.register('/serviceWorker.js')
 
 </script>
 

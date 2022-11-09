@@ -24,6 +24,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ];
     }
 
+    public function fields() 
+    {
+        $fields = parent::fields();
+        unset($fields['auth_key'], $fields['password']);
+        return $fields;
+    }
+
     public static function getStatusLabel($status_id)
     {
         $statusList = self::getStatusList();

@@ -40,9 +40,17 @@ const storeJwt = async (request) => {
 self.addEventListener('activate', (event) => {
     event.waitUntil(self.clients.claim())
 })
+self.addEventListener("install", (event) => {
+    // The promise that skipWaiting() returns can be safely ignored.
+    self.skipWaiting();
+  
+    // Perform any other actions required for your
+    // service worker to install, potentially inside
+    // of event.waitUntil();
+});
 
 self.addEventListener("fetch", async (event) => {
-    //console.log("Here")
+    console.log("Here")
     const url = new URL(event.request.url)
     //console.log(url)
     if (url.origin == hostUrl) {

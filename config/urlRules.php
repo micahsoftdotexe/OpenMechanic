@@ -13,4 +13,8 @@ return [
         'pattern' => 'auth/refresh',
         'route' => 'user/refresh-token'
     ],
+    [
+        'pattern' => 'customer/list',
+        'route' => 'customer/list'
+    ]
 ];

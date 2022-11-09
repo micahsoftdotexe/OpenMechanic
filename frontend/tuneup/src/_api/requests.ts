@@ -14,9 +14,7 @@ async function handleResponse(response:Response, route:String, handleErrorMessag
     const store = useGlobalStore()
     const json = await response.json()
     if (route == '/auth/login') {
-        if (response.status == 200) {
-            store.login(json.user)
-        } else if(handleErrorMessage) {
+        if(handleErrorMessage && !response.ok) {
             handleError(response, json)
         }
     } else {
@@ -37,7 +35,7 @@ async function handleResponse(response:Response, route:String, handleErrorMessag
     
     //console.log(response)
     //console.log(json)
-    return response
+    return {response: response, body: json}
 
 }
 
