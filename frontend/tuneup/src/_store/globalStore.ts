@@ -4,18 +4,19 @@ import { defineStore } from "pinia";
 export const useGlobalStore = defineStore('global-store', {
     state: () => ({
         userInfo: {},
-        loggedIn: false
+        isLoggedIn: false
 
     }),
     actions: {
         
         login(userInfo) {
+            //console.log(userInfo, "userInfo")
             this.userInfo = userInfo
             this.isLoggedIn = true
         },
         logout() {
             this.userInfo = {}
-            this.loggedIn = false
+            this.isLoggedIn = false
         }
     },
     persist: true

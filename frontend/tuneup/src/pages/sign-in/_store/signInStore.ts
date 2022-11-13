@@ -8,9 +8,8 @@ export const useSignIn = defineStore('signin-store', {
         async logIn(username:String, password: String) {
             const globalStore = useGlobalStore()
             const response = await postFetch('/auth/login', {username: username, password: password}, true)
-            if (response.response.ok) {
-                globalStore.login(await response.body)
-                //return true
+            if (response.response.status === 200) {
+                globalStore.login(await response.body.user)
                 router.push('/')
                 return true
             }

@@ -11,10 +11,11 @@ function handleError(response: Response, json: any) {
 }
 
 async function handleResponse(response:Response, route:String, handleErrorMessage:Boolean) {
+    console.log(response, "before requests")
     const store = useGlobalStore()
     const json = await response.json()
     if (route == '/auth/login') {
-        if(handleErrorMessage && !response.ok) {
+        if(handleErrorMessage && response.status != 200) {
             handleError(response, json)
         }
     } else {
@@ -33,7 +34,7 @@ async function handleResponse(response:Response, route:String, handleErrorMessag
     }
     
     
-    //console.log(response)
+    console.log(response, "in requests")
     //console.log(json)
     return {response: response, body: json}
 
@@ -41,13 +42,14 @@ async function handleResponse(response:Response, route:String, handleErrorMessag
 
 export async function postFetch(route:String, body:Object, handleError:boolean = true) {
     
-    return await handleResponse(await fetch(`${url}${route}`, {
+    const response = await fetch(`${url}${route}`, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
             'Content-Type': 'application/json'
         }
-    }), route, handleError)
+    })
+    return await handleResponse(response, route, handleError)
 }
 
 export async function geFetch(route:String, handleError:boolean = true) {

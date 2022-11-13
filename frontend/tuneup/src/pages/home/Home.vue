@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import TopNavbar from '../../components/TopNavbar.vue';
+import TopNavbar from '../../components/TopBars.vue';
 
 
 </script>

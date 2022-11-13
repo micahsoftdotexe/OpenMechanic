@@ -8,17 +8,20 @@ isAuthenticated = async (request) => {
     let json = await apiResponse.json()
     if (json.status == 401 && json.message && json.message == "Your request was made with invalid or expired JSON Web Token.") {
         console.log(json.status)
-        const refreshResponse = await (await fetch(`${url}/auth/refresh`)).json()
+        const refreshResponse = await fetch(`${url}/auth/refresh`)
+        const json = await refreshResponse.json()
+        //const refreshResponse = await (await fetch(`${url}/auth/refresh`)).json()
         if (refreshResponse.code == 200) {
-            jwt = refreshResponse.token
-            return await (await fetch(request)).json
+            jwt = json.token
+            return await fetch(request)
             
         } else {
             return refreshResponse
         }
 
         //return apiResponse
-    }
+    } 
+    return apiResponse
 }
 
 const storeJwt = async (request) => {
@@ -32,7 +35,8 @@ const storeJwt = async (request) => {
         
     }
     return new Response(JSON.stringify(json), {
-        headers: apiResponse.headers
+        headers: apiResponse.headers,
+        status: apiResponse.status
     })
     //return new Response(JSON.stringify(json))
     
@@ -65,7 +69,7 @@ self.addEventListener("fetch", async (event) => {
                 headers: {"Authorization": `Bearer ${jwt}`},
                 //mode: "no-cors"
             });
-            event.respondWith(new Response(JSON.stringify(isAuthenticated(newRequest))))
+            event.respondWith(isAuthenticated(newRequest))
         }
     } else {
         event.respondWith(fetch(event.request))

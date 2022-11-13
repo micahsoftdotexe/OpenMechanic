@@ -19,5 +19,11 @@ export const useMessageStore = defineStore('message-store', {
                 this.hasMessage = false
             }, this.messageTimeout)
         },
+        clearMessage() {
+            this.messageHeader = ''
+            this.messageMessage = ''
+            this.messageType = ''
+            this.hasMessage = false
+        }
     }
 })

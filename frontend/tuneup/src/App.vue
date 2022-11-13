@@ -1,19 +1,57 @@
 <template>
-  <top-navbar></top-navbar>
-  <router-view></router-view>
-  <Message v-if="globalStore.hasMessage" :messageHeader="globalStore.messageHeader" :messageText="globalStore.messageMessage" :messageType="globalStore.messageType"></Message>
+  <v-app>
+    <!-- <v-navigation-drawer></v-navigation-drawer> -->
+    <top-bars :drawerValue = "drawer"></top-bars>
+    
+    <v-main>
+      <v-container fluid>
+        <router-view></router-view>
+        <v-snackbar
+          :timeout="messageStore.messageTimeout"
+          :color="messageColor"
+          elevation="24"
+          v-model="hasMessage"
+         >{{messageStore.messageMessage}}</v-snackbar>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script setup lang="ts">
-  import Message from './components/Message.vue';
-  import TopNavbar from './components/TopNavbar.vue';
+  // import Message from './components/Message.vue';
+  import TopBars from './components/TopBars.vue'
+  import { ref, watch } from 'vue';
+  import { useGlobalStore } from './_store/globalStore';
   import { useMessageStore } from './_store/messageStore';
-  const globalStore = useMessageStore()
+  import { useRoute } from 'vue-router';
+import { computed } from '@vue/reactivity';
+  const messageStore = useMessageStore()
+  const route = useRoute();
+  const drawer = ref(false)
 
+  watch(() => route, () => {
+    drawer.value = false
+  })
+
+  const hasMessage = computed({
+    get() {
+      return messageStore.hasMessage
+    },
+    set(value) {
+      console.log(value)
+      if (!value) {
+        messageStore.clearMessage()
+      }
+    }
+  })
+
+  const messageColor = computed(() =>{
+    return (messageStore.messageType == 'Error') ? 'deep-red-accent-4' : 'deep-green-accent-4'
+  })
 </script>
 
 <style lang="css">
-  @import './assets/bulma.css';
+  /* @import './assets/bulma.css'; */
   /* @import '../node_modules/bulma/css/bulma.css'; */
 </style>
 
