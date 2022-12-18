@@ -15,9 +15,9 @@ export const useMessageStore = defineStore('message-store', {
             this.messageMessage = errorMessage
             this.messageType = 'Error'
             this.hasMessage = true
-            setInterval(() => {
-                this.hasMessage = false
-            }, this.messageTimeout)
+            // setInterval(() => {
+            //     this.hasMessage = false
+            // }, this.messageTimeout)
         },
         clearMessage() {
             this.messageHeader = ''

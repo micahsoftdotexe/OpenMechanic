@@ -52,7 +52,7 @@ export async function postFetch(route:String, body:Object, handleError:boolean =
     return await handleResponse(response, route, handleError)
 }
 
-export async function geFetch(route:String, handleError:boolean = true) {
+export async function getFetch(route:String, handleError:boolean = true) {
     return await handleResponse(await fetch(`${url}${route}`, {
         method: 'GET'
     }), route, handleError)
