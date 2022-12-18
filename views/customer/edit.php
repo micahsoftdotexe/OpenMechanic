@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => \app\models\Customer::find()->where
 // $finalizeCheck = ((\app\models\Order::$stages[$model->stage] == 'Completed') || (\app\models\Order::$stages[$model->stage] == 'Paid'));
 ?>
 
-<?= \yii\bootstrap\Tabs::widget([
+<?= \yii\bootstrap5\Tabs::widget([
     'options' => ['id' => 'tabCustomer'],
     'items' => [
         [

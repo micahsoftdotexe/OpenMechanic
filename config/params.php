@@ -10,4 +10,5 @@ return [
     'timezone'           => 'America/New_York',
     'adminEmail'         => 'admin@email.com',
     'senderName'         => 'Admin',
+    'bsVersion'          => '5.x',
 ];

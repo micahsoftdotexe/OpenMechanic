@@ -19,7 +19,7 @@ $finalizeCheck = ((\app\models\Order::$stages[$model->stage] == 'Completed') || 
 <?= Yii::$app->user->can('changeStage', ['id' => $model->id, 'increment' => -1]) ? Html::a('<span class="glyphicon glyphicon-arrow-left"></span> '.Yii::t('app', 'Previous'), Url::to(['/order/change-stage', 'id' => $model->id, 'increment' => -1]), ['class' => 'btn']):'' ?>
 <?= Yii::$app->user->can('changeStage', ['id' => $model->id, 'increment' => 1]) ? Html::a('<span class="glyphicon glyphicon-arrow-right"></span> '.Yii::t('app', 'Next'), Url::to(['/order/change-stage', 'id' => $model->id, 'increment' => 1]), ['class' => 'btn']):'' ?>
 <?php if ($finalizeCheck) : ?>
-    <?=  \yii\bootstrap\Tabs::widget([
+    <?=  \yii\bootstrap5\Tabs::widget([
         'options' => ['id' => 'tabUpdate'],
         'items'   => [
             [
@@ -66,7 +66,7 @@ $finalizeCheck = ((\app\models\Order::$stages[$model->stage] == 'Completed') || 
         ],
     ]); ?>
 <?php else : ?>
-    <?=  \yii\bootstrap\Tabs::widget([
+    <?=  \yii\bootstrap5\Tabs::widget([
         'options' => ['id' => 'tabUpdate'],
         'items'   => [
             [

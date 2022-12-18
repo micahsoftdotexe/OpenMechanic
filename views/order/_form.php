@@ -110,10 +110,10 @@ $canEditOrder = $update ? Yii::$app->user->can('editOrder'):Yii::$app->user->can
 //------------------------
 // Add new Customer
 //------------------------
-yii\bootstrap\Modal::begin([
+yii\bootstrap5\Modal::begin([
     'id'    => 'modalNewCustomer',
     'header' => Yii::t('app', 'Create New Customer'),
-    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap5\Modal::SIZE_LARGE,
 ]);
 ?>
 
@@ -130,17 +130,17 @@ yii\bootstrap\Modal::begin([
 
 </div>
 <?php
-    yii\bootstrap\Modal::end();
+    yii\bootstrap5\Modal::end();
 ?>
 
 <?php
 //------------------------
 // Add new Automobile
 //------------------------
-yii\bootstrap\Modal::begin([
+yii\bootstrap5\Modal::begin([
     'id'    => 'modalNewAutomobile',
     'header' => Yii::t('app', 'Create New Automobile'),
-    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap5\Modal::SIZE_LARGE,
 ]);
 ?>
 
@@ -157,7 +157,7 @@ yii\bootstrap\Modal::begin([
 
 </div>
 <?php
-    yii\bootstrap\Modal::end();
+    yii\bootstrap5\Modal::end();
 ?>
 
 

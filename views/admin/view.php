@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Admin Dashboard');
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
-<?= \yii\bootstrap\Tabs::widget([
+<?= \yii\bootstrap5\Tabs::widget([
     'options' => ['id' => 'tabAdmin'],
     'items' => [
         [

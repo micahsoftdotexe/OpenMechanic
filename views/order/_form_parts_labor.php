@@ -108,10 +108,10 @@ $createLabor = Yii::$app->user->can('createLabor');
 //------------------------
 // Add new Part
 //------------------------
-yii\bootstrap\Modal::begin([
+yii\bootstrap5\Modal::begin([
     'id'    => 'modalNewPart',
     'header' => Yii::t('app', 'Create New Part'),
-    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap5\Modal::SIZE_LARGE,
 ]);
 ?>
 
@@ -127,17 +127,17 @@ yii\bootstrap\Modal::begin([
 
 </div>
 <?php
-    yii\bootstrap\Modal::end();
+    yii\bootstrap5\Modal::end();
 ?>
 
 <?php
 //------------------------
 // Add new Labor
 //------------------------
-yii\bootstrap\Modal::begin([
+yii\bootstrap5\Modal::begin([
     'id'    => 'modalNewLabor',
     'header' => Yii::t('app', 'Create New Labor Instance'),
-    'size'  => yii\bootstrap\Modal::SIZE_LARGE,
+    'size'  => yii\bootstrap5\Modal::SIZE_LARGE,
 ]);
 ?>
 
@@ -153,7 +153,7 @@ yii\bootstrap\Modal::begin([
 
 </div>
 <?php
-    yii\bootstrap\Modal::end();
+    yii\bootstrap5\Modal::end();
 ?>
 <?php
     $jsBlock = <<< JS

@@ -20,8 +20,8 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/siteNew.css',
-        'css/site.css',
+        // 'css/siteNew.css',
+        // 'css/site.css',
         'css/custom.css'
         //'css/bootstrap.min.css'
     ];
@@ -30,7 +30,7 @@ class AppAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap5\BootstrapAsset',
         '\webtoucher\cookie\AssetBundle'
     ];
 }
