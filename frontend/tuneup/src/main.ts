@@ -6,7 +6,8 @@ import createRouter  from './pages/routes'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import router from './pages/routes'
-import vuetify from "./plugins/vuetify";
+// import vuetify from "./plugins/vuetify";
+import PrimeVue from 'primevue/config';
 import '@mdi/font/css/materialdesignicons.css'
 //import bulma = require('@/assets/main.scss')
 //import from './assets/main.scss'
@@ -16,4 +17,4 @@ import '@mdi/font/css/materialdesignicons.css'
 const store = createPinia()
 store.use(piniaPluginPersistedstate)
 const app = createApp(App)
-app.use(vuetify).use(router).use(store).mount('#app')
+app.use(PrimeVue).use(router).use(store).mount('#app')

@@ -576,6 +576,16 @@ postcss@^8.1.10, postcss@^8.4.18:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+primeicons@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-6.0.1.tgz#431fa7c79825934eefd62087d8e1faa6a9e376ad"
+  integrity sha512-KDeO94CbWI4pKsPnYpA1FPjo79EsY9I+M8ywoPBSf9XMXoe/0crjbUK7jcQEDHuc0ZMRIZsxH3TYLv4TUtHmAA==
+
+primevue@^3:
+  version "3.22.0"
+  resolved "https://registry.yarnpkg.com/primevue/-/primevue-3.22.0.tgz#369e06a0231a524823b2e99cc2c62e73d8962a52"
+  integrity sha512-9QGciTVRdj1248SZXi0l6yxs0THnxWbXt1iiz0KnhQcqS2fg80N2XXESc28/oc0MHdA7FhtzAJCx+vZJoiZV0A==
+
 pstree.remy@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/pstree.remy/-/pstree.remy-1.1.8.tgz#c242224f4a67c21f686839bbdb4ac282b8373d3a"

@@ -1,5 +1,7 @@
 <template>
-    <v-app-bar color="primary">
+
+    <MenuBar items=""/>
+    <!-- <v-app-bar color="primary">
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
@@ -26,11 +28,12 @@
         <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-home" title="Home" to="/"></v-list-item>
         </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
     
 </template>
+import Menubar from 'primevue/menubar';
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useGlobalStore } from '../_store/globalStore';
     const drawer = ref(false)
     const globalStore = useGlobalStore()
@@ -41,7 +44,14 @@ import { useGlobalStore } from '../_store/globalStore';
             default: false
         }
     })
+    const items = computed(() => {[
+        {
+            label: "Home",
+            icon: "pi-home",
+            to: "/home"
+        },
 
+    ]})
     watch(() => props.drawerValue, value => {
         console.log(value)
         drawer.value = value
