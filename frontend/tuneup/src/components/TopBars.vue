@@ -1,6 +1,11 @@
-<template>
-
-    <MenuBar items=""/>
+<template id="topBar">
+    <Menubar  :model="items">
+        <template #end>
+            <!-- <Avatar icon="pi pi-user" to="/sign-in"/> -->
+            <RouterLink to="/sign-in"><Avatar icon="pi pi-user"/></RouterLink>
+        </template>
+    </Menubar>
+    <!-- <MenuBar items=""/> -->
     <!-- <v-app-bar color="primary">
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -31,8 +36,9 @@
     </v-navigation-drawer> -->
     
 </template>
-import Menubar from 'primevue/menubar';
 <script lang="ts" setup>
+import Menubar from 'primevue/menubar';
+import Avatar from 'primevue/avatar';
 import { ref, watch, computed } from 'vue';
 import { useGlobalStore } from '../_store/globalStore';
     const drawer = ref(false)
@@ -44,16 +50,42 @@ import { useGlobalStore } from '../_store/globalStore';
             default: false
         }
     })
-    const items = computed(() => {[
+    const items = computed(() => {return [
         {
             label: "Home",
-            icon: "pi-home",
-            to: "/home"
+            icon: "pi pi-home",
+            to: "/"
         },
+        // {
+        //     label: "Sign In",
+        //     icon: "",
+        //     to: "/signin"
+        // }
 
     ]})
+    // const items = [
+    //     {
+    //         label: "Home",
+    //         icon: "pi-home",
+    //         to: "/home"
+    //     },
+    //     {
+    //         label: "Sign In",
+    //         icon: "",
+    //         to: "/signin"
+    //     }
+
+    // ]
     watch(() => props.drawerValue, value => {
         console.log(value)
         drawer.value = value
     })
 </script>
+<style>
+    .p-menubar {
+      position: fixed;
+      /* float: top */
+      top: 0px;
+
+    }
+</style>

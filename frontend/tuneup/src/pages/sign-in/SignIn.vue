@@ -1,10 +1,34 @@
 <template>
+    <Card>
+        <template #header>
+            <h3>Sign In</h3>
+        </template>
+        <template #content>
+            <div class="flex justify-content-center p-fluid">
+                <div v-focustrap class="card">
+                    <div class="field">
+                        <InputText id="input" v-model="username" type="text" placeholder="Username" autofocus />
+                    </div>
+                    <div class="field">
+                        <div class="p-float-label">
+                            <Password v-model="password">
+                                <template #header>
+                                    <h6>Enter Password</h6>
+                                </template>
+                            </Password>
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <Button type="submit" label="Submit" class="mt-2" @click="login()" />
+                </div>
+            </div>
+        </template>
+    </Card>
+   
     <!-- <v-card>
 
     </v-card> -->
-    <v-card fluid>
-        <!-- <h1>Sign In</h1>
-        <v-divider></v-divider> -->
+    <!-- <v-card fluid>
         <v-form @submit.prevent="login" v-model="form">
             <v-text-field
                 label="Username"
@@ -28,7 +52,7 @@
             >Sign In</v-btn>
 
         </v-form>
-    </v-card>
+    </v-card> -->
     <!-- <div>
         <div>
 
@@ -53,11 +77,15 @@
 <script lang="ts" setup>
     import { Ref, ref } from 'vue';
     import { useSignIn } from './_store/signInStore';
+    import InputText from 'primevue/inputtext';
+    import Password from 'primevue/password';
+    import Button from 'primevue/button';
+    import Card from 'primevue/card';
     const store = useSignIn()
     
     const form:Ref<Boolean> = ref(false)
-    const username:Ref<String> = ref("")
-    const password:Ref<String> = ref("")
+    const username:Ref<string> = ref("")
+    const password:Ref<string> = ref("")
 
     async function login(){
     //console.log(store.logIn(username, password))

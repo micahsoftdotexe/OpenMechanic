@@ -1,6 +1,9 @@
 <template>
-  <v-app>
-    <!-- <v-navigation-drawer></v-navigation-drawer> -->
+  <TopBars></TopBars>
+  <RouterView  class="flex justify-content-center p-fluid" />
+  <!-- <Button>Hello</Button> -->
+  <!-- <p>Hello</p> -->
+  <!-- <v-app>
     <top-bars :drawerValue = "drawer"></top-bars>
     
     <v-main>
@@ -14,17 +17,18 @@
          >{{messageStore.messageMessage}}</v-snackbar>
       </v-container>
     </v-main>
-  </v-app>
+  </v-app> -->
 </template>
 
 <script setup lang="ts">
   // import Message from './components/Message.vue';
   import TopBars from './components/TopBars.vue'
+  import Button from 'primevue/button';
   import { ref, watch } from 'vue';
   import { useGlobalStore } from './_store/globalStore';
   import { useMessageStore } from './_store/messageStore';
   import { useRoute } from 'vue-router';
-import { computed } from '@vue/reactivity';
+  import { computed } from '@vue/reactivity';
   const messageStore = useMessageStore()
   const route = useRoute();
   const drawer = ref(false)
@@ -54,6 +58,7 @@ import { computed } from '@vue/reactivity';
   /* @import './assets/bulma.css'; */
   /* @import '../node_modules/bulma/css/bulma.css'; */
 </style>
+
 
 <!-- <style scoped>
 .logo {
