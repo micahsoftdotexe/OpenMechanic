@@ -38,6 +38,7 @@ class Part extends \yii\db\ActiveRecord
             [['order_id','quantity_type_id'], 'integer'],
             [['price', 'margin', 'quantity'], 'number'],
             [['description'], 'string'],
+            [['description'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
             [['part_number'], 'string', 'max' => 100],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::class, 'targetAttribute' => ['order_id' => 'id']],
         ];

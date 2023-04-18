@@ -97,6 +97,7 @@ class Customer extends \yii\db\ActiveRecord
             ['state', 'in', 'range' => array_keys(self::STATES)],
             ['zip', 'string', 'max' => 10],
             ['zip', 'match', 'pattern' => '/(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)/'],
+            [['first_name', 'last_name', 'city', 'zip'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
             [['phone_number_1', 'phone_number_2'], 'string', 'max' => 15],
             [['phone_number_1', 'phone_number_2'], PhoneInputValidator::class],
             [['first_name', 'last_name'], 'required']

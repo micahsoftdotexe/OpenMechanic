@@ -34,6 +34,7 @@ class Labor extends \yii\db\ActiveRecord
             [['order_id', 'description', 'price'], 'required'],
             [['order_id'], 'integer'],
             [['description', 'notes'], 'string'],
+            [['description'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
             [['price'], 'number'],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::class, 'targetAttribute' => ['order_id' => 'id']],
         ];
