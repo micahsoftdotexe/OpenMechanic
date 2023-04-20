@@ -2,9 +2,9 @@
 $db = [
     'charset' => 'utf8',
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=workorder',
+    'dsn' => 'mysql:host=db;dbname=order',
     'username' => 'root',
-    'password' => '',
+    'password' => 'mariadb',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

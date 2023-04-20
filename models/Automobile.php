@@ -37,6 +37,7 @@ class Automobile extends \yii\db\ActiveRecord
             [['motor_number'], 'number'],
             [['vin'], 'string', 'max' => 17],
             [['make', 'model'], 'string', 'max' => 128],
+            [['make', 'model', 'year', 'vin'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
         ];
     }
 

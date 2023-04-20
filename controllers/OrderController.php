@@ -142,9 +142,12 @@ class OrderController extends SafeController
     public function actionCreateTemplate()
     {
         $model = new Order();
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->request->post('taxable')) {
+        Yii::debug(Yii::$app->request->post(), 'dev');
+        if ($model->load(Yii::$app->request->post())) {
             $model->stage = 1;
-            if (intval(Yii::$app->request->post('taxable')) == 1) {
+            if (!Yii::$app->request->post('taxable')) {
+                $model->tax = 0;
+            } elseif (intval(Yii::$app->request->post('taxable')) == 1) {
                 $model->tax = Yii::$app->params['sales_tax'];
             } else {
                 $model->tax = 0;
