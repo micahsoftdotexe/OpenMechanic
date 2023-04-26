@@ -1,12 +1,7 @@
 <template id="topBar">
-    <Menubar  :model="items">
-        <template #end>
-            <!-- <Avatar icon="pi pi-user" to="/sign-in"/> -->
-            <RouterLink to="/sign-in"><Avatar icon="pi pi-user"/></RouterLink>
-        </template>
-    </Menubar>
+    
     <!-- <MenuBar items=""/> -->
-    <!-- <v-app-bar color="primary">
+    <v-app-bar color="primary">
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
@@ -33,12 +28,11 @@
         <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-home" title="Home" to="/"></v-list-item>
         </v-list>
-    </v-navigation-drawer> -->
+    </v-navigation-drawer>
     
 </template>
 <script lang="ts" setup>
-import Menubar from 'primevue/menubar';
-import Avatar from 'primevue/avatar';
+
 import { ref, watch, computed } from 'vue';
 import { useGlobalStore } from '../_store/globalStore';
     const drawer = ref(false)

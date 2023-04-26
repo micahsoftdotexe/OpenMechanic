@@ -1,6 +1,15 @@
 <template>
-  <TopBars></TopBars>
-  <RouterView  class="flex justify-content-center p-fluid" />
+  <v-card>
+    <v-layout>
+      <top-bars></top-bars>
+      <v-main style="min-height: 300px;">
+        <p>Hello</p>
+      </v-main>
+    </v-layout> 
+  </v-card>
+  <!-- <TopBars></TopBars> -->
+  <!-- <n-button>Hello</n-button> -->
+  <!-- <RouterView  class="flex justify-content-center p-fluid" /> -->
   <!-- <Button>Hello</Button> -->
   <!-- <p>Hello</p> -->
   <!-- <v-app>
@@ -22,13 +31,13 @@
 
 <script setup lang="ts">
   // import Message from './components/Message.vue';
-  import TopBars from './components/TopBars.vue'
-  import Button from 'primevue/button';
+  // import TopBars from './components/TopBars.vue'
   import { ref, watch } from 'vue';
   import { useGlobalStore } from './_store/globalStore';
   import { useMessageStore } from './_store/messageStore';
   import { useRoute } from 'vue-router';
   import { computed } from '@vue/reactivity';
+import TopBars from './components/TopBars.vue';
   const messageStore = useMessageStore()
   const route = useRoute();
   const drawer = ref(false)
