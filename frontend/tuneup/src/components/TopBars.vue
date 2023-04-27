@@ -1,7 +1,10 @@
 <template id="topBar">
-    
-    <!-- <MenuBar items=""/> -->
-    <v-app-bar color="primary">
+    <Menubar :model="items" class="flex flex-wrap"> 
+        <template #start>
+            <h3 class="mr-2"><i class="pi pi-wrench"></i> TuneUp</h3>
+        </template>
+    </Menubar>
+    <!-- <v-app-bar color="primary">
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
@@ -28,12 +31,13 @@
         <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-home" title="Home" to="/"></v-list-item>
         </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
     
 </template>
 <script lang="ts" setup>
 
 import { ref, watch, computed } from 'vue';
+import Menubar from 'primevue/menubar';
 import { useGlobalStore } from '../_store/globalStore';
     const drawer = ref(false)
     const globalStore = useGlobalStore()
@@ -44,19 +48,36 @@ import { useGlobalStore } from '../_store/globalStore';
             default: false
         }
     })
-    const items = computed(() => {return [
-        {
-            label: "Home",
-            icon: "pi pi-home",
-            to: "/"
-        },
-        // {
-        //     label: "Sign In",
-        //     icon: "",
-        //     to: "/signin"
-        // }
-
-    ]})
+    const items = computed(() => {
+        if (globalStore.isLoggedIn) {
+            return [
+                {
+                    label: "Home",
+                    icon: "pi pi-home",
+                    to: "/"
+                },
+                {
+                    label: globalStore.userInfo.first_name,
+                    icon: "pi pi-user",
+                    to: "/signin",
+                    style: "position: absolute; right: 4px;"
+                }
+            ]
+        }
+        return [
+            {
+                label: "Home",
+                icon: "pi pi-home",
+                to: "/"
+            },
+            {
+                label: "Sign In",
+                icon: "pi pi-user",
+                to: "/signin",
+                style: "position: absolute; right: 4px;"
+            }
+        ]
+    })
     // const items = [
     //     {
     //         label: "Home",
@@ -78,8 +99,11 @@ import { useGlobalStore } from '../_store/globalStore';
 <style>
     .p-menubar {
       position: fixed;
-      /* float: top */
+      /* align-self: flex-start; */
       top: 0px;
+      width: 100%;
+      right: 0px;
 
     }
+    
 </style>

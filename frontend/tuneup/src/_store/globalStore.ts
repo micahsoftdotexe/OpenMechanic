@@ -4,7 +4,8 @@ import { defineStore } from "pinia";
 export const useGlobalStore = defineStore('global-store', {
     state: () => ({
         userInfo: {first_name: null, last_name:null},
-        isLoggedIn: false
+        isLoggedIn: false,
+        cardTitle:''
 
     }),
     actions: {
@@ -17,6 +18,9 @@ export const useGlobalStore = defineStore('global-store', {
         logout() {
             this.userInfo = {}
             this.isLoggedIn = false
+        },
+        setCardTitle(title:string) {
+            this.cardTitle = title
         }
     },
     persist: true
