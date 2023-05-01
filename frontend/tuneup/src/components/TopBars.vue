@@ -73,7 +73,7 @@ import { useGlobalStore } from '../_store/globalStore';
             {
                 label: "Sign In",
                 icon: "pi pi-user",
-                to: "/signin",
+                to: "/sign-in",
                 style: "position: absolute; right: 4px;"
             }
         ]

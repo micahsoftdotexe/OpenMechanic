@@ -1,29 +1,31 @@
 <template>
-    <Card>
-        <template #header>
-            <h3>Sign In</h3>
-        </template>
-        <template #content>
-            <div class="flex justify-content-center p-fluid">
-                <div v-focustrap class="card">
-                    <div class="field">
-                        <InputText id="input" v-model="username" type="text" placeholder="Username" autofocus />
-                    </div>
-                    <div class="field">
-                        <div class="p-float-label">
-                            <Password v-model="password">
-                                <template #header>
-                                    <h6>Enter Password</h6>
-                                </template>
-                            </Password>
-                            <label for="password">Password</label>
+    <div class="flex justify-content-center" style="width: 100%;">
+        <Card style="width: 50%">
+            <template #header>
+                <h3>Sign In</h3>
+            </template>
+            <template #content>
+                <div class="flex justify-content-center">
+                    <div v-focustrap class="card">
+                        <div class="field">
+                            <InputText id="input" v-model="username" type="text" placeholder="Username" autofocus />
                         </div>
+                        <div class="field">
+                            <div class="p-float-label">
+                                <Password v-model="password">
+                                    <template #header>
+                                        <h6>Enter Password</h6>
+                                    </template>
+                                </Password>
+                                <label for="password">Password</label>
+                            </div>
+                        </div>
+                        <Button type="submit" label="Submit" class="mt-2" @click="login()" />
                     </div>
-                    <Button type="submit" label="Submit" class="mt-2" @click="login()" />
                 </div>
-            </div>
-        </template>
-    </Card>
+            </template>
+        </Card>
+    </div>
    
     <!-- <v-card>
 
@@ -77,10 +79,10 @@
 <script lang="ts" setup>
     import { Ref, ref } from 'vue';
     import { useSignIn } from './_store/signInStore';
-    // import InputText from 'primevue/inputtext';
-    // import Password from 'primevue/password';
-    // import Button from 'primevue/button';
-    // import Card from 'primevue/card';
+    import InputText from 'primevue/inputtext';
+    import Password from 'primevue/password';
+    import Button from 'primevue/button';
+    import Card from 'primevue/card';
     const store = useSignIn()
     
     const form:Ref<Boolean> = ref(false)

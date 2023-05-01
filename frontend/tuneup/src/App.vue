@@ -1,10 +1,6 @@
 <template>
-  <div>
-     <TopBars></TopBars>
-     <Card>
-        <template #title>{{globalStore.cardTitle}}</template>
-     </Card>
-  </div>
+  <TopBars></TopBars>
+  <RouterView/>
   <!-- <v-card>
     <v-layout>
       <top-bars></top-bars>
@@ -26,8 +22,6 @@
   import { useRoute } from 'vue-router';
   import { computed } from '@vue/reactivity';
   import TopBars from './components/TopBars.vue';
-  import Card from 'primevue/card';
-  const globalStore = useGlobalStore()
   const messageStore = useMessageStore()
   const route = useRoute();
   const drawer = ref(false)
