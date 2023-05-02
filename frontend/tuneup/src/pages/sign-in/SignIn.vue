@@ -6,13 +6,16 @@
             </template>
             <template #content>
                 <div class="flex justify-content-center">
-                    <div v-focustrap class="card">
+                    <form v-focustrap @submit.prevent="login()">
                         <div class="field">
-                            <InputText id="input" v-model="username" type="text" placeholder="Username" autofocus />
+                            <div class="p-float-label">
+                                <InputText id="username" v-model="username" type="text" placeholder="Username" autofocus />
+                                <label for="username">Username</label>
+                            </div>
                         </div>
                         <div class="field">
                             <div class="p-float-label">
-                                <Password v-model="password">
+                                <Password v-model="password" :feedback="false">
                                     <template #header>
                                         <h6>Enter Password</h6>
                                     </template>
@@ -20,8 +23,8 @@
                                 <label for="password">Password</label>
                             </div>
                         </div>
-                        <Button type="submit" label="Submit" class="mt-2" @click="login()" />
-                    </div>
+                        <Button type="submit" label="Submit" class="mt-2"/>
+                    </form>
                 </div>
             </template>
         </Card>
