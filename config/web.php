@@ -28,7 +28,7 @@ $config = [
                 // Yii::debug(new \Lcobucci\Clock\SystemClock(new \DateTimeZone(\Yii::$app->timeZone)), 'dev');
                 return [
                     new \Lcobucci\JWT\Validation\Constraint\SignedWith($config->signer(), $config->signingKey()),
-                    new \Lcobucci\JWT\Validation\Constraint\ValidAt(
+                    new \Lcobucci\JWT\Validation\Constraint\StrictValidAt(
                         new \Lcobucci\Clock\SystemClock(new \DateTimeZone(\Yii::$app->timeZone))
                     ),
                 ];

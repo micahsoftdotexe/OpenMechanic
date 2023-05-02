@@ -5,8 +5,6 @@ export const useGlobalStore = defineStore('global-store', {
     state: () => ({
         userInfo: {first_name: null, last_name:null},
         isLoggedIn: false,
-        cardTitle:''
-
     }),
     actions: {
         
@@ -19,9 +17,6 @@ export const useGlobalStore = defineStore('global-store', {
             this.userInfo = {}
             this.isLoggedIn = false
         },
-        setCardTitle(title:string) {
-            this.cardTitle = title
-        }
     },
     persist: true
 })
