@@ -59,8 +59,16 @@ import { useGlobalStore } from '../_store/globalStore';
                 {
                     label: globalStore.userInfo.first_name,
                     icon: "pi pi-user",
-                    to: "/signin",
-                    style: "position: absolute; right: 4px;"
+                    // to: "/signin",
+                    style: "position: absolute; right: 4px;",
+                    items: [
+                        {
+                            label: 'logout',
+                            icon: 'pi pi-fw pi-sign-out',
+                            command: () => globalStore.logout()
+
+                        }
+                    ]
                 }
             ]
         }

@@ -9,6 +9,15 @@
                         <Button label="Log in"></Button>
                     </RouterLink>
                 </div>
+                <div v-else class="grid">
+                    <div class="col">
+                        <Button label="Orders"></Button>
+                    </div>
+                    <div class="col">
+                        <Button label="Customers"></Button>
+                    </div>
+                    
+                </div>
             </template>
         </Card>
     </div>
