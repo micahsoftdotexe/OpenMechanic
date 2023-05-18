@@ -3,9 +3,9 @@
 
 
 "@babel/parser@^7.16.4":
-  version "7.21.5"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.21.5.tgz#821bb520118fd25b982eaf8d37421cf5c64a312b"
-  integrity sha512-J+IxH2IsxV4HbnTrSWgMAQj0UEo61hDA4Ny8h8PCX0MLXiibqHbqIOVneqdocemSBc22VpBKxt4J6FQzy9HarQ==
+  version "7.21.8"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.21.8.tgz#642af7d0333eab9c0ad70b14ac5e76dbde7bfdf8"
+  integrity sha512-6zavDGdzG3gUqAdWvlLFfk+36RilI+Pwyuuh7HItyeScCWP3k6i8vKclAQ0bM/0y/Kz/xiwvxhMv9MgTJP5gmA==
 
 "@esbuild/android-arm@0.15.18":
   version "0.15.18"
@@ -677,9 +677,9 @@ pinia-plugin-persistedstate@^2.3.0:
   integrity sha512-bQcpv47jk3ISl+InuJWsFaS/K7pRZ97kfoD2WCf/suhnlLy48k3BnFM2tI6YZ1xMsDaPv4yOsaPuPAUuSmEO2Q==
 
 pinia@^2.0.23:
-  version "2.0.35"
-  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.35.tgz#aa2597038bb55ea14ad689f83065d2814ebb8c10"
-  integrity sha512-P1IKKQWhxGXiiZ3atOaNI75bYlFUbRxtJdhPLX059Z7+b9Z04rnTZdSY8Aph1LA+/4QEMAYHsTQ638Wfe+6K5g==
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.36.tgz#65130f3b94cc7fe25156308634010fab893dff24"
+  integrity sha512-4UKApwjlmJH+VuHKgA+zQMddcCb3ezYnyewQ9NVrsDqZ/j9dMv5+rh+1r48whKNdpFkZAWVxhBp5ewYaYX9JcQ==
   dependencies:
     "@vue/devtools-api" "^6.5.0"
     vue-demi "*"
@@ -704,9 +704,9 @@ primeicons@^6.0.1:
   integrity sha512-KDeO94CbWI4pKsPnYpA1FPjo79EsY9I+M8ywoPBSf9XMXoe/0crjbUK7jcQEDHuc0ZMRIZsxH3TYLv4TUtHmAA==
 
 primevue@^3.27.0:
-  version "3.27.0"
-  resolved "https://registry.yarnpkg.com/primevue/-/primevue-3.27.0.tgz#8457132f38e9001b940297bb91d3bb02cafb173e"
-  integrity sha512-oVJl8vLGNb6t5nXN41mnjR5V9Cc/eHVvmtRWiNgIC1db6OW3Qo7y2LaDEmXps/wdxX/FuJ7nuPHAZI4y8tvGyQ==
+  version "3.28.0"
+  resolved "https://registry.yarnpkg.com/primevue/-/primevue-3.28.0.tgz#bc16ef1163477e82b9c4a2b4f08d7959bd462050"
+  integrity sha512-yLHvmtTUvO4znfQqcOYHO8H/l0sBHqfvzPAhu4rKNSRjyrj/KO1cP0S+1aa5zGsspaKxXfi2bhhzwSDD0xXwgA==
 
 pstree.remy@^1.1.8:
   version "1.1.8"

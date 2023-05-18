@@ -14,7 +14,7 @@ return [
         'route' => 'user/refresh-token'
     ],
     [
-        'pattern' => 'customer/list',
+        'pattern' => 'customers',
         'route' => 'customer/list'
     ]
 ];

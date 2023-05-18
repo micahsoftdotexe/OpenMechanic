@@ -20,7 +20,7 @@ $config = [
             'class' => \bizley\jwt\Jwt::class,
             'signer' => \bizley\jwt\Jwt::HS256,
             'signingKey' => [
-                'key' => 'SECRET-KEY' //typically a long random string
+                'key' => 'z$C&F)J@NcRfUjXn2r4u7x!A%D*G-KaP' //typically a long random string
             ],
             //'key' => 'SECRET-KEY',  //typically a long random string
             'validationConstraints' => static function (\bizley\jwt\Jwt $jwt) {

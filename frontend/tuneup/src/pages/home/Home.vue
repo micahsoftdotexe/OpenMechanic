@@ -14,7 +14,9 @@
                         <Button label="Orders"></Button>
                     </div>
                     <div class="col">
-                        <Button label="Customers"></Button>
+                        <RouterLink to="/customers">
+                            <Button label="Customers"></Button>
+                        </RouterLink>
                     </div>
                     
                 </div>
@@ -27,7 +29,6 @@
 
 <script setup lang="ts">
 import { useGlobalStore } from '../../_store/globalStore';
-import TopNavbar from '../../components/TopBars.vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 const globalStore = useGlobalStore()

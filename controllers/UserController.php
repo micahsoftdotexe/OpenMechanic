@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use yii\rest\ActiveController;
+use app\models\User;
 use Yii;
 
 class UserController extends ActiveController
@@ -69,7 +70,6 @@ class UserController extends ActiveController
     public function actionLogin() {
 		$model = new \app\models\LoginForm();
         $params = Yii::$app->request->getBodyParams();
-		Yii::debug($params, 'dev');
 		$username = $params['username'];
 		$password = $params['password'];
         $model->username = $username;
@@ -95,10 +95,14 @@ class UserController extends ActiveController
 			// $token = $this->generateJwt($user);
 
 			// $this->generateRefreshToken($user);
-
-			return $this->asJson([
+			$test = $this->asJson([
 				'user' => $user,
 				'token' => $user->generateJwt(),
+			]);
+			Yii::debug($user->generateJwt(), 'dev');
+			return $this->asJson([
+				'user' => $user,
+				'jwt_token' => $user->generateJwt(),
 			]);
 		} else {
 			throw new \yii\web\UnauthorizedHttpException('Wrong username or password');
@@ -118,7 +122,7 @@ class UserController extends ActiveController
 		if (Yii::$app->jwt->validate($refreshToken) && \app\models\User::findIdentityByAccessToken($refreshToken)) {
 			$user = \app\models\User::findIdentityByAccessToken($refreshToken);
 			return [
-				'jwt' => (string) $user->generateJwt($user)
+				'token' => (string) $user->generateJwt($user)
 			];
 			//$token = $this->generateJwt($user);
 

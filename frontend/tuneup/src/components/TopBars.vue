@@ -1,5 +1,5 @@
 <template id="topBar">
-    <Menubar :model="items" class="flex flex-wrap"> 
+    <Menubar :model="items" class=" z-0 flex flex-wrap"> 
         <template #start>
             <h3 class="mr-2"><i class="pi pi-wrench"></i> TuneUp</h3>
         </template>

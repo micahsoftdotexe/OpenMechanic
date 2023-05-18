@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 
 export const useGlobalStore = defineStore('global-store', {
     state: () => ({
-        userInfo: {first_name: null, last_name:null},
+        userInfo: {first_name: null, last_name:null, token:null},
         isLoggedIn: false,
     }),
     actions: {

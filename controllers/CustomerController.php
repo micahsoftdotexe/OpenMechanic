@@ -53,7 +53,7 @@ class CustomerController extends ActiveController
         //                 'roles' => ['createCustomer'],
         //             ],
         //             [
-        //                 'actions' => ['index', 'view'],
+        //                 'actions' => ['index', 'view', 'list'],
         //                 'allow' => true,
         //                 'roles' => ['@'],
         //             ],
@@ -109,7 +109,7 @@ class CustomerController extends ActiveController
 
     public function actionList()
     {
-        return Customer::find()->all();
+        return $this->asJson(Customer::find()->all());
     }
 
     /**
