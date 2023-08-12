@@ -1,7 +1,7 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import Home from './home/Home.vue';
-import SignIn from './sign-in/SignIn.vue';
-import Customers from './customers/Customers.vue'
+// import SignIn from './sign-in/SignIn.vue.old';
+// import Customers from './customers/Customers.vue.old'
 
 const routes = [
     {
@@ -9,15 +9,15 @@ const routes = [
         component: Home
     },
 
-    {
-        path: '/sign-in',
-        component: SignIn
-    },
+    // {
+    //     path: '/sign-in',
+    //     component: SignIn
+    // },
 
-    {
-        path: "/customers",
-        component: Customers
-    }
+    // {
+    //     path: "/customers",
+    //     component: Customers
+    // }
 ]
 
 // export default function (history:any) {

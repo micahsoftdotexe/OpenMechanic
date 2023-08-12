@@ -585,6 +585,11 @@ magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.8"
 
+mdb-vue-ui-kit@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/mdb-vue-ui-kit/-/mdb-vue-ui-kit-4.0.0.tgz#e637c060e7c9a58cbe9e31cb9879e5b4c0aea4ce"
+  integrity sha512-5iKqHykb5pYIdcTsfspC9giDHkyRIyu5/1kNLsGjKcauBP5BpPOrKeYSYtoTFawAJLt/xmp5L/EB7j/S9XIIOQ==
+
 minimatch@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
@@ -692,21 +697,6 @@ postcss@^8.1.10, postcss@^8.4.18:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
-
-primeflex@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/primeflex/-/primeflex-3.3.0.tgz#6c755230ddf30c8fffed9f817efed28d5fe2bdff"
-  integrity sha512-4hvyIO7lERN5bnyURn67Qpozghins8Jq/GSXO6tymc3oa2ADHWuiYBti8ZptPwHu+uD/HTEisS26NEmeIGfPZQ==
-
-primeicons@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-6.0.1.tgz#431fa7c79825934eefd62087d8e1faa6a9e376ad"
-  integrity sha512-KDeO94CbWI4pKsPnYpA1FPjo79EsY9I+M8ywoPBSf9XMXoe/0crjbUK7jcQEDHuc0ZMRIZsxH3TYLv4TUtHmAA==
-
-primevue@^3.27.0:
-  version "3.28.0"
-  resolved "https://registry.yarnpkg.com/primevue/-/primevue-3.28.0.tgz#bc16ef1163477e82b9c4a2b4f08d7959bd462050"
-  integrity sha512-yLHvmtTUvO4znfQqcOYHO8H/l0sBHqfvzPAhu4rKNSRjyrj/KO1cP0S+1aa5zGsspaKxXfi2bhhzwSDD0xXwgA==
 
 pstree.remy@^1.1.8:
   version "1.1.8"

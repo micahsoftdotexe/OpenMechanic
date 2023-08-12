@@ -1,9 +1,9 @@
 <template id="topBar">
-    <Menubar :model="items" class=" z-0 flex flex-wrap"> 
-        <template #start>
-            <h3 class="mr-2"><i class="pi pi-wrench"></i> TuneUp</h3>
-        </template>
-    </Menubar>
+    <MDBNavbar dark bg="dark" container class="flex-start">
+        <MDBNavbarNav class="flex-row">
+            <MDBNavbarItem to="/" class="me-3">Home</MDBNavbarItem>
+        </MDBNavbarNav>
+    </MDBNavbar>
     <!-- <v-app-bar color="primary">
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -37,7 +37,13 @@
 <script lang="ts" setup>
 
 import { ref, watch, computed } from 'vue';
-import Menubar from 'primevue/menubar';
+import {
+    MDBNavbar,
+    MDBNavbarBrand,
+    MDBNavbarNav,
+    MDBNavbarItem,
+    MDBContainer,
+} from "mdb-vue-ui-kit";
 import { useGlobalStore } from '../_store/globalStore';
     const drawer = ref(false)
     const globalStore = useGlobalStore()

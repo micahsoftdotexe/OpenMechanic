@@ -1,5 +1,10 @@
 <template>
-    <div class="flex justify-content-center" style="width: 100%;">
+    <div class="text-center">
+        <div class="position-relative">
+            <h2>Home</h2>
+        </div>
+    </div>
+    <!-- <div class="flex justify-content-center" style="width: 100%;">
         <Card style="width: 50%" >
             <template #title>Welcome to the TuneUp Order System!</template>
             <template #content>
@@ -22,15 +27,13 @@
                 </div>
             </template>
         </Card>
-    </div>
+    </div> -->
     
     <!-- <TopNavbar/> -->
 </template>
 
 <script setup lang="ts">
 import { useGlobalStore } from '../../_store/globalStore';
-import Card from 'primevue/card';
-import Button from 'primevue/button';
 const globalStore = useGlobalStore()
 
 

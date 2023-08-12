@@ -1,6 +1,8 @@
 <template>
   <TopBars></TopBars>
-  <RouterView/>
+  <MDBContainer class="mt-5">
+    <RouterView/>
+  </MDBContainer>
   <!-- <v-card>
     <v-layout>
       <top-bars></top-bars>
@@ -17,6 +19,9 @@
   // import Message from './components/Message.vue';
   // import TopBars from './components/TopBars.vue'
   import { ref, watch } from 'vue';
+  import {
+    MDBContainer,
+  } from "mdb-vue-ui-kit";
   import { useGlobalStore } from './_store/globalStore';
   import { useMessageStore } from './_store/messageStore';
   import { useRoute } from 'vue-router';
@@ -48,8 +53,9 @@
 </script>
 
 <style lang="css">
-  /* @import './assets/bulma.css'; */
-  /* @import '../node_modules/bulma/css/bulma.css'; */
+  #app {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+  }
 </style>
 
 
