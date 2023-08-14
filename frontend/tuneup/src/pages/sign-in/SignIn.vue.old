@@ -1,34 +1,24 @@
 <template>
-    <div class="flex justify-content-center" style="width: 100%;">
-        <Card style="width: 50%">
-            <template #header>
-                <h3>Sign In</h3>
-            </template>
-            <template #content>
-                <div class="flex justify-content-center">
-                    <form v-focustrap @submit.prevent="login()">
-                        <div class="field">
-                            <div class="p-float-label">
-                                <InputText id="username" v-model="username" type="text" placeholder="Username" autofocus />
-                                <label for="username">Username</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="p-float-label">
-                                <Password v-model="password" :feedback="false">
-                                    <template #header>
-                                        <h6>Enter Password</h6>
-                                    </template>
-                                </Password>
-                                <label for="password">Password</label>
-                            </div>
-                        </div>
-                        <Button type="submit" label="Submit" class="mt-2"/>
-                    </form>
-                </div>
-            </template>
-        </Card>
-    </div>
+    <MDBContainer>
+        <h2>Log in</h2>
+        <MDBInput
+            type="email"
+            label="Username"
+            id="usernameForm"
+            v-model="username"
+            wrapper-class="mb-4"
+        />
+        <MDBInput
+            type="password"
+            label="Password"
+            id="passwordForm"
+            v-model="password"
+            wrapper-class="mb-4"
+        />
+        <MDBBtn color="primary" block class="mb-4" @click="login">Sign in</MDBBtn>
+
+    </MDBContainer>
+
    
     <!-- <v-card>
 
@@ -82,10 +72,7 @@
 <script lang="ts" setup>
     import { Ref, ref } from 'vue';
     import { useSignIn } from './_store/signInStore';
-    import InputText from 'primevue/inputtext';
-    import Password from 'primevue/password';
-    import Button from 'primevue/button';
-    import Card from 'primevue/card';
+    import { MDBBtn, MDBContainer, MDBInput } from 'mdb-vue-ui-kit';
     const store = useSignIn()
     
     const form:Ref<Boolean> = ref(false)

@@ -1,5 +1,6 @@
 <template>
-    <div class=" z-0 static justify-content-center" style="width: 100%;">
+    <MDBDa
+    <!-- <div class=" z-0 static justify-content-center" style="width: 100%;">
         <Card style="width: 50% height: 50%">
             <template #title>Customers</template>
             <template #content>
@@ -9,14 +10,14 @@
                 </DataTable>
             </template>
         </Card>
-    </div>
+    </div> -->
 </template>
 
 <script setup lang="ts">
     import { onMounted } from 'vue';
-    import Card from 'primevue/card';
-    import DataTable from 'primevue/datatable';
-    import Column from 'primevue/column';
+    // import Card from 'primevue/card';
+    // import DataTable from 'primevue/datatable';
+    // import Column from 'primevue/column';
     import { useCustomerStore } from './_store/customerStore';
 import { computed } from '@vue/reactivity';
     const store = useCustomerStore()

@@ -1,6 +1,6 @@
 <template>
   <TopBars></TopBars>
-  <MDBContainer class="mt-5">
+  <MDBContainer md class="mt-5">
     <RouterView/>
   </MDBContainer>
   <!-- <v-card>
@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-  // import Message from './components/Message.vue';
-  // import TopBars from './components/TopBars.vue'
   import { ref, watch } from 'vue';
   import {
     MDBContainer,

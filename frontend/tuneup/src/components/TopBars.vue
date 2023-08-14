@@ -1,7 +1,22 @@
 <template id="topBar">
-    <MDBNavbar dark bg="dark" container class="flex-start">
+    <MDBNavbar expland="xxl" dark bg="dark" container class="flex-start">
         <MDBNavbarNav class="flex-row">
             <MDBNavbarItem to="/" class="me-3">Home</MDBNavbarItem>
+        </MDBNavbarNav>
+        <MDBNavbarNav right>
+            <MDBDropdown v-model="userDropdown" class="nav-item">
+                <MDBDropdownToggle tag="a" class="nav-link" @click="userDropdown = !userDropdown">
+                    <!-- < v-if="globalStore.isLoggedIn" class="fa-regular fa-user"></i> -->
+                    <!-- <MDBIcon  icon="fa-solid fa-user"></MDBIcon> -->
+                    <i v-if="globalStore.isLoggedIn" class="fas fa-user"></i>
+                    <!-- <MDBIcon v-else icon-style="far" icon="fa-user"></MDBIcon> -->
+                    <i v-else class="far fa-user"></i>
+                </MDBDropdownToggle>
+                <MDBDropdownMenu>
+                    <MDBDropdownItem v-if="!globalStore.isLoggedIn" to="/sign-in">Sign In</MDBDropdownItem>
+                    <MDBDropdownItem to="#" v-else @click="globalStore.logout()">Sign Out</MDBDropdownItem>
+                </MDBDropdownMenu>
+            </MDBDropdown>
         </MDBNavbarNav>
     </MDBNavbar>
     <!-- <v-app-bar color="primary">
@@ -42,7 +57,12 @@ import {
     MDBNavbarBrand,
     MDBNavbarNav,
     MDBNavbarItem,
-    MDBContainer,
+    // MDBContainer,
+    MDBIcon,
+    MDBDropdown,
+    MDBDropdownToggle,
+    MDBDropdownItem,
+    MDBDropdownMenu
 } from "mdb-vue-ui-kit";
 import { useGlobalStore } from '../_store/globalStore';
     const drawer = ref(false)
@@ -54,6 +74,7 @@ import { useGlobalStore } from '../_store/globalStore';
             default: false
         }
     })
+    const userDropdown = ref(false)
     const items = computed(() => {
         if (globalStore.isLoggedIn) {
             return [

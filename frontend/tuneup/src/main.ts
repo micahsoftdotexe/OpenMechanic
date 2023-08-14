@@ -7,7 +7,7 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import router from './pages/routes'
 // import 'mdb-vue-ui-kit/css/mdb.min.css';
-import './assets/mdb.dark.min.css'
+// import './assets/mdb.dark.min.css'
   
 const store = createPinia()
 store.use(piniaPluginPersistedstate)
