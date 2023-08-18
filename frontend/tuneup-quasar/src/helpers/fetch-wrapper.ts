@@ -1,6 +1,6 @@
-import { useGlobalStore } from "../_store/globalStore";
+import { useGlobalStore } from '../_store/globalStore';
 
-const hostUrl = "http://localhost:8080"
+const hostUrl = 'http://localhost:8080'
 // const globalStore = useGlobalStore()
 export const fetchWrapper = {
     get: request('GET'),
@@ -20,11 +20,11 @@ function request(method) {
     }
 }
 
-function getRequestInfo(url, body, method) {
+function getRequestInfo(url: string, body: any, method) {
     url = `${hostUrl}${url}`
-    const requestOptions = {
+    const requestOptions:object = {
         method,
-        headers: authHeader(url)
+        headers: authHeader()
     };
     if (body) {
         requestOptions.headers['Content-Type'] = 'application/json';
@@ -35,7 +35,7 @@ function getRequestInfo(url, body, method) {
 
 // helper functions
 
-function authHeader(url) {
+function authHeader() {
     // console.log("authHeader")
     // return auth header with jwt if user is logged in and request is to the api url
     const { userInfo } = useGlobalStore();
@@ -60,7 +60,6 @@ async function handleResponse(response, initialRequest) {
             const refreshResponse = await checkRefreshToken() 
             if (refreshResponse == true) {
                 //retry
-                console.log("true")
                 const newRequestInfo = getRequestInfo(initialRequest.url,initialRequest.body, initialRequest.method)
                 const fetchResponse = await fetch(newRequestInfo.url, newRequestInfo.requestOptions)
                 const newText = await fetchResponse.text()

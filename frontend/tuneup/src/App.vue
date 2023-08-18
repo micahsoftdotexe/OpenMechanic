@@ -1,30 +1,48 @@
 <template>
-  <TopBars></TopBars>
-  <MDBContainer md class="mt-5">
-    <RouterView/>
-  </MDBContainer>
-  <!-- <v-card>
-    <v-layout>
-      <top-bars></top-bars>
-      <v-main style="min-height: 300px;">
-        <p>Hello</p>
-      </v-main>
-    </v-layout> 
-  </v-card> -->
+
+  <!-- <TopBars></TopBars> -->
+  <q-layout view="hHh LpR fFf">
+
+    <q-header elevated class="bg-primary text-white" height-hint="98">
+      <top-bars :is-logged-in="globalStore.isLoggedIn" :user-info="globalStore.userInfo" @logout="globalStore.logout"/>
+
+      <!-- <q-tabs align="left">
+        <q-route-tab to="/page1" label="Page One" />
+        <q-route-tab to="/page2" label="Page Two" />
+        <q-route-tab to="/page3" label="Page Three" />
+      </q-tabs> -->
+    </q-header>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+
+    <q-footer elevated class="bg-grey-8 text-white">
+      <q-toolbar>
+        <q-toolbar-title>
+          <!-- <q-avatar>
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+          </q-avatar> -->
+          <div>Tuneup</div>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
+
+  </q-layout>
+  
   
 
 </template>
 
 <script setup lang="ts">
   import { ref, watch } from 'vue';
-  import {
-    MDBContainer,
-  } from "mdb-vue-ui-kit";
   import { useGlobalStore } from './_store/globalStore';
   import { useMessageStore } from './_store/messageStore';
   import { useRoute } from 'vue-router';
   import { computed } from '@vue/reactivity';
   import TopBars from './components/TopBars.vue';
+  const globalStore = useGlobalStore()
+
   const messageStore = useMessageStore()
   const route = useRoute();
   const drawer = ref(false)
@@ -51,9 +69,6 @@
 </script>
 
 <style lang="css">
-  #app {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-  }
 </style>
 
 
