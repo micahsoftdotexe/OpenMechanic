@@ -1,16 +1,9 @@
 <template>
-    <MDBDa
-    <!-- <div class=" z-0 static justify-content-center" style="width: 100%;">
-        <Card style="width: 50% height: 50%">
-            <template #title>Customers</template>
-            <template #content>
-                <DataTable :value="customers">
-                    <Column field="id" header="#"></Column>
-                    <Column field="full_name" header="Full Name"></Column>
-                </DataTable>
-            </template>
-        </Card>
-    </div> -->
+    <p>Hello</p>
+    <DataTable
+    :columns="['id', 'name']"
+    :data="[{id: 0, name:'Micah'}, {id: 1, name: 'Shirley'}]"
+    ></DataTable>
 </template>
 
 <script setup lang="ts">
@@ -20,6 +13,7 @@
     // import Column from 'primevue/column';
     import { useCustomerStore } from './_store/customerStore';
 import { computed } from '@vue/reactivity';
+import DataTable from '../../components/DataTable.vue';
     const store = useCustomerStore()
     onMounted(async () => {
         await store.getCustomers()

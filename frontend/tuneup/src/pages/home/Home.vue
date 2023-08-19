@@ -8,14 +8,14 @@
                     <p class="text-5xl mb-1">Orders</p>
                     <p class="text-center mb-2">Lists all orders</p>
                     <div class="flex row justify-center items-start">
-                        <button class="btn btn-primary" to="/orders">Orders</button>
+                        <RouterLink class="btn btn-primary" to="/orders">Orders</RouterLink>
                     </div>
                 </div>
                 <div>
                     <p class="text-5xl mb-1">Customers</p>
                     <p class="text-center mb-2">Lists all customers</p>
                     <div class="flex row justify-center items-start">
-                        <button class="btn btn-primary" to="/customers">Customers</button>
+                        <RouterLink class="btn btn-primary" to="/customers">Customers</RouterLink>
                     </div>
                 </div>
             </div>
