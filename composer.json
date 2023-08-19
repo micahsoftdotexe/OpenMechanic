@@ -25,7 +25,8 @@
         "webtoucher/yii2-js-cookie": "*",
         "hoa/console": "~3.0",
         "yiisoft/yii2-jui": "^2.0",
-        "kartik-v/yii2-mpdf": "dev-master"
+        "kartik-v/yii2-mpdf": "dev-master",
+        "bizley/jwt": "^3.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

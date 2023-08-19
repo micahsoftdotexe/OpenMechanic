@@ -10,57 +10,74 @@ use app\models\Owns;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\rest\ActiveController;
 
 /**
  * CustomerController implements the CRUD actions for Customer model.
  */
-class CustomerController extends SafeController
+class CustomerController extends ActiveController
 {
+    public $modelClass = 'app\models\Customer';
     /**
      * {@inheritdoc}
      */
     public function behaviors()
     {
-        return [
-            // 'verbs' => [
-            //     'class' => VerbFilter::class,
-            //     'actions' => [
-            //         'delete' => ['POST'],
-            //     ],
+        $behaviors = parent::behaviors();
+        unset($behaviors['authenticator']);
+		$behaviors['corsFilter'] = [
+			'class' => \yii\filters\Cors::class,
+		];
+        $behaviors['authenticator'] = [
+            'class' =>  \bizley\jwt\JwtHttpBearerAuth::class,
+            // 'except' => [
+            //     'login',
+            //     'refresh-token',
+            //     //'options',
             // ],
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'actions' => ['ajax-initial-create'],
-                        'allow' => true,
-                        'roles' => ['createCustomer'],
-                    ],
-                    [
-                        'actions' => ['index', 'view'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'actions' => ['edit'],
-                        'allow' => true,
-                        'roles' => ['editCustomer'],
-                    ],
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['createCustomer'],
-                    ],
-                    [
-                        'actions' => ['delete'],
-                        'allow' => true,
-                        'roles' => ['deleteCustomer'],
-                    ],
-
-                ],
-            ],
         ];
+        return $behaviors;
+        // return [
+        //     // 'verbs' => [
+        //     //     'class' => VerbFilter::class,
+        //     //     'actions' => [
+        //     //         'delete' => ['POST'],
+        //     //     ],
+        //     // ],
+        //     'access' => [
+        //         'class' => AccessControl::class,
+        //         'rules' => [
+        //             [
+        //                 'actions' => ['ajax-initial-create'],
+        //                 'allow' => true,
+        //                 'roles' => ['createCustomer'],
+        //             ],
+        //             [
+        //                 'actions' => ['index', 'view', 'list'],
+        //                 'allow' => true,
+        //                 'roles' => ['@'],
+        //             ],
+        //             [
+        //                 'actions' => ['edit'],
+        //                 'allow' => true,
+        //                 'roles' => ['editCustomer'],
+        //             ],
+        //             [
+        //                 'actions' => ['create'],
+        //                 'allow' => true,
+        //                 'roles' => ['createCustomer'],
+        //             ],
+        //             [
+        //                 'actions' => ['delete'],
+        //                 'allow' => true,
+        //                 'roles' => ['deleteCustomer'],
+        //             ],
+
+        //         ],
+        //     ],
+        // ];
     }
+
 
     /**
      * Lists all Customer models.
@@ -89,6 +106,11 @@ class CustomerController extends SafeController
     //         'model' => $this->findModel($id),
     //     ]);
     // }
+
+    public function actionList()
+    {
+        return $this->asJson(Customer::find()->all());
+    }
 
     /**
      * Creates a new Customer model.
