@@ -1,57 +1,44 @@
 <template id="topBar">
+  <div class="navbar bg-base-300">
+    <div class="flex-1">
+      <RouterLink class="btn btn-ghost normal-case text-xl" to="/">TuneUp</RouterLink>
+    </div>
+    <div class="flex-none gap-2">
+      <div class="dropdown dropdown-end">
+
+        <button tabindex="0" class="btn btn-ghost bg-base-400 btn-circle inline-flex items-center justify-center">
+          <font-awesome-icon v-if="isLoggedIn" icon="fa-solid fa-user text-primary" size="xl"/>
+          <font-awesome-icon v-else icon="fa-regular fa-user text-primary" size="xl"/>
+        </button>
+        <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+          <div v-if="isLoggedIn">
+            <li>
+              <a class="justify-between">
+                Profile
+                <span class="badge">New</span>
+              </a>
+            </li>
+            <li><a>Settings</a></li>
+            <li><a @click="emit('logout')">Logout</a></li>
+          </div>
+          <li v-else><RouterLink to="/sign-in">Sign in</RouterLink></li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+  <!-- <div class="w-full">
     
-    <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-          </q-avatar>
-          Tuneup
-        </q-toolbar-title>
-        <q-space/>
-      <q-btn-dropdown
-        :label="accountLabel">
-        <div class="row no-wrap q-pa-md">
-          <div class="column">
-            <div class="text-h6 q-mb-md">Settings</div>
-            <p>Account Settings</p>
-          </div>
-
-          <q-separator vertical inset class="q-mx-lg" />
-
-          <div class="column items-center">
-            <!-- <q-avatar size="72px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-            </q-avatar> -->
-
-            <div class="text-subtitle1 q-mt-md q-mb-xs">{{accountLabel}}</div>
-
-            <q-btn
-              v-if="isLoggedIn"
-              color="primary"
-              label="Logout"
-              push
-              size="sm"
-              @click="emit('logout')"
-              v-close-popup
-            />
-            <q-btn
-              v-else
-              color="primary"
-              label="Sign In"
-              push
-              size="sm"
-              to="/sign-in"
-              v-close-popup
-            />
-          </div>
-        </div>
-      </q-btn-dropdown>
-    </q-toolbar>
+  </div> -->
     
 </template>
 <script lang="ts" setup>
 
-    import { computed } from 'vue';
+  import { computed } from 'vue';
+  import { RouterLink } from 'vue-router';
+    // import { Navbar, NavbarStart, NavbarEnd } from 'daisyui-vue';
 
 
     const props = defineProps({

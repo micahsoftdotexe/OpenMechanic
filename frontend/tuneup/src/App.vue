@@ -1,16 +1,11 @@
 <template>
 
+  <top-bars :is-logged-in="globalStore.isLoggedIn" :user-info="globalStore.userInfo" @logout="globalStore.logout"/>
+  <router-view/>
   <!-- <TopBars></TopBars> -->
-  <q-layout view="hHh LpR fFf">
+  <!-- <q-layout view="hHh LpR fFf">
 
     <q-header elevated class="bg-primary text-white" height-hint="98">
-      <top-bars :is-logged-in="globalStore.isLoggedIn" :user-info="globalStore.userInfo" @logout="globalStore.logout"/>
-
-      <!-- <q-tabs align="left">
-        <q-route-tab to="/page1" label="Page One" />
-        <q-route-tab to="/page2" label="Page Two" />
-        <q-route-tab to="/page3" label="Page Three" />
-      </q-tabs> -->
     </q-header>
 
     <q-page-container>
@@ -20,22 +15,19 @@
     <q-footer elevated class="bg-grey-8 text-white">
       <q-toolbar>
         <q-toolbar-title>
-          <!-- <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-          </q-avatar> -->
           <div>Tuneup</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
 
-  </q-layout>
+  </q-layout> -->
   
   
 
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
   import { useGlobalStore } from './_store/globalStore';
   import { useMessageStore } from './_store/messageStore';
   import { useRoute } from 'vue-router';
@@ -68,8 +60,10 @@
   })
 </script>
 
-<style lang="css">
-</style>
+<!-- <style lang="css">
+  /* #app {
+    font-family: Roboto, Helvetica, Ari
+</style> -->
 
 
 <!-- <style scoped>

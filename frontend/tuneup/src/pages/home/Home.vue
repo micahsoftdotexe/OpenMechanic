@@ -1,5 +1,27 @@
 <template>
-    <q-page class="flex justify-center items-center">
+    <div class="flex justify-center items-center h-screen">
+    
+        <div>
+            <p class="text-9xl text-primary">Welcome to the TuneUp Order System</p>
+            <div class="flex row justify-evenly items-start mt-8">
+                <div>
+                    <p class="text-5xl mb-1">Orders</p>
+                    <p class="text-center mb-2">Lists all orders</p>
+                    <div class="flex row justify-center items-start">
+                        <button class="btn btn-primary" to="/orders">Orders</button>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-5xl mb-1">Customers</p>
+                    <p class="text-center mb-2">Lists all customers</p>
+                    <div class="flex row justify-center items-start">
+                        <button class="btn btn-primary" to="/customers">Customers</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <q-page class="flex justify-center items-center">
         <div>
             <h1>Welcome to the TuneUp Order System</h1>
             <div class="fit row justify-evenly items-start">
@@ -21,7 +43,7 @@
             
         </div>
         
-    </q-page>
+    </q-page> -->
 </template>
 
 <script setup lang="ts">

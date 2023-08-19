@@ -1,25 +1,20 @@
 import { createApp } from 'vue'
 // import './style.css'
 import App from './App.vue'
-import { createWebHistory } from 'vue-router'
-import createRouter  from './pages/routes'
+// import daisyui from 'daisyui-vue';
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import router from './pages/routes'
-import {Quasar} from 'quasar'
-// import 'mdb-vue-ui-kit/css/mdb.min.css';
-// import './assets/mdb.dark.min.css'
-import 'quasar/src/css/index.sass'
-import '@quasar/extras/material-icons/material-icons.css'
-import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faUser as fasUser } from '@fortawesome/free-solid-svg-icons'
+import { faUser as farUser } from '@fortawesome/free-regular-svg-icons'
+import './index.css'
 
-  
+library.add(fasUser, farUser)
 const store = createPinia()
 store.use(piniaPluginPersistedstate)
-const app = createApp(App)
-app.use(Quasar, {
-    plugins: {}
-})
+const app = createApp(App).component('font-awesome-icon',FontAwesomeIcon)
 app.use(router).use(store)
 
 app.mount('#app')

@@ -1,29 +1,26 @@
 <template>
-    <q-page>
-        <q-form
+    <div class="flex justify-center items-center h-screen">
+        <form
             @submit="login"
-            class="q-gutter-md"
-        >
-            <q-input
-                filled
-                v-model="username"
-                label="username"
-                lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Please type something']"
-            />
-            <q-input
-                filled
-                v-model="password"
-                label="password"
-                type="password"
-                lazy-rules
-                :rules="[ val => val && val.length > 0 || 'Please type something']"
-            />
-            <q-btn label="Sign In" type="submit" color="primary"/>
+         >
+            <div class="form-control w-full max-w-xs">
+                <label class="label">
+                    <span class="label-text">Username</span>
+                </label>
+                <input v-model="username" type="text" placeholder="username" class="input input-bordered w-full max-w-xs"/>
+            </div>
+            <div class="form-control w-full max-w-xs">
+                <label class="label">
+                    <span class="label-text">Password</span>
+                </label>
+                <input v-model="password" placeholder="password" type="password" class="input input-bordered w-full max-w-xs"/>
+            </div>
+            <button type="submit" class="btn btn-active btn-primary">Submit</button>
 
 
-        </q-form>
-    </q-page>
+        </form>
+    </div>
+    
 
 </template>
 
