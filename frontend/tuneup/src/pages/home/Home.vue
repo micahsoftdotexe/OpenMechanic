@@ -1,8 +1,7 @@
 <template>
     <div class="flex justify-center items-center h-screen">
-    
         <div>
-            <p class="text-9xl text-primary">Welcome to the TuneUp Order System</p>
+            <p class="text-7xl text-primary">Welcome to the TuneUp Order System</p>
             <div class="flex row justify-evenly items-start mt-8">
                 <div>
                     <p class="text-5xl mb-1">Orders</p>
