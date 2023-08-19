@@ -1,7 +1,7 @@
 # Work Order Management System
 
 ## Setup
-Note: This project runs in PHP7. This project has not been tested with PHP8.
+Note: This project runs in 8.1 and does not work yet with 8.2
 
 ### First Steps
 
