@@ -1,9 +1,7 @@
 <template>
     <p>Hello</p>
-    <DataTable
-    :columns="['id', 'name']"
-    :data="[{id: 0, name:'Micah'}, {id: 1, name: 'Shirley'}]"
-    ></DataTable>
+    <Table :columns="columns" :data-source="dataSource" theme="forest">
+    </Table>
 </template>
 
 <script setup lang="ts">
@@ -12,8 +10,56 @@
     // import DataTable from 'primevue/datatable';
     // import Column from 'primevue/column';
     import { useCustomerStore } from './_store/customerStore';
-import { computed } from '@vue/reactivity';
-import DataTable from '../../components/DataTable.vue';
+    import { computed } from '@vue/reactivity';
+    import { Table } from 'daisyui-vue';
+    import DataTable from '../../components/DataTable.vue';
+    const columns = [
+      {
+        title: '',
+        dataIndex: 'num',
+        fixed: 'left',
+        width: 20,
+      },
+      {
+        title: 'name',
+        dataIndex: 'name',
+      },
+      {
+        title: 'job',
+        dataIndex: 'job',
+      },
+      {
+        title: 'favorite color',
+        dataIndex: 'favoriteColor',
+      },
+    ];
+
+    const dataSource = [
+      {
+        num: 1,
+        name: 'Cy Ganderton',
+        job: 'Quality Control Specialist',
+        favoriteColor: 'Blue',
+      },
+      {
+        num: 2,
+        name: 'Hart Hagerty',
+        job: 'Desktop Support Technician',
+        favoriteColor: 'Purple',
+      },
+      {
+        num: 3,
+        name: 'Brice Swyre',
+        job: 'Tax Accountant',
+        favoriteColor: 'Red',
+      },
+      {
+        num: 4,
+        name: 'Marjy Ferencz',
+        job: 'Office Assistant I',
+        favoriteColor: 'Crimson',
+      },
+    ];
     const store = useCustomerStore()
     onMounted(async () => {
         await store.getCustomers()
