@@ -1,7 +1,7 @@
 <template>
     <p>Hello</p>
-    <Table :columns="columns" :data-source="dataSource" theme="forest">
-    </Table>
+   
+      <Table :columns="columns" :data-source="dataSource" theme="forest"/>
 </template>
 
 <script setup lang="ts">
@@ -11,7 +11,7 @@
     // import Column from 'primevue/column';
     import { useCustomerStore } from './_store/customerStore';
     import { computed } from '@vue/reactivity';
-    import { Table } from 'daisyui-vue';
+    import { ITableColumn, IconTabletLandscape, Table } from 'daisyui-vue';
     import DataTable from '../../components/DataTable.vue';
     const columns = [
       {
@@ -19,19 +19,19 @@
         dataIndex: 'num',
         fixed: 'left',
         width: 20,
-      },
+      } as ITableColumn,
       {
         title: 'name',
         dataIndex: 'name',
-      },
+      } as ITableColumn,
       {
         title: 'job',
         dataIndex: 'job',
-      },
+      } as ITableColumn,
       {
         title: 'favorite color',
         dataIndex: 'favoriteColor',
-      },
+      } as ITableColumn,
     ];
 
     const dataSource = [
