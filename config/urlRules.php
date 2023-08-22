@@ -16,5 +16,9 @@ return [
     [
         'pattern' => 'customers',
         'route' => 'customer/list'
+    ],
+    [
+        'pattern' => 'test',
+        'route' => 'user/test'
     ]
 ];

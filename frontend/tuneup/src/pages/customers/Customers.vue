@@ -1,37 +1,61 @@
 <template>
     <p>Hello</p>
    
-      <Table :columns="columns" :data-source="dataSource" theme="forest"/>
+      <Table :columns="columns" :data-source="customers" theme="forest"/>
 </template>
 
 <script setup lang="ts">
-    import { onMounted } from 'vue';
-    // import Card from 'primevue/card';
-    // import DataTable from 'primevue/datatable';
-    // import Column from 'primevue/column';
-    import { useCustomerStore } from './_store/customerStore';
-    import { computed } from '@vue/reactivity';
-    import { ITableColumn, IconTabletLandscape, Table } from 'daisyui-vue';
-    import DataTable from '../../components/DataTable.vue';
+  import { h, onMounted, resolveComponent } from 'vue';
+  // import Card from 'primevue/card';
+  // import DataTable from 'primevue/datatable';
+  // import Column from 'primevue/column';
+  import { useCustomerStore } from './_store/customerStore';
+  import { computed } from '@vue/reactivity';
+  import { ITableColumn, Table } from 'daisyui-vue';
+  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     const columns = [
       {
         title: '',
-        dataIndex: 'num',
+        dataIndex: 'id',
         fixed: 'left',
         width: 20,
       } as ITableColumn,
       {
-        title: 'name',
-        dataIndex: 'name',
+        title: 'Full Name',
+        dataIndex: 'full_name',
       } as ITableColumn,
       {
-        title: 'job',
-        dataIndex: 'job',
-      } as ITableColumn,
-      {
-        title: 'favorite color',
-        dataIndex: 'favoriteColor',
-      } as ITableColumn,
+        title: '',
+        dataIndex: 'id',
+        render: (id) => {return h('span',{},[
+          h(resolveComponent('router-link'),{
+            to: `/customers/edit/${id}`
+          }, [
+            h(resolveComponent('font-awesome-icon'), {
+              icon: 'fa-regular fa-pen-to-square'
+            }, '')
+          ]),
+          h('button',{
+            class: 'button-link ml-2',
+            on: {
+              click: remove(id)
+            }
+          }, [
+            h(resolveComponent('font-awesome-icon'), {
+              icon: 'fa-solid fa-trash-can'
+            }, '')
+          ]),
+        ])}
+
+      } as ITableColumn
+      // {
+      //   title: 'job',
+      //   dataIndex: 'job',
+      // } as ITableColumn,
+      // {
+      //   title: 'favorite color',
+      //   dataIndex: 'favoriteColor',
+      // } as ITableColumn,
     ];
 
     const dataSource = [
@@ -74,4 +98,20 @@
         // }
         // return returnVal
     })
+    function remove(id) {
+      console.log(id)
+    }
 </script>
+<style>
+ .button-link {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  /* color: #069; */
+  /* text-decoration: underline; */
+  cursor: pointer;
+ }
+</style>

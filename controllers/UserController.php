@@ -20,6 +20,7 @@ class UserController extends ActiveController
             'except' => [
                 'login',
                 'refresh-token',
+				'test'
                 //'options',
             ],
         ];
@@ -108,6 +109,13 @@ class UserController extends ActiveController
 			throw new \yii\web\UnauthorizedHttpException('Wrong username or password');
 		}
 	}
+
+	public function actionTest() {
+		return [
+			'message' => 'this is a message'
+		];
+	}
+
     public function actionListCurrentUser() {
         return Yii::$app->user->identity;
     }
