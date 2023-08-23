@@ -14,6 +14,16 @@ class UserController extends ActiveController
 		unset($behaviors['authenticator']);
 		$behaviors['corsFilter'] = [
 			'class' => \yii\filters\Cors::class,
+			'cors' => [
+				'Origin' => ['http://localhost:5173'],
+				'Access-Control-Allow-Credentials' => true,
+
+				'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+
+				'Access-Control-Request-Headers' => ['Origin', 'X-Requested-With', 'Content-Type', 'accept', 'Authorization'],
+
+			]
+			
 		];
         $behaviors['authenticator'] = [
             'class' =>  \bizley\jwt\JwtHttpBearerAuth::class,
@@ -24,6 +34,7 @@ class UserController extends ActiveController
                 //'options',
             ],
         ];
+		// $behaviors['authenticator']['except'] = ['options'];
         return $behaviors;
     }
 
@@ -67,6 +78,18 @@ class UserController extends ActiveController
 
 	// 	return $userRefreshToken;
 	// }
+	public function beforeAction($action)
+{
+    //your code
+
+    if (Yii::$app->getRequest()->getMethod() === 'OPTIONS') {
+        parent::beforeAction($action);
+        Yii::$app->getResponse()->getHeaders()->set('Content-Type', 'text/plain');
+        Yii::$app->end();
+    }
+
+    return parent::beforeAction($action);
+}
 
     public function actionLogin() {
 		$model = new \app\models\LoginForm();
