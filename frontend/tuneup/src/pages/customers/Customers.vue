@@ -37,8 +37,8 @@
           ]),
           h('button',{
             class: 'button-link ml-2',
-            on: {
-              click: remove(id)
+            onClick: (ev) => {
+              remove(id)
             }
           }, [
             h(resolveComponent('font-awesome-icon'), {
