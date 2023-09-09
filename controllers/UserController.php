@@ -2,11 +2,11 @@
 
 namespace app\controllers;
 
-use yii\rest\ActiveController;
+// use yii\rest\ActiveController;
 use app\models\User;
 use Yii;
 
-class UserController extends ActiveController
+class UserController extends RestActiveController
 {
     public $modelClass = 'app\models\User';
     public function behaviors() {
@@ -14,15 +14,7 @@ class UserController extends ActiveController
 		unset($behaviors['authenticator']);
 		$behaviors['corsFilter'] = [
 			'class' => \yii\filters\Cors::class,
-			'cors' => [
-				'Origin' => ['http://localhost:5173'],
-				'Access-Control-Allow-Credentials' => true,
-
-				'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-
-				'Access-Control-Request-Headers' => ['Origin', 'X-Requested-With', 'Content-Type', 'accept', 'Authorization'],
-
-			]
+			'cors' => Yii::$app->params['corsSettings']
 			
 		];
         $behaviors['authenticator'] = [
@@ -78,18 +70,6 @@ class UserController extends ActiveController
 
 	// 	return $userRefreshToken;
 	// }
-	public function beforeAction($action)
-{
-    //your code
-
-    if (Yii::$app->getRequest()->getMethod() === 'OPTIONS') {
-        parent::beforeAction($action);
-        Yii::$app->getResponse()->getHeaders()->set('Content-Type', 'text/plain');
-        Yii::$app->end();
-    }
-
-    return parent::beforeAction($action);
-}
 
     public function actionLogin() {
 		$model = new \app\models\LoginForm();
@@ -104,18 +84,17 @@ class UserController extends ActiveController
 		if ($model->login()) {
 			$user = Yii::$app->user->identity;
 
-			if($model->rememberMe) {
-				$refreshToken = $user->generateRefreshJwt();
-				Yii::$app->response->cookies->add(new \yii\web\Cookie([
-					'name' => 'refresh-token',
-					'value' => $refreshToken,
-					'httpOnly' => true,
-					'sameSite' => 'none',
-					//'secure' => true,
-					'path' => '/auth/refresh',  //endpoint URI for renewing the JWT token using this refresh-token, or deleting refresh-token
-				]));
+			
+			$refreshToken = $user->generateRefreshJwt();
+			Yii::$app->response->cookies->add(new \yii\web\Cookie([
+				'name' => 'refresh-token',
+				'value' => $refreshToken,
+				'httpOnly' => true,
+				'sameSite' => 'none',
+				//'secure' => true,
+				'path' => '/auth/refresh',  //endpoint URI for renewing the JWT token using this refresh-token, or deleting refresh-token
+			]));
 
-			}
 			// $token = $this->generateJwt($user);
 
 			// $this->generateRefreshToken($user);

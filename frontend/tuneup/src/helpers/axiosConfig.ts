@@ -10,7 +10,7 @@ axiosWrapper.defaults.headers.common['Content-Type'] = 'application/json';
 axiosWrapper.interceptors.request.use((config) => {
     const { userInfo } = useGlobalStore()
     if (userInfo.token) {
-        config.headers.Authorization = userInfo.token
+        config.headers.Authorization = `Bearer ${userInfo.token}`
     }
     return config
 }, (error) => {
@@ -25,6 +25,7 @@ axiosWrapper.interceptors.response.use(
         const originalRequest = error.config
         const errMessage = error.response.data.message as string
         if ([401, 403].includes(error.response.status) && !originalRequest._retry) {
+            userInfo.token = null
             originalRequest._retry = true;
             const refreshResponse = await refreshToken()
             userInfo.token = refreshResponse.token
@@ -37,8 +38,8 @@ axiosWrapper.interceptors.response.use(
 )
 
 async function refreshToken() {
-    const response = await axiosWrapper.get('auth/refresh')
-    return response.data
+    const response = await axiosWrapper.get('/auth/refresh')
+    return response
 }
 
 export default axiosWrapper

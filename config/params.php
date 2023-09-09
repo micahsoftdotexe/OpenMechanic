@@ -10,4 +10,12 @@ return [
     'timezone'           => 'America/New_York',
     'adminEmail'         => 'admin@email.com',
     'senderName'         => 'Admin',
+    'corsSettings'       => [
+        'Origin'         => ['http://localhost:5173'],
+        'Access-Control-Allow-Credentials' => true,
+
+        'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+
+        'Access-Control-Request-Headers' => ['Origin', 'X-Requested-With', 'Content-Type', 'accept', 'Authorization'],
+    ],
 ];

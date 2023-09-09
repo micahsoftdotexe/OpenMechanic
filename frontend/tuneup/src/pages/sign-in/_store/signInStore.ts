@@ -12,8 +12,8 @@ export const useSignIn = defineStore('signin-store', {
             try {
                 const response = await axiosWrapper.post('/auth/login', {username: username, password: password})
                 console.log(response)
-                let user = response.data.user
-                user.token = response.data.jwt_token
+                let user = response.user
+                user.token = response.jwt_token
                 globalStore.login(user)
                 router.push('/')
                 return true
