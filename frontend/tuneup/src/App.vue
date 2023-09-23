@@ -1,43 +1,17 @@
 <template>
 
-  <top-bars :is-logged-in="globalStore.isLoggedIn" :user-info="globalStore.userInfo" @logout="globalStore.logout"/>
-  <ThemeProvider :theme="theme">
-    <router-view/>
-  </ThemeProvider>
-  <!-- <TopBars></TopBars> -->
-  <!-- <q-layout view="hHh LpR fFf">
-
-    <q-header elevated class="bg-primary text-white" height-hint="98">
-    </q-header>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-
-    <q-footer elevated class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <div>Tuneup</div>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
-
-  </q-layout> -->
-  
-  
-
+  <TopBars :is-logged-in="globalStore.isLoggedIn" :user-info="globalStore.userInfo" @logout="globalStore.logout"/>
+  <RouterView/>
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref, watch } from 'vue';
-  import { ThemeProvider, createThemeForest } from 'daisyui-vue';
+  import { ref, watch } from 'vue';
   import { useGlobalStore } from './_store/globalStore';
   import { useMessageStore } from './_store/messageStore';
   import { useRoute } from 'vue-router';
   import { computed } from '@vue/reactivity';
   import TopBars from './components/TopBars.vue';
   const globalStore = useGlobalStore()
-  const theme = createThemeForest()
   const messageStore = useMessageStore()
   const route = useRoute();
   const drawer = ref(false)

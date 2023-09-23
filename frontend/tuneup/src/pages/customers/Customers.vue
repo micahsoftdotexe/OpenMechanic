@@ -1,7 +1,7 @@
 <template>
     <p>Hello</p>
    
-      <Table :columns="columns" :data-source="customers" theme="forest"/>
+      <!-- <Table :columns="columns" :data-source="customers" theme="forest"/> -->
 </template>
 
 <script setup lang="ts">
@@ -11,52 +11,43 @@
   // import Column from 'primevue/column';
   import { useCustomerStore } from './_store/customerStore';
   import { computed } from '@vue/reactivity';
-  import { ITableColumn, Table } from 'daisyui-vue';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    const columns = [
-      {
-        title: '',
-        dataIndex: 'id',
-        fixed: 'left',
-        width: 20,
-      } as ITableColumn,
-      {
-        title: 'Full Name',
-        dataIndex: 'full_name',
-      } as ITableColumn,
-      {
-        title: '',
-        dataIndex: 'id',
-        render: (id) => {return h('span',{},[
-          h(resolveComponent('router-link'),{
-            to: `/customers/edit/${id}`
-          }, [
-            h(resolveComponent('font-awesome-icon'), {
-              icon: 'fa-regular fa-pen-to-square'
-            }, '')
-          ]),
-          h('button',{
-            class: 'button-link ml-2',
-            onClick: (ev) => {
-              remove(id)
-            }
-          }, [
-            h(resolveComponent('font-awesome-icon'), {
-              icon: 'fa-solid fa-trash-can'
-            }, '')
-          ]),
-        ])}
+    // const columns = [
+    //   {
+    //     title: '',
+    //     dataIndex: 'id',
+    //     fixed: 'left',
+    //     width: 20,
+    //   } as ITableColumn,
+    //   {
+    //     title: 'Full Name',
+    //     dataIndex: 'full_name',
+    //   } as ITableColumn,
+    //   {
+    //     title: '',
+    //     dataIndex: 'id',
+    //     render: (id) => {return h('span',{},[
+    //       h(resolveComponent('router-link'),{
+    //         to: `/customers/edit/${id}`
+    //       }, [
+    //         h(resolveComponent('font-awesome-icon'), {
+    //           icon: 'fa-regular fa-pen-to-square'
+    //         }, '')
+    //       ]),
+    //       h('button',{
+    //         class: 'button-link ml-2',
+    //         onClick: (ev) => {
+    //           remove(id)
+    //         }
+    //       }, [
+    //         h(resolveComponent('font-awesome-icon'), {
+    //           icon: 'fa-solid fa-trash-can'
+    //         }, '')
+    //       ]),
+    //     ])}
 
-      } as ITableColumn
-      // {
-      //   title: 'job',
-      //   dataIndex: 'job',
-      // } as ITableColumn,
-      // {
-      //   title: 'favorite color',
-      //   dataIndex: 'favoriteColor',
-      // } as ITableColumn,
-    ];
+    //   } as ITableColumn
+    // ];
 
     const dataSource = [
       {
