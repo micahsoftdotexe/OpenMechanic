@@ -18,9 +18,6 @@ return [
         'route' => 'customer/list'
     ],
     [
-        'pattern' => 'customers/<'
-    ]
-    [
         'pattern' => 'test',
         'route' => 'user/test'
     ]
