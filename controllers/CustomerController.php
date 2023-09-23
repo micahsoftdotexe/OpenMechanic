@@ -15,7 +15,7 @@ use yii\rest\ActiveController;
 /**
  * CustomerController implements the CRUD actions for Customer model.
  */
-class CustomerController extends ActiveController
+class CustomerController extends RestActiveController
 {
     public $modelClass = 'app\models\Customer';
     /**
@@ -27,55 +27,12 @@ class CustomerController extends ActiveController
         unset($behaviors['authenticator']);
 		$behaviors['corsFilter'] = [
 			'class' => \yii\filters\Cors::class,
+            'cors' => Yii::$app->params['corsSettings']
 		];
         $behaviors['authenticator'] = [
             'class' =>  \bizley\jwt\JwtHttpBearerAuth::class,
-            // 'except' => [
-            //     'login',
-            //     'refresh-token',
-            //     //'options',
-            // ],
         ];
         return $behaviors;
-        // return [
-        //     // 'verbs' => [
-        //     //     'class' => VerbFilter::class,
-        //     //     'actions' => [
-        //     //         'delete' => ['POST'],
-        //     //     ],
-        //     // ],
-        //     'access' => [
-        //         'class' => AccessControl::class,
-        //         'rules' => [
-        //             [
-        //                 'actions' => ['ajax-initial-create'],
-        //                 'allow' => true,
-        //                 'roles' => ['createCustomer'],
-        //             ],
-        //             [
-        //                 'actions' => ['index', 'view', 'list'],
-        //                 'allow' => true,
-        //                 'roles' => ['@'],
-        //             ],
-        //             [
-        //                 'actions' => ['edit'],
-        //                 'allow' => true,
-        //                 'roles' => ['editCustomer'],
-        //             ],
-        //             [
-        //                 'actions' => ['create'],
-        //                 'allow' => true,
-        //                 'roles' => ['createCustomer'],
-        //             ],
-        //             [
-        //                 'actions' => ['delete'],
-        //                 'allow' => true,
-        //                 'roles' => ['deleteCustomer'],
-        //             ],
-
-        //         ],
-        //     ],
-        // ];
     }
 
 

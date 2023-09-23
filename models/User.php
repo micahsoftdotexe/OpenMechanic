@@ -131,7 +131,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             // Configures the time that the token can be used
             ->canOnlyBeUsedAfter($now)
             // Configures the expiration time of the token
-            ->expiresAt($now->modify('+1 hour'))
+            ->expiresAt($now->modify('+1 minute'))
             // Configures a new claim, called "uid", with user ID, assuming $user is the authenticated user object
             ->withClaim('uid', $this->id)
             // Builds a new token

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { postFetch } from "../../../_api/requests";
 import { useGlobalStore } from "../../../_store/globalStore";
 import router from "../../routes";
-import { fetchWrapper } from "../../../helpers/fetch-wrapper";
+import axiosWrapper from "../../../helpers/axiosConfig";
 export const useSignIn = defineStore('signin-store', {
     //state: () => {},
     actions: {
@@ -10,10 +10,10 @@ export const useSignIn = defineStore('signin-store', {
             const globalStore = useGlobalStore()
             // const response = await postFetch('/auth/login', {username: username, password: password}, true)
             try {
-                const response = await fetchWrapper.post('/auth/login', {username: username, password: password})
+                const response = await axiosWrapper.post('/auth/login', {username: username, password: password})
+                console.log(response)
                 let user = response.user
                 user.token = response.jwt_token
-                console.log(response)
                 globalStore.login(user)
                 router.push('/')
                 return true

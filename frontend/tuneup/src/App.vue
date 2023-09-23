@@ -1,7 +1,9 @@
 <template>
 
   <top-bars :is-logged-in="globalStore.isLoggedIn" :user-info="globalStore.userInfo" @logout="globalStore.logout"/>
-  <router-view/>
+  <ThemeProvider :theme="theme">
+    <router-view/>
+  </ThemeProvider>
   <!-- <TopBars></TopBars> -->
   <!-- <q-layout view="hHh LpR fFf">
 
@@ -28,13 +30,14 @@
 
 <script setup lang="ts">
   import { onMounted, ref, watch } from 'vue';
+  import { ThemeProvider, createThemeForest } from 'daisyui-vue';
   import { useGlobalStore } from './_store/globalStore';
   import { useMessageStore } from './_store/messageStore';
   import { useRoute } from 'vue-router';
   import { computed } from '@vue/reactivity';
   import TopBars from './components/TopBars.vue';
   const globalStore = useGlobalStore()
-
+  const theme = createThemeForest()
   const messageStore = useMessageStore()
   const route = useRoute();
   const drawer = ref(false)

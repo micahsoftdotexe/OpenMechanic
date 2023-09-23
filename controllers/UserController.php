@@ -2,11 +2,11 @@
 
 namespace app\controllers;
 
-use yii\rest\ActiveController;
+// use yii\rest\ActiveController;
 use app\models\User;
 use Yii;
 
-class UserController extends ActiveController
+class UserController extends RestActiveController
 {
     public $modelClass = 'app\models\User';
     public function behaviors() {
@@ -14,15 +14,19 @@ class UserController extends ActiveController
 		unset($behaviors['authenticator']);
 		$behaviors['corsFilter'] = [
 			'class' => \yii\filters\Cors::class,
+			'cors' => Yii::$app->params['corsSettings']
+			
 		];
         $behaviors['authenticator'] = [
             'class' =>  \bizley\jwt\JwtHttpBearerAuth::class,
             'except' => [
                 'login',
                 'refresh-token',
+				'test'
                 //'options',
             ],
         ];
+		// $behaviors['authenticator']['except'] = ['options'];
         return $behaviors;
     }
 
@@ -80,18 +84,17 @@ class UserController extends ActiveController
 		if ($model->login()) {
 			$user = Yii::$app->user->identity;
 
-			if($model->rememberMe) {
-				$refreshToken = $user->generateRefreshJwt();
-				Yii::$app->response->cookies->add(new \yii\web\Cookie([
-					'name' => 'refresh-token',
-					'value' => $refreshToken,
-					'httpOnly' => true,
-					'sameSite' => 'none',
-					//'secure' => true,
-					'path' => '/auth/refresh',  //endpoint URI for renewing the JWT token using this refresh-token, or deleting refresh-token
-				]));
+			
+			$refreshToken = $user->generateRefreshJwt();
+			Yii::$app->response->cookies->add(new \yii\web\Cookie([
+				'name' => 'refresh-token',
+				'value' => $refreshToken,
+				'httpOnly' => true,
+				'sameSite' => 'none',
+				//'secure' => true,
+				'path' => '/auth/refresh',  //endpoint URI for renewing the JWT token using this refresh-token, or deleting refresh-token
+			]));
 
-			}
 			// $token = $this->generateJwt($user);
 
 			// $this->generateRefreshToken($user);
@@ -108,6 +111,13 @@ class UserController extends ActiveController
 			throw new \yii\web\UnauthorizedHttpException('Wrong username or password');
 		}
 	}
+
+	public function actionTest() {
+		return [
+			'message' => 'this is a message'
+		];
+	}
+
     public function actionListCurrentUser() {
         return Yii::$app->user->identity;
     }

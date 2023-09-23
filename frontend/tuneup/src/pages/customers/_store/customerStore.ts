@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { postFetch, getFetch } from "../../../_api/requests";
 import { fetchWrapper } from "../../../helpers/fetch-wrapper";
+import axiosWrapper from "../../../helpers/axiosConfig";
 
 export const useCustomerStore = defineStore('customer-store', {
     state: () => ({
@@ -8,9 +9,15 @@ export const useCustomerStore = defineStore('customer-store', {
     }),
     actions: {
         async getCustomers() {
-            const response = await fetchWrapper.get('/customers')
-            console.log(response)
-            this.customers = response
+            try {
+                const response = await axiosWrapper.get('/customers')
+                console.log(response)
+                this.customers = response
+
+            } catch(error) {
+                console.log(error)
+            }
+            
             
         }
     }

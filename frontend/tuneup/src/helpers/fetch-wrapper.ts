@@ -14,7 +14,7 @@ function request(method) {
         
         //return fetch(url, requestOptions).then(handleResponse);
         const requestInfo = getRequestInfo(url, body, method)
-        console.log(requestInfo)
+        console.log(method)
         const fetchResponse = await fetch(requestInfo.url, requestInfo.requestOptions)
         return await handleResponse(fetchResponse, {url, body, method})
     }
@@ -51,8 +51,8 @@ function authHeader(url) {
 
 async function handleResponse(response, initialRequest) {
     console.log(response)
-    const text = await response.text()
-    const data = JSON.parse(text);
+    const data = await response.json()
+    // const data = JSON.parse(text);
     
     if (!response.ok) {
         const { userInfo, logout } = useGlobalStore();
@@ -64,7 +64,7 @@ async function handleResponse(response, initialRequest) {
                 const newRequestInfo = getRequestInfo(initialRequest.url,initialRequest.body, initialRequest.method)
                 const fetchResponse = await fetch(newRequestInfo.url, newRequestInfo.requestOptions)
                 const newText = await fetchResponse.text()
-                const newData = newText && JSON.parse(text);
+                const newData = newText && data;
                 if (!fetchResponse.ok) {
                     const error = (data && newData) || fetchResponse.statusText;
                     return Promise.reject(error);

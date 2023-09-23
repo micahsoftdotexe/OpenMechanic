@@ -19,7 +19,10 @@
 
 
         </form>
+        <button class="btn btn-active btn-primary" @click="test">Test</button>
+
     </div>
+
     
 
 </template>
@@ -27,6 +30,7 @@
 <script lang="ts" setup>
     import { Ref, ref } from 'vue';
     import { useSignIn } from './_store/signInStore';
+import { fetchWrapper } from '../../helpers/fetch-wrapper';
     const store = useSignIn()
     
     const form:Ref<Boolean> = ref(false)
@@ -34,8 +38,7 @@
     const password:Ref<string> = ref("")
 
     async function login(){
-    //console.log(store.logIn(username, password))
-    const loginVal = await store.logIn(username.value, password.value)
+        const loginVal = await store.logIn(username.value, password.value)
         if (!loginVal) {
             username.value = ''
             password.value = ''
@@ -43,6 +46,9 @@
     }
     function required(v) {
         return !!v || 'Field is required'
+    }
+    function test() {
+        fetchWrapper.get('/test')
     }
 </script>
 
