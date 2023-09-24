@@ -1,6 +1,6 @@
 <template id="topBar">
-  <!-- <div class="card relative z-1"> -->
-    <Menubar :model="navItems">
+  <!-- <div class="card relative z-0"> -->
+    <Menubar :model="navItems" class="z-2">
       <template #item="{ label, item, props, root, hasSubmenu }">
         <router-link v-if="item.route" v-slot="routerProps" :to="item.route" custom>
           <a :href="routerProps.href" v-bind="props.action">
@@ -13,6 +13,12 @@
           <span v-bind="props.label">{{ label }}</span>
           <span :class="[hasSubmenu && (root ? 'pi pi-fw pi-angle-down' : 'pi pi-fw pi-angle-right')]" v-bind="props.submenuicon"></span>
         </a>
+      </template>
+      <template #end>
+        <div v-if="isLoggedIn" class="p-menuitem-content">
+          <a class="p-menuitem-link" tabindex="-1" aria-hidden="true" data-pc-section="action" data-pd-ripple="true">
+            <span class="p-menuitem-icon pi pi-fw pi-file" data-pc-section="icon"></span>
+            <span class="p-menuitem-text" data-pc-section="label">Guest</span></a></div>
       </template>
     </Menubar>
   <!-- </div> -->

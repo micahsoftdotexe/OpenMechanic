@@ -1,7 +1,9 @@
 <template>
-
-  <TopBars :is-logged-in="globalStore.isLoggedIn" :user-info="globalStore.userInfo" @logout="globalStore.logout"/>
-  <RouterView/>
+  <div class="z-0">
+    <TopBars :is-logged-in="globalStore.isLoggedIn" :user-info="globalStore.userInfo" @logout="globalStore.logout"/>
+    <RouterView/>
+  </div>
+  
 </template>
 
 <script setup lang="ts">
