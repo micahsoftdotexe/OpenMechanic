@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useGlobalStore } from "../_store/globalStore";
 
-
+let retry = false
 const axiosWrapper = axios.create({
     baseURL: "http://localhost:8080/",
-    withCredentials: true
+    withCredentials: true,
+    // signal: AbortSignal.timeout(3000)
 })
 axiosWrapper.defaults.headers.common['Content-Type'] = 'application/json';
 axiosWrapper.interceptors.request.use((config) => {
@@ -24,13 +25,14 @@ axiosWrapper.interceptors.response.use(
         const { userInfo, logout } = useGlobalStore()
         const originalRequest = error.config
         const errMessage = error.response.data.message as string
-        if ([401, 403].includes(error.response.status) && !originalRequest._retry) {
+        if ([401, 403].includes(error.response.status) && !retry) {
             userInfo.token = null
-            originalRequest._retry = true;
+            retry = true
             const refreshResponse = await refreshToken()
             userInfo.token = refreshResponse.token
             return await axiosWrapper(originalRequest)
-        } else if([401, 403].includes(error.response.status) && originalRequest._retry) {
+        } else if([401, 403].includes(error.response.status) && retry) {
+            retry = false
             logout()
         }
         return Promise.reject(error)
