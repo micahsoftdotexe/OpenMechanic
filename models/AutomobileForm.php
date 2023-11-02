@@ -20,6 +20,7 @@ class AutomobileForm extends yii\base\Model
             [['vin', 'make', 'model', 'year', 'motor_number', 'customer_id'], 'required'],
             [['customer_id', 'id'], 'integer'],
             [['vin'], 'string', 'max' => 17],
+            [['vin'], 'string', 'min' => 17],
             [['year'], 'string', 'max' => 20],
             [['make', 'model'], 'string', 'max' => 128],
             [['motor_number'], 'number'],
